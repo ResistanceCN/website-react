@@ -1,0 +1,23 @@
+import * as React from 'react';
+import { render } from 'react-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import serviceWorker from './serviceWorker';
+import './index.css';
+
+import Home from './components/Home';
+
+render(
+    <Router>
+        <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/page/:page" component={Home} />
+            <Route path="/article/:id" component={Home} />
+            <Route path="/form/:name" component={Home} />
+            <Route path="/user/:id" component={Home} />
+            <Route component={Home}/>
+        </Switch>
+    </Router>,
+    document.getElementById('root') as HTMLElement
+);
+
+serviceWorker.register();
