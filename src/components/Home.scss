@@ -1,3 +1,18 @@
 .main-header {
     display: flex;
+    align-items: center;
+
+    .logo {
+        height: 40px;
+        padding-right: 24px;
+    }
+
+    .ant-menu {
+        line-height: 61px;
+        border-bottom: none;
+
+        .ant-menu-item {
+            border-bottom-width: 3px;
+        }
+    }
 }

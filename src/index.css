@@ -6,3 +6,7 @@ body {
     font-size: 14px;
     font-family: 'Source Sans Pro', sans-serif;
 }
+
+.flex-spacer {
+    flex-grow: 1;
+}
