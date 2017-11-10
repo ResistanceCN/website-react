@@ -6,10 +6,10 @@ const { Header, Footer, Content } = Layout;
 class App extends React.Component {
     render() {
         return (
-            <Layout className="layout" style={{ minHeight: '100vh' }}>
-                <Header style={{ background: '#fff' }} className="main-header">
+            <Layout className="layout main-layout">
+                <Header className="main-header">
                     <div className="logo">
-                        <img src="/assets/img/logo.svg" height={40} />
+                        <img src="/assets/img/logo.svg" />
                     </div>
                     <div className="flex-spacer" />
                     <Menu mode="horizontal" defaultSelectedKeys={['1']} className="main-menu">
@@ -22,8 +22,8 @@ class App extends React.Component {
                 <Content style={{ padding: '0 50px', flexGrow: 1 }}>
                     test
                 </Content>
-                <Footer>
-                    &copy; 2017 Canton Resistance. Based on Ant Design &amp; React
+                <Footer className="main-footer">
+                    &copy; 2017 Canton Resistance. Based on React &amp; Ant Design
                 </Footer>
             </Layout>
         );
