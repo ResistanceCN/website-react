@@ -1,12 +1,12 @@
-import * as React from 'react';
-import { render } from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 import './index.css';
 
 import Home from './components/Home';
 
-render(
+ReactDOM.render(
     <Router>
         <Switch>
             <Route exact={true} path="/" component={Home} />

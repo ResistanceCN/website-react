@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import './Home.scss';
-import { Layout, Menu, Button, Card, Row, Col, Timeline, Icon, Pagination } from 'antd';
+import { Layout, Row, Col, Menu, Button, Card, Timeline, Icon, Pagination } from 'antd';
 const { Header, Footer, Content } = Layout;
 
-class App extends React.Component {
+export default class Home extends React.Component {
     render() {
         return (
             <Layout className="layout main-layout">
@@ -117,5 +117,3 @@ class App extends React.Component {
         );
     }
 }
-
-export default App;
