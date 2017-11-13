@@ -3,12 +3,19 @@
 }
 
 .main-header {
+    min-width: 960px;
     background: #fff;
     display: flex;
     align-items: center;
 
+    .name {
+        padding: 10px;
+        font-weight: 400;
+        font-size: 18px;
+    }
+
     .logo {
-        padding: 0 20px;
+        padding: 0 10px;
 
         &, & img {
             height: 40px;
@@ -23,7 +30,73 @@
             line-height: 64px;
             height: 64px;
             border-bottom-width: 3px;
+            margin-bottom: 60px;
         }
+    }
+}
+
+.main-content {
+    min-width: 1440px;
+    .banner {
+        padding-top: 125px;
+        color: #fff;
+        height: 450px;
+        background-image: url("/assets/img/banner.png");
+        background-color: #3f62ff;
+
+        .banner-head {
+            font-size: 48px;
+        }
+
+        .banner-content {
+            font-weight: 300px;
+            font-size: 16px;
+            position: static;
+            margin-bottom: 16px;
+            p span {
+                height: auto;
+                position: relative;
+                top: 16px;
+                margin-top: auto;
+            }
+        }
+
+        .banner-button {
+            position: relative;
+            padding-top:16px;
+
+            Button {
+                font-weight: 300;
+                font-size: 16px;
+                height: 36px;
+                margin-right: 16px;
+            }
+        }
+    }
+
+    .content {
+        margin-top: 16px;
+
+        .content-news {
+            margin-right: 6px;
+        }
+
+        .content-tools {
+            margin-left: 6px;
+            margin-bottom: 12px;
+            color: #d1d1d1;
+            text-align: center;
+            width: auto;
+
+            .content-tools-icon {
+                font-size: 32px;
+                margin: 4px 16px 4px 16px;
+            }
+        }
+        .content-menu {
+            margin-left: 6px;
+        }
+
     }
 }
 
