@@ -70,11 +70,6 @@ class App extends React.Component {
                                         <p>Card content</p>
                                         <p>Card content</p>
                                     </Card>
-                                    <Card className="content-news-card" title="Card title" bordered={false}>
-                                        <p>Card content</p>
-                                        <p>Card content</p>
-                                        <p>Card content</p>
-                                    </Card>
                                 </div>
                             </Col>
                             <Col span={4}>
