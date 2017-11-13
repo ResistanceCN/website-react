@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './Home.scss';
-import { Layout, Menu, Button, Card, Row, Col, Timeline, Icon } from 'antd';
+import { Layout, Menu, Button, Card, Row, Col, Timeline, Icon, Pagination } from 'antd';
 const { Header, Footer, Content } = Layout;
 
 class App extends React.Component {
@@ -23,8 +23,8 @@ class App extends React.Component {
                     </Menu>
                 </Header>
                 <Content className="main-content">
-                    <Row>
-                        <div className="banner">
+                    <div className="banner">
+                        <Row>
                             <Col span={18} offset={6}>
                                 <div className="banner-head">
                                     Hello World!
@@ -35,17 +35,42 @@ class App extends React.Component {
                                     <br />我们提供了单项，组合动画，以及整套解决方案</span></p>
                                 </div>
                                 <div className="banner-button">
-                                    <Button ghost>加入我们</Button>
-                                    <Button ghost>查看教程</Button>
+                                    <Button ghost={true}>加入我们</Button>
+                                    <Button ghost={true}>查看教程</Button>
                                 </div>
                             </Col>
-                        </div>
-                    </Row>
+                        </Row>
+                    </div>
                     <div className="content">
-                        <Row justify="start">
+                        <Row>
                             <Col span={8} offset={6}>
                                 <div className="content-news">
-                                    <Card title="Card title" bordered={false}>
+                                    <Card className="content-news-card" title="Card title" bordered={false}>
+                                        <p>Card content</p>
+                                        <p>Card content</p>
+                                        <p>Card content</p>
+                                    </Card>
+                                    <Card className="content-news-card" title="Card title" bordered={false}>
+                                        <p>Card content</p>
+                                        <p>Card content</p>
+                                        <p>Card content</p>
+                                    </Card>
+                                    <Card className="content-news-card" title="Card title" bordered={false}>
+                                        <p>Card content</p>
+                                        <p>Card content</p>
+                                        <p>Card content</p>
+                                    </Card>
+                                    <Card className="content-news-card" title="Card title" bordered={false}>
+                                        <p>Card content</p>
+                                        <p>Card content</p>
+                                        <p>Card content</p>
+                                    </Card>
+                                    <Card className="content-news-card" title="Card title" bordered={false}>
+                                        <p>Card content</p>
+                                        <p>Card content</p>
+                                        <p>Card content</p>
+                                    </Card>
+                                    <Card className="content-news-card" title="Card title" bordered={false}>
                                         <p>Card content</p>
                                         <p>Card content</p>
                                         <p>Card content</p>
@@ -82,6 +107,13 @@ class App extends React.Component {
                             </Col>
                         </Row>
                     </div>
+                    <Row>
+                        <Col span={8} offset={6}>
+                            <div className="pagination">
+                                <Pagination defaultCurrent={1} total={50} />
+                            </div>
+                        </Col>
+                    </Row>
                 </Content>
                 <Footer className="main-footer">
                     &copy; 2017 Canton Resistance. Based on React &amp; Ant Design

@@ -78,7 +78,12 @@
         margin-top: 16px;
 
         .content-news {
+            position: relative;
             margin-right: 6px;
+
+            .content-news-card {
+                margin-bottom: 12px;
+            }
         }
 
         .content-tools {
@@ -97,6 +102,10 @@
             margin-left: 6px;
         }
 
+    }
+
+    .pagination {
+        margin-top: 32px;
     }
 }
 
