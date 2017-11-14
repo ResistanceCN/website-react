@@ -1,0 +1,32 @@
+language: node_js
+node_js: "6"
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+
+# S: Build Lifecycle
+install:
+  - yarn
+
+script:
+  - yarn build
+
+after_script:
+  - cd build
+  - git init
+  - git config user.name "ADA"
+  - git config user.email "ada@blue.io"
+  - git add .
+  - git commit -m "Update preview"
+  - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:gh-pages
+# E: Build LifeCycle
+
+branches:
+  only:
+    - master
+env:
+ global:
+   - GH_REF: github.com/ResistanceCN/resistancecn.github.io.git
+   - secure: "5lGny4s/l8NAQR+VhLbVtt/EoAIVukG8ZcWOvovMpRhBqLM/n4tRW+ly9Htz5476/ACF/tUvweviIw7u6XobgyDRGc3s82StS+VJr80BmZlLtD5KNlHg2Ec0FbZvNsySFoNeE+8V7QRkBdgH3P9fSC7CaV7XOM+NF9CEVZqFPhKjWgChTwGnKthIXaMsmOqvuVaUcHZQoE+IU3srwM6MCHBqTdks3xZbUwIHRTYgAmXMXYjGNnTtELKpIACYbzMSfd5y79xnuVfyACPFmZYsQwc3revuklHEelxc/cZsGraEQmIcSYaQop1MxJTIemrj4k3rRQ2QlFSv03cWkus+P9znH4tCAzsq6tYNa0reNXhxFAXN0c1bPgDVpgf7v/pPbnrP0gztNiMKBajQotkgUweo3ms+H8gLvAqH8cWJ2wFix/wM13i0K6mxTfLU5OVh0t/Vtay3UCCwj2qnI0jlPZ1Ko0wE3uH8R13wLtDb+HtKbzioGu3T6PSsqVa5urkkLz1yCgyZQanhhTH+VVEOPhM+fqUC5UIkge0zkSI9qdUlYk3ROwpqvCZ1zUgjycbjQfPxUDmI58pZvzHGmMh1ni85OYpTGpMcERC5mqb6rVEoHEmvo0GS7i+s0i/nTKQ5JI3DrQhQ7V26y07Y+Cu4eQbfPDCBZPyF/la6I1Sp13k="
