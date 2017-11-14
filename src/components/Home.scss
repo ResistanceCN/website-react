@@ -1,12 +1,17 @@
 .main-layout {
     min-height: 100vh;
+    background: #f5f5f5;
 }
 
 .main-header {
-    min-width: 960px;
     background: #fff;
     display: flex;
     align-items: center;
+    box-shadow: 0 1px 4px rgba(#000, 0.1);
+
+    .ant-affix & {
+        width: 100vw;
+    }
 
     .name {
         padding: 10px;
@@ -35,80 +40,89 @@
     }
 }
 
-.main-content {
-    min-width: 1440px;
-    .banner {
-        padding-top: 125px;
-        color: #fff;
-        height: 450px;
-        background-image: url("/assets/img/banner.png");
-        background-color: #3f62ff;
 
-        .banner-head {
-            font-size: 48px;
+.banner {
+    padding-top: 125px;
+    color: #fff;
+    height: 450px;
+    background: #3f62ff url("/assets/img/banner.png");
+
+    .banner-head {
+        font-size: 48px;
+    }
+
+    .banner-content {
+        font-weight: 300;
+        font-size: 16px;
+        position: static;
+        margin-bottom: 16px;
+        p span {
+            height: auto;
+            position: relative;
+            top: 16px;
+            margin-top: auto;
         }
+    }
 
-        .banner-content {
-            font-weight: 300px;
+    .banner-button {
+        position: relative;
+        padding-top:16px;
+
+        Button {
+            font-weight: 300;
             font-size: 16px;
-            position: static;
-            margin-bottom: 16px;
-            p span {
-                height: auto;
-                position: relative;
-                top: 16px;
-                margin-top: auto;
-            }
+            height: 36px;
+            margin-right: 16px;
         }
+    }
+}
 
-        .banner-button {
-            position: relative;
-            padding-top:16px;
+.news {
+    position: relative;
 
-            Button {
-                font-weight: 300;
-                font-size: 16px;
-                height: 36px;
-                margin-right: 16px;
+    .ant-card {
+        margin-bottom: 12px;
+    }
+}
+
+.sidebar {
+    padding-left: 12px;
+}
+
+.tools {
+    margin-bottom: 12px;
+
+    .ant-card-body {
+        display: flex;
+        justify-content: space-between;
+
+        .anticon {
+            font-size: 32px;
+            cursor: pointer;
+            color: #ddd;
+            transition: .3s color;
+
+            &:hover {
+                color: #bbb;
             }
         }
     }
+}
 
-    .content {
-        margin-top: 16px;
-
-        .content-news {
-            position: relative;
-            margin-right: 6px;
-
-            .content-news-card {
-                margin-bottom: 12px;
-            }
+.content-menu {
+    .ant-timeline-item-last {
+        &, .ant-timeline-item-content {
+            padding-bottom: 0;
+            min-height: 0;
         }
-
-        .content-tools {
-            margin-left: 6px;
-            margin-bottom: 12px;
-            color: #d1d1d1;
-            text-align: center;
-            width: auto;
-
-            .content-tools-icon {
-                font-size: 32px;
-                margin: 4px 16px 4px 16px;
-            }
-        }
-        .content-menu {
-            margin-left: 6px;
-        }
-
     }
+}
 
-    .pagination {
-        margin-top: 32px;
-    }
+.pagination {
+    margin: 24px 0 12px;
 }
 
 .main-footer {
     text-align: center;
+    background: #f5f5f5;
 }

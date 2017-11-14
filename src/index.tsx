@@ -9,7 +9,7 @@ import Home from './components/Home';
 ReactDOM.render(
     <Router>
         <Switch>
-            <Route exact={true} path="/" component={Home} />
+            <Route exact path="/" component={Home} />
             <Route path="/page/:page" component={Home} />
             <Route path="/article/:id" component={Home} />
             <Route path="/form/:name" component={Home} />
