@@ -45,12 +45,15 @@
 }
 
 .banner {
-    padding-top: 125px;
-    color: #fff;
+    padding: 0 32px;
     height: 450px;
+    color: #fff;
     background: #3f62ff;
     position: relative;
     overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     .background {
         position: absolute;
@@ -63,7 +66,7 @@
         will-change: transform;
     }
 
-    .ant-row {
+    .container {
         position: relative;
         z-index: 1;
     }
@@ -133,6 +136,7 @@
         .ant-card-body {
             display: flex;
             justify-content: space-between;
+            padding: 20px 10px;
 
             .anticon {
                 font-size: 32px;

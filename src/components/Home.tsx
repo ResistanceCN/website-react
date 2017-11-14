@@ -149,7 +149,7 @@ export default class Home extends React.Component {
         const background = document.querySelector('.banner > .background') as HTMLElement;
 
         let lastWindowScrollY = window.scrollY;
-        background.style.transform = 'translate3D(0, ' + Math.floor(lastWindowScrollY / 3) + 'px, 0)';
+        background.style.transform = 'translate3D(0, ' + Math.floor(lastWindowScrollY / 2) + 'px, 0)';
 
         let animate = () => {
             if (!this.animation) {
@@ -165,7 +165,7 @@ export default class Home extends React.Component {
 
             // Save the new offset position
             lastWindowScrollY = window.scrollY;
-            background.style.transform = 'translate3D(0, ' + Math.floor(lastWindowScrollY / 3) + 'px, 0)';
+            background.style.transform = 'translate3D(0, ' + Math.floor(lastWindowScrollY / 2) + 'px, 0)';
 
             window.requestAnimationFrame(animate);
         };
@@ -219,22 +219,20 @@ export default class Home extends React.Component {
                 </Header>
 
                 <Content className="banner">
-                    <Row>
-                        <Col span={16} offset={4}>
-                            <div className="banner-head">
-                                Hello World!
-                            </div>
-                            <div className="banner-content">
-                                <p className="welcome">Welecome to Resistance. It's time to move!</p>
-                                <p>[测试文字] 使用 Ant Motion 能够快速在 React 框架中使用动画。</p>
-                                <p>我们提供了单项，组合动画，以及整套解决方案</p>
-                            </div>
-                            <div className="banner-button">
-                                <Button ghost>加入我们</Button>
-                                <Button ghost>查看教程</Button>
-                            </div>
-                        </Col>
-                    </Row>
+                    <div className="container">
+                        <div className="banner-head">
+                            Hello World!
+                        </div>
+                        <div className="banner-content">
+                            <p className="welcome">Welecome to Resistance. It's time to move!</p>
+                            <p>[测试文字] 使用 Ant Motion 能够快速在 React 框架中使用动画。</p>
+                            <p>我们提供了单项，组合动画，以及整套解决方案</p>
+                        </div>
+                        <div className="banner-button">
+                            <Button ghost>加入我们</Button>
+                            <Button ghost>查看教程</Button>
+                        </div>
+                    </div>
 
                     <div className="background" />
                 </Content>
