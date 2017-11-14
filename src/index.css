@@ -8,6 +8,10 @@ body {
     min-width: 768px;
 }
 
+p {
+    margin: 0 0 0.8em;
+}
+
 .flex-spacer {
     flex-grow: 1;
 }

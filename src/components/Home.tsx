@@ -20,6 +20,10 @@ export default class Home extends React.Component {
         sidebarFixStyle: {}
     };
 
+    onScroll: EventListener;
+    onResize: EventListener;
+    animation = true;
+
     getArticles(page: number): Array<Article> {
         let articles: Array<Article> = [];
 
@@ -141,24 +145,55 @@ export default class Home extends React.Component {
         this.sidebarHeight = sidebar!.clientHeight;
     }
 
+    parallaxScrollBanner() {
+        const background = document.querySelector('.banner > .background') as HTMLElement;
+
+        let lastWindowScrollY = window.scrollY;
+        background.style.transform = 'translate3D(0, ' + Math.floor(lastWindowScrollY / 3) + 'px, 0)';
+
+        let animate = () => {
+            if (!this.animation) {
+                return;
+            }
+
+            // If the offset position hasn't changed, skip this frame
+            if (lastWindowScrollY === window.scrollY) {
+                window.requestAnimationFrame(animate);
+
+                return;
+            }
+
+            // Save the new offset position
+            lastWindowScrollY = window.scrollY;
+            background.style.transform = 'translate3D(0, ' + Math.floor(lastWindowScrollY / 3) + 'px, 0)';
+
+            window.requestAnimationFrame(animate);
+        };
+
+        window.requestAnimationFrame(animate);
+    }
+
     componentDidMount() {
         this.calculateVisible();
 
-        window.addEventListener('scroll', () => { this.updateStickySidebar(); });
-        window.addEventListener('resize', () => {
+        this.onScroll = () => {
+            this.updateStickySidebar();
+        };
+        this.onResize = () => {
             this.sidebarType = SidebarType.Resizing;
             this.calculateVisible();
             this.updateStickySidebar();
-        });
+        };
+
+        window.addEventListener('scroll', this.onScroll);
+        window.addEventListener('resize', this.onResize);
+
+        this.parallaxScrollBanner();
     }
 
     componentWillUnmount() {
-        window.removeEventListener('scroll', () => { this.updateStickySidebar(); });
-        window.removeEventListener('resize', () => {
-            this.sidebarType = SidebarType.Resizing;
-            this.calculateVisible();
-            this.updateStickySidebar();
-        });
+        window.removeEventListener('scroll', this.onScroll);
+        window.removeEventListener('resize', this.onResize);
     }
 
     render() {
@@ -190,9 +225,9 @@ export default class Home extends React.Component {
                                 Hello World!
                             </div>
                             <div className="banner-content">
-                                <p>Welecome to Resistance. It's time to move!</p>
-                                <p><span>[测试文字] 使用 Ant Motion 能够快速在 React 框架中使用动画。
-                                    <br />我们提供了单项，组合动画，以及整套解决方案</span></p>
+                                <p className="welcome">Welecome to Resistance. It's time to move!</p>
+                                <p>[测试文字] 使用 Ant Motion 能够快速在 React 框架中使用动画。</p>
+                                <p>我们提供了单项，组合动画，以及整套解决方案</p>
                             </div>
                             <div className="banner-button">
                                 <Button ghost>加入我们</Button>
@@ -200,6 +235,8 @@ export default class Home extends React.Component {
                             </div>
                         </Col>
                     </Row>
+
+                    <div className="background" />
                 </Content>
 
                 <Content className="container main">
