@@ -5,6 +5,7 @@ body {
     padding: 0;
     font-size: 14px;
     font-family: 'Source Sans Pro', sans-serif;
+    min-width: 768px;
     overflow-x: hidden;
 }
 

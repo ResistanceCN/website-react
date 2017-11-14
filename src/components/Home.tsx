@@ -1,13 +1,21 @@
 import React from 'react';
 import './Home.scss';
-import { Layout, Row, Col, Menu, Button, Card, Timeline, Tooltip, Affix, Icon, Pagination } from 'antd';
+import { Layout, Row, Col, Menu, Button, Card, Timeline, Tooltip, Affix, BackTop, Icon, Pagination } from 'antd';
 const { Header, Footer, Content } = Layout;
 import Article from '../types/Article';
 import TimelineItem from 'antd/es/timeline/TimelineItem';
 
+enum SidebarType {
+    Static,
+    Fixed,
+    Bottom,
+    Resizing
+}
+
 export default class Home extends React.Component {
     cardsHeight: Array<number> = [];
     sidebarHeight = 0;
+    sidebarType: SidebarType = SidebarType.Static;
     state = {
         sidebarFixStyle: {}
     };
@@ -40,26 +48,26 @@ export default class Home extends React.Component {
 
     updateStickySidebar() {
         // 可视区域高度
-        const visibleHeight = document.documentElement.offsetHeight - 76;
+        const viewportHeight = document.documentElement.offsetHeight - 76;
         // 可见的 Card 总高度，包括间距
-        let totalHeight = 0;
+        let visibleHeight = 0;
         // 从第几个 Card 开始可见
         let fixedCards = 0;
 
         // 反向遍历所有 Card
         for (let i = this.cardsHeight.length - 1; i >= 0; --i) {
-            // 把 Card 的高度加入 totalHeight
+            // 把 Card 的高度加入 visibleHeight
             let height = this.cardsHeight[i];
-            totalHeight += height;
+            visibleHeight += height;
             fixedCards = i;
 
-            // 检查 totalHeight 是否大于可视区域高度
-            if (totalHeight >= visibleHeight) {
+            // 检查 visibleHeight 是否大于可视区域高度
+            if (visibleHeight >= viewportHeight) {
 
                 // 如果高度过大，则该 Card 和其上方的所有 Card 都不可见
                 // 但至少要保持最后一个 Card 可见
                 if (i < this.cardsHeight.length - 1) {
-                    totalHeight -= height;
+                    visibleHeight -= height;
                     fixedCards = i + 1;
                 }
 
@@ -67,10 +75,10 @@ export default class Home extends React.Component {
             }
         }
 
-        totalHeight += 12 * (this.cardsHeight.length - fixedCards - 1);
+        visibleHeight += 12 * (this.cardsHeight.length - fixedCards - 1);
 
         // 被隐藏的 Card 的高度
-        const hiddenHeight = this.sidebarHeight - totalHeight;
+        const hiddenHeight = this.sidebarHeight - visibleHeight;
 
         // 左侧新闻区域
         const newsArea = document.querySelector('.news')!.getBoundingClientRect();
@@ -80,24 +88,23 @@ export default class Home extends React.Component {
         const top = 76 - hiddenHeight;
 
         if (fixedStart >= 0) {
+            if (this.sidebarType == SidebarType.Static)
+                return;
+
+            this.sidebarType = SidebarType.Static;
+
             // 还不需要固定
             this.setState({
                 ...this.state,
                 sidebarFixStyle: {}
             });
-        } else if (top + totalHeight > newsArea.bottom - 12) {
+        } else if (top + this.sidebarHeight <= newsArea.bottom - 12) {
+            if (this.sidebarType == SidebarType.Fixed)
+                return;
+
+            this.sidebarType = SidebarType.Fixed;
+
             // 开始固定，且可见的 Card 底部没有超出 Content 高度
-            this.setState({
-                ...this.state,
-                sidebarFixStyle: {
-                    position: 'fixed',
-                    top: newsArea.bottom - totalHeight - 12,
-                    left: newsArea.left + newsArea.width,
-                    width: newsArea.width / 2
-                }
-            });
-        } else {
-            // 可见的 Card 底部已超出 Content 高度，使 Card 跟随新闻区域上移
             this.setState({
                 ...this.state,
                 sidebarFixStyle: {
@@ -107,10 +114,27 @@ export default class Home extends React.Component {
                     width: newsArea.width / 2
                 }
             });
+        } else {
+            if (this.sidebarType == SidebarType.Bottom)
+                return;
+
+            this.sidebarType = SidebarType.Bottom;
+
+            // 可见的 Card 底部已超出 Content 高度，使 Card 跟随新闻区域上移
+            this.setState({
+                ...this.state,
+                sidebarFixStyle: {
+                    position: 'absolute',
+                    // top: newsArea.bottom - this.sidebarHeight - 12,
+                    bottom: 12,
+                    left: newsArea.width,
+                    width: newsArea.width / 2
+                }
+            });
         }
     }
 
-    componentDidMount() {
+    calculateVisible() {
         const sidebar = document.querySelector('.sidebar');
         const cards = document.querySelectorAll('.sidebar > .ant-card');
         let cardsHeight: Array<number> = [];
@@ -121,12 +145,26 @@ export default class Home extends React.Component {
 
         this.cardsHeight = cardsHeight;
         this.sidebarHeight = sidebar!.clientHeight;
+    }
+
+    componentDidMount() {
+        this.calculateVisible();
 
         window.addEventListener('scroll', () => { this.updateStickySidebar(); });
+        window.addEventListener('resize', () => {
+            this.sidebarType = SidebarType.Resizing;
+            this.calculateVisible();
+            this.updateStickySidebar();
+        });
     }
 
     componentWillUnmount() {
         window.removeEventListener('scroll', () => { this.updateStickySidebar(); });
+        window.removeEventListener('resize', () => {
+            this.sidebarType = SidebarType.Resizing;
+            this.calculateVisible();
+            this.updateStickySidebar();
+        });
     }
 
     render() {
@@ -217,6 +255,8 @@ export default class Home extends React.Component {
                 <Footer className="main-footer">
                     &copy; 2017 Canton Resistance. Based on React &amp; Ant Design
                 </Footer>
+
+                <BackTop />
             </Layout>
         );
     }
