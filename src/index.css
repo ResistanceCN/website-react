@@ -6,7 +6,6 @@ body {
     font-size: 14px;
     font-family: 'Source Sans Pro', sans-serif;
     min-width: 768px;
-    overflow-x: hidden;
 }
 
 .flex-spacer {
@@ -25,4 +24,13 @@ body {
 
 .main {
     margin-top: 32px;
+}
+
+.ant-card {
+    font-size: 14px;
+}
+
+.ant-card-head-title {
+    font-weight: 400;
+    font-size: 16px;
 }

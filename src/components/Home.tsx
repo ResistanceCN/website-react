@@ -1,6 +1,6 @@
 import React from 'react';
 import './Home.scss';
-import { Layout, Row, Col, Menu, Button, Card, Timeline, Tooltip, Affix, BackTop, Icon, Pagination } from 'antd';
+import { Layout, Row, Col, Menu, Button, Card, Timeline, Tooltip, BackTop, Icon, Pagination } from 'antd';
 const { Header, Footer, Content } = Layout;
 import Article from '../types/Article';
 import TimelineItem from 'antd/es/timeline/TimelineItem';
@@ -88,9 +88,7 @@ export default class Home extends React.Component {
         const top = 76 - hiddenHeight;
 
         if (fixedStart >= 0) {
-            if (this.sidebarType == SidebarType.Static)
-                return;
-
+            if (this.sidebarType === SidebarType.Static) { return; }
             this.sidebarType = SidebarType.Static;
 
             // 还不需要固定
@@ -99,9 +97,7 @@ export default class Home extends React.Component {
                 sidebarFixStyle: {}
             });
         } else if (top + this.sidebarHeight <= newsArea.bottom - 12) {
-            if (this.sidebarType == SidebarType.Fixed)
-                return;
-
+            if (this.sidebarType === SidebarType.Fixed) { return; }
             this.sidebarType = SidebarType.Fixed;
 
             // 开始固定，且可见的 Card 底部没有超出 Content 高度
@@ -115,9 +111,7 @@ export default class Home extends React.Component {
                 }
             });
         } else {
-            if (this.sidebarType == SidebarType.Bottom)
-                return;
-
+            if (this.sidebarType === SidebarType.Bottom) { return; }
             this.sidebarType = SidebarType.Bottom;
 
             // 可见的 Card 底部已超出 Content 高度，使 Card 跟随新闻区域上移
@@ -170,25 +164,24 @@ export default class Home extends React.Component {
     render() {
         return (
             <Layout className="layout main-layout">
-                <Affix>
-                    <Header className="main-header">
-                        <div className="logo">
-                            <img src="/assets/img/logo.svg" />
-                        </div>
-                        <div className="name">
-                            Cantonres
-                        </div>
+                <div className="header-placeholder" />
+                <Header className="main-header">
+                    <div className="logo">
+                        <img src="/assets/img/logo.svg" />
+                    </div>
+                    <div className="name">
+                        Cantonres
+                    </div>
 
-                        <div className="flex-spacer" />
+                    <div className="flex-spacer" />
 
-                        <Menu mode="horizontal" defaultSelectedKeys={['1']} className="main-menu">
-                            <Menu.Item key="1">Home</Menu.Item>
-                            <Menu.Item key="2">News</Menu.Item>
-                            <Menu.Item key="3">Tutorials</Menu.Item>
-                            <Menu.Item key="5">About</Menu.Item>
-                        </Menu>
-                    </Header>
-                </Affix>
+                    <Menu mode="horizontal" defaultSelectedKeys={['1']} className="main-menu">
+                        <Menu.Item key="1">Home</Menu.Item>
+                        <Menu.Item key="2">News</Menu.Item>
+                        <Menu.Item key="3">Tutorials</Menu.Item>
+                        <Menu.Item key="5">About</Menu.Item>
+                    </Menu>
+                </Header>
 
                 <Content className="banner">
                     <Row>
@@ -214,7 +207,7 @@ export default class Home extends React.Component {
                         <Col span={16} className="news">
                             {this.getArticles(1).map(article => {
                                 return (
-                                    <Card key={article.id} title={article.title} bordered={false}>
+                                    <Card key={article.id} title={article.title} bordered={false} className="article">
                                         {article.content}
                                     </Card>
                                 );
