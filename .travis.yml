@@ -20,7 +20,7 @@ after_script:
   - git config user.email "ada@blue.io"
   - git add .
   - git commit -m "Update preview"
-  - git push --force --quiet "https://${GH_AUTH}@github.com/ResistanceCN/resistancecn.github.io.git" master:gh-pages
+  - git push --force --quiet "https://${GH_AUTH}@github.com/ResistanceCN/resistancecn.github.io.git" master
 # E: Build LifeCycle
 
 branches:
