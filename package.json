@@ -1,7 +1,17 @@
 {
     "name": "canton-res-react",
     "version": "0.1.0",
-    "private": true,
+    "homepage": "https://resistancecn.github.io",
+    "author": "ADA",
+    "contributors": [
+        "Balthild <ibalthild@gmail.com>",
+        "ArielAxionL <axionl@aosc.io>"
+    ],
+    "repository": "ResistanceCN/website-react",
+    "license": "AGPL-3.0",
+    "bugs": {
+        "url": "https://github.com/ResistanceCN/website-react/issues"
+    },
     "dependencies": {
         "antd": "^2.13.9",
         "autoprefixer": "7.1.2",
