@@ -5,17 +5,35 @@ const { Header, Footer, Content } = Layout;
 import Article from '../types/Article';
 import TimelineItem from 'antd/es/timeline/TimelineItem';
 
-enum SidebarType {
+enum SidebarStatus {
     Static,
     Fixed,
     Bottom,
-    Resizing
+    Calculated
+}
+
+interface SidebarAttr {
+    height: number;
+    cardHeights: Array<number>;
+    fixAt: number;
+    status: SidebarStatus;
+    viewportHeight: number;
+    visibleHeight: number;
+    hiddenHeight: number;
+    fixedTop: number;
 }
 
 export default class Home extends React.Component {
-    cardsHeight: Array<number> = [];
-    sidebarHeight = 0;
-    sidebarType: SidebarType = SidebarType.Static;
+    sidebar: SidebarAttr = {
+        height: 0,
+        cardHeights: [],
+        fixAt: 0,
+        status: SidebarStatus.Static,
+        viewportHeight: 0,
+        visibleHeight: 0,
+        hiddenHeight: 0,
+        fixedTop: 0,
+    };
     state = {
         sidebarFixStyle: {}
     };
@@ -53,80 +71,44 @@ export default class Home extends React.Component {
         ];
     }
 
-    updateStickySidebar() {
-        // 可视区域高度
-        const viewportHeight = document.documentElement.offsetHeight - 76;
-        // 可见的 Card 总高度，包括间距
-        let visibleHeight = 0;
-        // 从第几个 Card 开始可见
-        let fixedCards = 0;
-
-        // 反向遍历所有 Card
-        for (let i = this.cardsHeight.length - 1; i >= 0; --i) {
-            // 把 Card 的高度加入 visibleHeight
-            let height = this.cardsHeight[i];
-            visibleHeight += height;
-            fixedCards = i;
-
-            // 检查 visibleHeight 是否大于可视区域高度
-            if (visibleHeight >= viewportHeight) {
-
-                // 如果高度过大，则该 Card 和其上方的所有 Card 都不可见
-                // 但至少要保持最后一个 Card 可见
-                if (i < this.cardsHeight.length - 1) {
-                    visibleHeight -= height;
-                    fixedCards = i + 1;
-                }
-
-                break;
-            }
-        }
-
-        visibleHeight += 12 * (this.cardsHeight.length - fixedCards - 1);
-
-        // 被隐藏的 Card 的高度
-        const hiddenHeight = this.sidebarHeight - visibleHeight;
+    updateSidebarStatus() {
+        const sidebarAttr = this.sidebar;
 
         // 左侧新闻区域
         const newsArea = document.querySelector('.news')!.getBoundingClientRect();
-        // 第一个可见的 Card 距固定位置的高度
-        const fixedStart = newsArea.top + hiddenHeight - 76;
-        // 固定时的 CSS top 属性
-        const top = 76 - hiddenHeight;
 
-        if (fixedStart >= 0) {
-            if (this.sidebarType === SidebarType.Static) { return; }
-            this.sidebarType = SidebarType.Static;
+        // 第一个可见的 Card 距固定位置的高度
+        const visibleStartPos = newsArea.top + this.sidebar.hiddenHeight - 76;
+
+        if (visibleStartPos >= 0) {
+            if (sidebarAttr.status === SidebarStatus.Static) { return; }
+            this.sidebar.status = SidebarStatus.Static;
 
             // 还不需要固定
             this.setState({
-                ...this.state,
                 sidebarFixStyle: {}
             });
-        } else if (top + this.sidebarHeight <= newsArea.bottom - 12) {
-            if (this.sidebarType === SidebarType.Fixed) { return; }
-            this.sidebarType = SidebarType.Fixed;
+        } else if (this.sidebar.fixedTop + sidebarAttr.height <= newsArea.bottom - 12) {
+            if (sidebarAttr.status === SidebarStatus.Fixed) { return; }
+            this.sidebar.status = SidebarStatus.Fixed;
 
             // 开始固定，且可见的 Card 底部没有超出 Content 高度
             this.setState({
-                ...this.state,
                 sidebarFixStyle: {
                     position: 'fixed',
-                    top: top,
+                    top: this.sidebar.fixedTop,
                     left: newsArea.left + newsArea.width,
                     width: newsArea.width / 2
                 }
             });
         } else {
-            if (this.sidebarType === SidebarType.Bottom) { return; }
-            this.sidebarType = SidebarType.Bottom;
+            if (sidebarAttr.status === SidebarStatus.Bottom) { return; }
+            this.sidebar.status = SidebarStatus.Bottom;
 
             // 可见的 Card 底部已超出 Content 高度，使 Card 跟随新闻区域上移
             this.setState({
-                ...this.state,
                 sidebarFixStyle: {
                     position: 'absolute',
-                    // top: newsArea.bottom - this.sidebarHeight - 12,
                     bottom: 12,
                     left: newsArea.width,
                     width: newsArea.width / 2
@@ -135,7 +117,7 @@ export default class Home extends React.Component {
         }
     }
 
-    calculateVisible() {
+    calculateSidebarAttr() {
         const sidebar = document.querySelector('.sidebar');
         const cards = document.querySelectorAll('.sidebar > .ant-card');
         let cardsHeight: Array<number> = [];
@@ -144,8 +126,48 @@ export default class Home extends React.Component {
             cardsHeight.push(card.clientHeight);
         });
 
-        this.cardsHeight = cardsHeight;
-        this.sidebarHeight = sidebar!.clientHeight;
+        this.sidebar.cardHeights = cardsHeight;
+        this.sidebar.height = sidebar!.clientHeight;
+
+        // 可视区域高度
+        this.sidebar.viewportHeight = document.documentElement.offsetHeight - 76;
+        // 可见的 Card 总高度，包括间距
+        let visibleHeight = 0;
+        // 从第几个 Card 开始可见
+        let fixAt = 0;
+
+        // 反向遍历所有 Card
+        for (let i = this.sidebar.cardHeights.length - 1; i >= 0; --i) {
+            // 把 Card 的高度加入 visibleHeight
+            let height = this.sidebar.cardHeights[i];
+            visibleHeight += height;
+            fixAt = i;
+
+            // 检查 visibleHeight 是否大于可视区域高度
+            if (visibleHeight >= this.sidebar.viewportHeight) {
+
+                // 如果高度过大，则该 Card 和其上方的所有 Card 都不可见
+                // 但至少要保持最后一个 Card 可见
+                if (i < this.sidebar.cardHeights.length - 1) {
+                    visibleHeight -= height;
+                    fixAt = i + 1;
+                }
+
+                break;
+            }
+        }
+
+        visibleHeight += 12 * (this.sidebar.cardHeights.length - fixAt - 1);
+        this.sidebar.visibleHeight = visibleHeight;
+        this.sidebar.fixAt = fixAt;
+
+        // 被隐藏的 Card 的高度
+        this.sidebar.hiddenHeight = this.sidebar.height - visibleHeight;
+
+        // 固定时的 CSS top 属性
+        this.sidebar.fixedTop = 76 - this.sidebar.hiddenHeight;
+
+        this.sidebar.status = SidebarStatus.Calculated;
     }
 
     parallaxScrollBanner() {
@@ -177,15 +199,14 @@ export default class Home extends React.Component {
     }
 
     componentDidMount() {
-        this.calculateVisible();
+        this.calculateSidebarAttr();
 
         this.onScroll = () => {
-            this.updateStickySidebar();
+            this.updateSidebarStatus();
         };
         this.onResize = () => {
-            this.sidebarType = SidebarType.Resizing;
-            this.calculateVisible();
-            this.updateStickySidebar();
+            this.calculateSidebarAttr();
+            this.updateSidebarStatus();
         };
 
         window.addEventListener('scroll', this.onScroll);
