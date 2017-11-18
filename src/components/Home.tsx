@@ -170,34 +170,6 @@ export default class Home extends React.Component {
         this.sidebar.status = SidebarStatus.Calculated;
     }
 
-    /*parallaxScrollBanner() {
-        const background = document.querySelector('.banner > .background') as HTMLElement;
-
-        let lastWindowScrollY = window.scrollY;
-        background.style.transform = 'translate3D(0, ' + Math.floor(lastWindowScrollY / 2) + 'px, 0)';
-
-        let animate = () => {
-            if (!this.animation) {
-                return;
-            }
-
-            // If the offset position hasn't changed, skip this frame
-            if (lastWindowScrollY === window.scrollY) {
-                window.requestAnimationFrame(animate);
-
-                return;
-            }
-
-            // Save the new offset position
-            lastWindowScrollY = window.scrollY;
-            background.style.transform = 'translate3D(0, ' + Math.floor(lastWindowScrollY / 2) + 'px, 0)';
-
-            window.requestAnimationFrame(animate);
-        };
-
-        window.requestAnimationFrame(animate);
-    }*/
-
     componentDidMount() {
         this.calculateSidebarAttr();
 
@@ -211,8 +183,6 @@ export default class Home extends React.Component {
 
         window.addEventListener('scroll', this.onScroll);
         window.addEventListener('resize', this.onResize);
-
-        /*this.parallaxScrollBanner();*/
     }
 
     componentWillUnmount() {
@@ -229,7 +199,7 @@ export default class Home extends React.Component {
                         <img src="/assets/img/logo.svg" />
                     </div>
                     <div className="name">
-                        Cantonres
+                        CantonRES
                     </div>
 
                     <div className="flex-spacer" />
@@ -257,8 +227,6 @@ export default class Home extends React.Component {
                             <Button ghost>查看教程</Button>
                         </div>
                     </div>
-
-                    <div className="background" />
                 </Content>
 
                 <Content className="container main">
