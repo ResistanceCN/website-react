@@ -170,7 +170,7 @@ export default class Home extends React.Component {
         this.sidebar.status = SidebarStatus.Calculated;
     }
 
-    parallaxScrollBanner() {
+    /*parallaxScrollBanner() {
         const background = document.querySelector('.banner > .background') as HTMLElement;
 
         let lastWindowScrollY = window.scrollY;
@@ -196,7 +196,7 @@ export default class Home extends React.Component {
         };
 
         window.requestAnimationFrame(animate);
-    }
+    }*/
 
     componentDidMount() {
         this.calculateSidebarAttr();
@@ -212,7 +212,7 @@ export default class Home extends React.Component {
         window.addEventListener('scroll', this.onScroll);
         window.addEventListener('resize', this.onResize);
 
-        this.parallaxScrollBanner();
+        /*this.parallaxScrollBanner();*/
     }
 
     componentWillUnmount() {
