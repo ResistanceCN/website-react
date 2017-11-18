@@ -1,6 +1,6 @@
 import React from 'react';
 import './Home.scss';
-import { Layout, Row, Col, Menu, Button, Card, Timeline, Tooltip, BackTop, Icon, Pagination } from 'antd';
+import { Layout, Row, Col, Menu, Button, Card, Tag, Timeline, Tooltip, BackTop, Icon, Pagination } from 'antd';
 const { Header, Footer, Content } = Layout;
 import Article from '../types/Article';
 import TimelineItem from 'antd/es/timeline/TimelineItem';
@@ -235,7 +235,11 @@ export default class Home extends React.Component {
                             {this.getArticles(1).map(article => {
                                 return (
                                     <Card key={article.id} title={article.title} bordered={false} className="article">
-                                        {article.content}
+                                        <div>{article.content}</div>
+                                        <div>
+                                            <Tag>{article.tag[0]}</Tag>
+                                            <Tag>{article.tag[1]}</Tag>
+                                        </div>
                                     </Card>
                                 );
                             })}
