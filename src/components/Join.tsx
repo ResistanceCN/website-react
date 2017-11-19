@@ -3,6 +3,7 @@ import './Join.scss';
 import { Button, Card, Col, Form, Icon, Input, Layout, Row } from 'antd';
 import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
+import RegionMap from './RegionMap';
 
 interface State {
     //
@@ -46,7 +47,10 @@ export default class Article extends React.Component {
                                         <Input prefix={<Icon type="user" />} placeholder="Telegram Username (不带 @)" />
                                     </Form.Item>
 
-                                    // Map Here
+                                    <Form.Item label="主要活动区域">
+                                        <p>如你发现战区与现实的行政区矛盾，还是请按照此地图中的战区选择</p>
+                                        <RegionMap />
+                                    </Form.Item>
 
                                     <Form.Item label="其他说明">
                                         <p>可以在此简述一下你是怎么入坑的、你的入坑时间、是否认识其他特工等</p>
