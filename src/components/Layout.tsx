@@ -1,10 +1,30 @@
 import React from 'react';
 import './Layout.scss';
-import { BackTop, Input, Layout, Menu } from 'antd';
+import { BackTop, Input, Layout, Menu, Avatar, Dropdown} from 'antd';
 import Article from '../types/Article';
 import { Link } from 'react-router-dom';
 
 const { Header, Footer, Content } = Layout;
+
+const detials = (
+  <Menu>
+    <Menu.Item>
+        Signed in as Ingress Id
+    </Menu.Item>
+    <Menu.Divider />
+    <Menu.Item>
+        <a target="_blank" rel="noopener noreferrer" href="#">个人主页</a>
+    </Menu.Item>
+    <Menu.Item>
+        <a target="_blank" rel="noopener noreferrer" href="#">控制台</a>
+    </Menu.Item>
+    <Menu.Divider />
+    <Menu.Item>
+        <a target="_blank" rel="noopener noreferrer" href="#">设置</a>
+    </Menu.Item>
+    <Menu.Item>注销</Menu.Item>
+  </Menu>
+);
 
 export default class Home extends React.Component {
     getArticles(page: number): Array<Article> {
@@ -56,6 +76,9 @@ export default class Home extends React.Component {
                         <Menu.Item key="3">Tutorials</Menu.Item>
                         <Menu.Item key="5">About</Menu.Item>
                     </Menu>
+                    <Dropdown overlay={detials} trigger={['click']}>
+                        <Avatar icon="user" />
+                    </Dropdown>
                 </Header>
 
                 {this.props.children}

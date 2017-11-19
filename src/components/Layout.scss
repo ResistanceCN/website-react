@@ -18,7 +18,6 @@
     z-index: 999;
 
     .brand {
-        padding-left: 10px;
         display: flex;
         align-items: center;
         text-decoration: none;
@@ -33,6 +32,11 @@
             font-size: 18px;
             color: rgba(#000, 0.65);
         }
+    }
+
+    .ant-avatar {
+        margin-left: 12px;
+        background-color: #3f62ff;
     }
 
     .ant-menu {
