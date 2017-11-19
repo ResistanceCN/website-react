@@ -17,17 +17,21 @@
     width: 100%;
     z-index: 999;
 
-    .name {
-        padding: 10px;
-        font-weight: 400;
-        font-size: 18px;
-    }
-
-    .logo {
-        padding: 0 10px;
+    .brand {
+        padding-left: 10px;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
 
         &, & img {
             height: 40px;
+        }
+
+        .name {
+            padding-left: 16px;
+            font-weight: 400;
+            font-size: 18px;
+            color: rgba(#000, 0.65);
         }
     }
 
@@ -40,6 +44,26 @@
             height: 64px;
             border-bottom-width: 3px;
             margin-bottom: 60px;
+        }
+    }
+
+    .search {
+        width: 200px;
+        border: none;
+        border-left: 1px solid #ebedee;
+        padding-left: 24px;
+        margin-left: 24px;
+        line-height: 30px;
+
+        @media (max-width: 1023px) {
+            display: none;
+        }
+
+        .ant-input {
+            border: none;
+            box-shadow: none;
+            padding-left: 0;
+            font-size: 13px;
         }
     }
 }

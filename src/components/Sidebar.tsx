@@ -1,6 +1,6 @@
 import React from 'react';
 import './Sidebar.scss';
-import {Card, Col, Icon, Timeline, Tooltip} from 'antd';
+import { Card, Col, Icon, Timeline, Tooltip } from 'antd';
 
 enum SidebarStatus {
     Static,
@@ -193,6 +193,6 @@ export default class Sidebar extends React.Component {
                     </Timeline>
                 </Card>
             </Col>
-        )
+        );
     }
 }

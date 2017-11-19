@@ -52,6 +52,11 @@
 
     .ant-card {
         margin-bottom: 12px;
+
+        .ant-card-head-title a {
+            color: inherit;
+            text-decoration: none;
+        }
     }
 
     .ant-tag {

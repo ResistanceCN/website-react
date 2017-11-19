@@ -1,17 +1,16 @@
 import React from 'react';
 import './Home.scss';
+import { Link } from 'react-router-dom';
 import { Button, Card, Col, Layout, Pagination, Row, Tag } from 'antd';
 import Article from '../types/Article';
 import Sidebar from './Sidebar';
-
-const { Header, Footer, Content } = Layout;
 
 export default class Home extends React.Component {
 
     getArticles(page: number): Array<Article> {
         let articles: Array<Article> = [];
 
-        for (let i = 0; i < 10; ++i) {
+        for (let i = 1; i <= 10; ++i) {
             articles.push({
                 id: i,
                 title: '宇囚 - ' + i,
@@ -29,47 +28,54 @@ export default class Home extends React.Component {
     }
 
     render() {
-        return [
-            <Content className="banner">
-                <div className="container">
-                    <div className="banner-head">
-                        Hello World!
+        return (
+            <div>
+                <Layout.Content className="banner">
+                    <div className="container">
+                        <div className="banner-head">
+                            Hello World!
+                        </div>
+                        <div className="banner-content">
+                            <p className="welcome">Welecome to Resistance. It's time to move!</p>
+                            <p>[测试文字] 使用 Ant Motion 能够快速在 React 框架中使用动画。</p>
+                            <p>我们提供了单项，组合动画，以及整套解决方案</p>
+                        </div>
+                        <div className="banner-button">
+                            <Button ghost>加入我们</Button>
+                            <Button ghost>查看教程</Button>
+                        </div>
                     </div>
-                    <div className="banner-content">
-                        <p className="welcome">Welecome to Resistance. It's time to move!</p>
-                        <p>[测试文字] 使用 Ant Motion 能够快速在 React 框架中使用动画。</p>
-                        <p>我们提供了单项，组合动画，以及整套解决方案</p>
-                    </div>
-                    <div className="banner-button">
-                        <Button ghost>加入我们</Button>
-                        <Button ghost>查看教程</Button>
-                    </div>
-                </div>
-            </Content>,
+                </Layout.Content>
 
-            <Content className="container main">
-                <Row>
-                    <Col span={16} className="news">
-                        {this.getArticles(1).map(article => {
-                            return (
-                                <Card key={article.id} title={article.title} bordered={false} className="article">
-                                    <div>{article.content}</div>
-                                    <div>
-                                        <Tag>{article.tag[0]}</Tag>
-                                        <Tag>{article.tag[1]}</Tag>
-                                    </div>
-                                </Card>
-                            );
-                        })}
-                    </Col>
+                <Layout.Content className="container main">
+                    <Row>
+                        <Col span={16} className="news">
+                            {this.getArticles(1).map(article => {
+                                return (
+                                    <Card
+                                        key={article.id}
+                                        title={<Link to={'/article/' + article.id}>{article.title}</Link>}
+                                        bordered={false}
+                                        className="article"
+                                    >
+                                        <div>{article.content}</div>
+                                        <div>
+                                            <Tag>{article.tag[0]}</Tag>
+                                            <Tag>{article.tag[1]}</Tag>
+                                        </div>
+                                    </Card>
+                                );
+                            })}
+                        </Col>
 
-                    <Sidebar />
-                </Row>
-            </Content>,
+                        <Sidebar />
+                    </Row>
+                </Layout.Content>
 
-            <Content className="container pagination">
-                <Pagination defaultCurrent={1} total={50} showQuickJumper />
-            </Content>
-        ];
+                <Layout.Content className="container pagination">
+                    <Pagination defaultCurrent={1} total={50} showQuickJumper />
+                </Layout.Content>
+            </div>
+        );
     }
 }

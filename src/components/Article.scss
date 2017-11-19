@@ -1,0 +1,11 @@
+.article-banner {
+    height: 240px;
+    background-size: cover;
+    background-position: center;
+    justify-content: flex-end;
+
+    .banner-head {
+        font-size: 32px;
+        padding-bottom: 16px;
+    }
+}

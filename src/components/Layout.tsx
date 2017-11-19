@@ -1,7 +1,8 @@
 import React from 'react';
 import './Layout.scss';
-import { BackTop, Layout, Menu } from 'antd';
+import { BackTop, Input, Layout, Menu } from 'antd';
 import Article from '../types/Article';
+import { Link } from 'react-router-dom';
 
 const { Header, Footer, Content } = Layout;
 
@@ -40,12 +41,12 @@ export default class Home extends React.Component {
             <Layout className="layout main-layout">
                 <div className="header-placeholder" />
                 <Header className="main-header">
-                    <div className="logo">
+                    <Link to="/" className="brand">
                         <img src="/assets/img/logo.svg" />
-                    </div>
-                    <div className="name">
-                        CantonRES
-                    </div>
+                        <div className="name">CantonRES</div>
+                    </Link>
+
+                    <Input.Search className="search" placeholder="搜索……" />
 
                     <div className="flex-spacer" />
 

@@ -6,20 +6,21 @@ import './index.css';
 
 import Layout from './components/Layout';
 import Home from './components/Home';
+import Article from './components/Article';
 
 ReactDOM.render(
-    <Layout>
-        <Router>
+    <Router>
+        <Layout>
             <Switch>
                 <Route exact path="/" component={Home} />
                 <Route path="/page/:page" component={Home} />
-                <Route path="/article/:id" component={Home} />
+                <Route path="/article/:id" component={Article} />
                 <Route path="/form/:name" component={Home} />
                 <Route path="/user/:id" component={Home} />
                 <Route component={Home}/>
             </Switch>
-        </Router>
-    </Layout>,
+        </Layout>
+    </Router>,
     document.getElementById('root') as HTMLElement
 );
 
