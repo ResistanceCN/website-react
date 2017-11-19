@@ -46,7 +46,7 @@ export default class Home extends React.Component {
                         <div className="name">CantonRES</div>
                     </Link>
 
-                    <Input.Search className="search" placeholder="搜索……" />
+                    <Input className="search" placeholder="搜索……" />
 
                     <div className="flex-spacer" />
 

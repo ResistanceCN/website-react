@@ -1,0 +1,29 @@
+.join-banner p {
+    margin-bottom: 4px;
+
+    &:last-child {
+        margin-bottom: 12px;
+    }
+}
+
+.join-form {
+    .ant-form-item {
+        font-size: 14px;
+    }
+
+    .ant-form-item-label label {
+        font-size: 16px;
+        font-weight: 500;
+        line-height: normal;
+    }
+
+    .form-action {
+        display: flex;
+        justify-content: flex-end;
+
+        .ant-btn {
+            margin-left: 12px;
+        }
+    }
+
+}

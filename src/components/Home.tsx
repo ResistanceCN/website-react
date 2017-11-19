@@ -41,7 +41,7 @@ export default class Home extends React.Component {
                             <p>我们提供了单项，组合动画，以及整套解决方案</p>
                         </div>
                         <div className="banner-button">
-                            <Button ghost>加入我们</Button>
+                            <Link to="/join"><Button ghost>加入我们</Button></Link>
                             <Button ghost>查看教程</Button>
                         </div>
                     </div>
