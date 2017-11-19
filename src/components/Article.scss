@@ -11,8 +11,8 @@
 
 .article-banner {
     height: 240px;
-    background: linear-gradient(10deg, #3a7bd5, #00d2ff);
-    background-size: cover;
+    background-size: auto 450px;
+    background-position: center -80px;
     justify-content: flex-end;
 
     .banner-head {
