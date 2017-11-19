@@ -8,12 +8,29 @@ import ArticleType from '../types/Article';
 interface ArticleRouterProps { id: number; }
 interface ArticleProps extends RouteComponentProps<ArticleRouterProps> {}
 
+enum Status {
+    Loading,
+    OK,
+    NotFound,
+}
+
 interface State {
-    article?: ArticleType;
+    status: Status;
+    article: ArticleType;
 }
 
 export default class Article extends React.Component<ArticleProps> {
-    state: State = {};
+    state: State = {
+        status: Status.Loading,
+        article: {
+            id: 0,
+            title: '',
+            author: 0,
+            tag: [],
+            date: new Date(),
+            content: ''
+        }
+    };
 
     componentDidMount() {
         const id = this.props.match.params.id;
@@ -29,36 +46,44 @@ export default class Article extends React.Component<ArticleProps> {
                 技术随着时间推移变得愈发出神入化，智慧的足迹踏遍银河系的颗行星，\
                 冒险家的故事传颂在整个星河。'
         };
-        this.setState({ article });
+
+        this.setState({
+            article,
+            status: Status.OK
+        });
     }
 
     render() {
+        if (this.state.status === Status.Loading) {
+            return (
+                <div className="flex-spacer">
+                    <div className="container loading-container">
+                        <div className="loading">Loading...</div>
+                    </div>
+                </div>
+            );
+        }
+
+        const article = this.state.article;
+
         return (
-            <div>
+            <div className="flex-spacer">
                 <Layout.Content className="banner article-banner">
                     <div className="container">
                         <div className="banner-head">
-                            {this.state.article ? this.state.article.title : ''}
+                            {article.title}
                         </div>
+                        <p>{article.date.toLocaleDateString() + ' ' + article.date.toLocaleTimeString()}</p>
                     </div>
                 </Layout.Content>
 
                 <Layout.Content className="container main">
                     <Row>
                         <Col span={16} className="news">
-                            {typeof this.state.article === 'undefined' ? ('404') : (
-                                <Card
-                                    key={this.state.article.id}
-                                    bordered={false}
-                                    className="article"
-                                >
-                                    <div>{this.state.article.content}</div>
-                                    <div>
-                                        <Tag>{this.state.article.tag[0]}</Tag>
-                                        <Tag>{this.state.article.tag[1]}</Tag>
-                                    </div>
-                                </Card>
-                            )}
+                            <Card key={article.id} bordered={false} className="article">
+                                <div>{article.content}</div>
+                                <div>{article.tag.map((tag, i) => <Tag key={i}>{tag}</Tag>)}</div>
+                            </Card>
                         </Col>
 
                         <Sidebar />

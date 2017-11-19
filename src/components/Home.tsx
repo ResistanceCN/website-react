@@ -29,7 +29,7 @@ export default class Home extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="flex-spacer">
                 <Layout.Content className="banner">
                     <div className="container">
                         <div className="banner-head">
