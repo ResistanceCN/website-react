@@ -31,6 +31,10 @@ p {
     font-size: 14px;
 }
 
+.ant-card:not(.ant-card-bordered) {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
 .ant-card-head-title {
     font-weight: 400;
     font-size: 16px;
