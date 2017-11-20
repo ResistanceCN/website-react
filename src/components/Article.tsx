@@ -5,22 +5,24 @@ import { Card, Col, Layout, Row, Tag } from 'antd';
 import Sidebar from './Sidebar';
 import ArticleType from '../types/Article';
 
-interface ArticleRouterProps { id: number; }
-interface ArticleProps extends RouteComponentProps<ArticleRouterProps> {}
-
 enum Status {
     Loading,
     OK,
     NotFound,
 }
 
-interface State {
+interface ArticleRouterProps {
+    id: number;
+}
+interface ArticleProps extends RouteComponentProps<ArticleRouterProps> {}
+
+interface ArticleState {
     status: Status;
     article: ArticleType;
 }
 
-export default class Article extends React.Component<ArticleProps> {
-    state: State = {
+export default class Article extends React.Component<ArticleProps, ArticleState> {
+    state = {
         status: Status.Loading,
         article: {
             id: 0,

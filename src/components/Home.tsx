@@ -6,7 +6,6 @@ import Article from '../types/Article';
 import Sidebar from './Sidebar';
 
 export default class Home extends React.Component {
-
     getArticles(page: number): Array<Article> {
         let articles: Array<Article> = [];
 

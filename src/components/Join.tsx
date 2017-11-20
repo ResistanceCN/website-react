@@ -1,21 +1,35 @@
 import React from 'react';
 import './Join.scss';
-import { Button, Card, Col, Form, Icon, Input, Layout, Row } from 'antd';
+import { Button, Card, Col, Form, Icon, Input, Layout, Row, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import RegionMap from './RegionMap';
+import { names as regionNames } from './regions';
 
-interface State {
-    //
+interface ArticleState {
+    regions: Set<string>;
 }
 
-export default class Article extends React.Component {
-    state: State = {
-        //
+export default class Article extends React.Component<{}, ArticleState> {
+    state = {
+        regions: new Set()
     };
 
     onSubmit() {
         //
+    }
+
+    onSelectRegion(event: google.maps.Data.MouseEvent) {
+        this.setState({
+            regions: this.state.regions.add(event.feature.getProperty('id'))
+        });
+    }
+
+    onRemoveRegion(region: string) {
+        this.state.regions.delete(region);
+        this.setState({
+            regions: this.state.regions
+        });
     }
 
     render() {
@@ -49,7 +63,18 @@ export default class Article extends React.Component {
 
                                     <Form.Item label="主要活动区域">
                                         <p>如你发现战区与现实的行政区矛盾，还是请按照此地图中的战区选择</p>
-                                        <RegionMap />
+                                        <RegionMap onSelect={e => { this.onSelectRegion(e); }} />
+                                        <div>
+                                            {Array.from(this.state.regions).map(region => (
+                                                <Tag
+                                                    key={region}
+                                                    closable
+                                                    afterClose={() => { this.onRemoveRegion(region); }}
+                                                >
+                                                    {regionNames[region]}
+                                                </Tag>
+                                            ))}
+                                        </div>
                                     </Form.Item>
 
                                     <Form.Item label="其他说明">

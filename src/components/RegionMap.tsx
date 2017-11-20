@@ -1,8 +1,17 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import './RegionMap.css';
-import regions from './regions';
+import { geojson } from './regions';
 
-export default class RegionMap extends React.Component {
+interface RegionMapProps {
+    onSelect(event: google.maps.Data.MouseEvent): void;
+}
+
+interface RegionMapState {
+    hint: string;
+    hintStyle: CSSProperties;
+}
+
+export default class RegionMap extends React.Component<RegionMapProps, RegionMapState> {
     state = {
         hint: '',
         hintStyle: {}
@@ -31,7 +40,7 @@ export default class RegionMap extends React.Component {
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
 
-        map.data.addGeoJson(regions);
+        map.data.addGeoJson(geojson);
 
         map.data.setStyle((feature: google.maps.Data.Feature) => {
             let color = feature.getProperty('color');
@@ -57,9 +66,7 @@ export default class RegionMap extends React.Component {
             this.setHint('');
         });
 
-        map.data.addListener('click', (event: google.maps.Data.MouseEvent) => {
-            // this.$emit('select', event);
-        });
+        map.data.addListener('click', this.props.onSelect);
     }
 
     render() {

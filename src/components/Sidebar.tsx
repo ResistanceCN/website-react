@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import './Sidebar.scss';
 import { Card, Col, Icon, Timeline, Tooltip } from 'antd';
 
@@ -20,7 +20,11 @@ interface SidebarAttr {
     fixedTop: number;
 }
 
-export default class Sidebar extends React.Component {
+interface SidebarState {
+    sidebarFixStyle: CSSProperties;
+}
+
+export default class Sidebar extends React.Component<{}, SidebarState> {
     state = {
         sidebarFixStyle: {}
     };

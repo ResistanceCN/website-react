@@ -1,6 +1,6 @@
 import React from 'react';
 import './Layout.scss';
-import { BackTop, Input, Layout, Menu, Avatar, Dropdown} from 'antd';
+import { Avatar, BackTop, Dropdown, Input, Layout, Menu } from 'antd';
 import Article from '../types/Article';
 import { Link } from 'react-router-dom';
 
