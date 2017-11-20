@@ -4,6 +4,7 @@
 
 #region-map {
     height: 300px;
+    z-index: 0;
 }
 
 #region-map-hint {
@@ -13,6 +14,7 @@
     line-height: 14px;
     position: absolute;
     top: 10px;
+    z-index: 1;
     border-radius: 2px;
     box-shadow: rgba(0, 0, 0, 0.3) 0 1px 4px -1px;
     display: none;

@@ -17,8 +17,11 @@ export default class RegionMap extends React.Component<RegionMapProps, RegionMap
         hintStyle: {}
     };
 
+    mapContainer: HTMLDivElement;
+    mapEventListeners: Array<google.maps.MapsEventListener> = [];
+
     setHint(hint: string) {
-        const rel = document.querySelector('.gm-style-mtc') as HTMLElement;
+        const rel = GoogleMap.instance().getDiv().querySelector('.gm-style-mtc') as HTMLElement;
 
         this.setState({
             hint,
@@ -30,11 +33,59 @@ export default class RegionMap extends React.Component<RegionMapProps, RegionMap
     }
 
     componentDidMount() {
+        const map = GoogleMap.instance();
+
+        this.mapEventListeners = [
+            map.data.addListener('mouseover', (event: google.maps.Data.MouseEvent) => {
+                map.data.revertStyle();
+                map.data.overrideStyle(event.feature, {
+                    strokeColor: 'white',
+                    strokeWeight: 3,
+                    zIndex: google.maps.Marker.MAX_ZINDEX
+                });
+                this.setHint(event.feature.getProperty('name'));
+            }),
+
+            map.data.addListener('mouseout', (event: google.maps.Data.MouseEvent) => {
+                map.data.revertStyle();
+                this.setHint('');
+            }),
+
+            map.data.addListener('click', this.props.onSelect)
+        ];
+
+        this.mapContainer.appendChild(map.getDiv());
+    }
+
+    componentWillUnmount() {
+        this.mapEventListeners.forEach(l => l.remove());
+
+        const map = GoogleMap.instance();
+        this.mapContainer.removeChild(map.getDiv());
+    }
+
+    render() {
+        return (
+            <div id="region-map-container" ref={ref => this.mapContainer = ref!}>
+                <div id="region-map-hint" style={this.state.hintStyle}>{this.state.hint}</div>
+            </div>
+        );
+    }
+}
+
+// https://stackoverflow.com/questions/10485582/what-is-the-proper-way-to-destroy-a-map-instance
+class GoogleMap {
+    protected static map: google.maps.Map;
+
+    protected static create() {
         if (typeof google === 'undefined') {
             throw new Error('Google Maps SDK not loaded');
         }
 
-        let map = new google.maps.Map(document.getElementById('region-map'), {
+        let target = document.createElement('div');
+        target.id = 'region-map';
+
+        const map = new google.maps.Map(target, {
             center: new google.maps.LatLng(23.1, 113.3),
             zoom: 9,
             mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -51,30 +102,16 @@ export default class RegionMap extends React.Component<RegionMapProps, RegionMap
             };
         });
 
-        map.data.addListener('mouseover', (event: google.maps.Data.MouseEvent) => {
-            map.data.revertStyle();
-            map.data.overrideStyle(event.feature, {
-                strokeColor: 'white',
-                strokeWeight: 3,
-                zIndex: google.maps.Marker.MAX_ZINDEX
-            });
-            this.setHint(event.feature.getProperty('name'));
-        });
-
-        map.data.addListener('mouseout', (event: google.maps.Data.MouseEvent) => {
-            map.data.revertStyle();
-            this.setHint('');
-        });
-
-        map.data.addListener('click', this.props.onSelect);
+        GoogleMap.map = map;
     }
 
-    render() {
-        return (
-            <div id="region-map-container">
-                <div id="region-map" />
-                <div id="region-map-hint" style={this.state.hintStyle}>{this.state.hint}</div>
-            </div>
-        );
+    static instance(): google.maps.Map {
+        if (typeof GoogleMap.map !== 'undefined') {
+            return GoogleMap.map;
+        }
+
+        GoogleMap.create();
+
+        return GoogleMap.map;
     }
 }
