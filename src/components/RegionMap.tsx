@@ -58,10 +58,8 @@ export default class RegionMap extends React.Component<RegionMapProps, RegionMap
     }
 
     componentWillUnmount() {
-        this.mapEventListeners.forEach(l => l.remove());
-
-        const map = GoogleMap.instance();
-        this.mapContainer.removeChild(map.getDiv());
+        this.mapEventListeners.splice(0).forEach(l => l.remove());
+        GoogleMap.instance().getDiv().remove();
     }
 
     render() {
