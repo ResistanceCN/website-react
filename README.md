@@ -1,5 +1,7 @@
 # website-react
 
+[![Build Status](https://travis-ci.org/ResistanceCN/website-react.svg?branch=master)](https://travis-ci.org/ResistanceCN/website-react)
+
 ## Design
 
 ### Primary Color
