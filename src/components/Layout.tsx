@@ -13,7 +13,7 @@ const detials = (
     </Menu.Item>
     <Menu.Divider />
     <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="#">个人主页</a>
+        <a target="_blank" rel="noopener noreferrer" href="/user/:id">个人主页</a>
     </Menu.Item>
     <Menu.Item>
         <a target="_blank" rel="noopener noreferrer" href="#">控制台</a>

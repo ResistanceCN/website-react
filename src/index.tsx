@@ -8,6 +8,7 @@ import Layout from './components/Layout';
 import Home from './components/Home';
 import Article from './components/Article';
 import Join from './components/Join';
+import Profile from './components/Profile';
 
 ReactDOM.render(
     <Router>
@@ -18,7 +19,7 @@ ReactDOM.render(
                 <Route path="/article/:id" component={Article} />
                 <Route path="/join" component={Join} />
                 <Route path="/form/:name" component={Home} />
-                <Route path="/user/:id" component={Home} />
+                <Route path="/user/:id" component={Profile} />
                 <Route component={Home}/>
             </Switch>
         </Layout>
