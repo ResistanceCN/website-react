@@ -4,23 +4,25 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: url("/assets/img/profile-banner.jpg") no-repeat fixed bottom;
+    background: url("/assets/img/profile-banner.jpg") no-repeat fixed center -400px;
 
     .banner-avatar {
         width: 128px;
         height: 128px;
         background: #fff;
-        transform: rotate(270deg);
-        border-radius: 100%;
-        border-style:solid;
-        border-color: #fff;
-        box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
-        display: flex;
-        justify-content: center;
+        border: 3px solid #fff;
+        border-radius: 67px;
         overflow: hidden;
+        box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
+        transition: .3s box-shadow;
 
         &:hover {
             box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.25);
+        }
+
+        img {
+            width: 128px;
+            height: 128px;
         }
     }
 

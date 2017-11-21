@@ -1,30 +1,10 @@
 import React from 'react';
+import Article from '../types/Article';
 import './Layout.scss';
 import { Avatar, BackTop, Dropdown, Input, Layout, Menu } from 'antd';
-import Article from '../types/Article';
 import { Link } from 'react-router-dom';
 
 const { Header, Footer, Content } = Layout;
-
-const detials = (
-  <Menu>
-    <Menu.Item>
-        Signed in as Ingress Id
-    </Menu.Item>
-    <Menu.Divider />
-    <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="/user/:id">个人主页</a>
-    </Menu.Item>
-    <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="#">控制台</a>
-    </Menu.Item>
-    <Menu.Divider />
-    <Menu.Item>
-        <a target="_blank" rel="noopener noreferrer" href="#">设置</a>
-    </Menu.Item>
-    <Menu.Item>注销</Menu.Item>
-  </Menu>
-);
 
 export default class Home extends React.Component {
     getArticles(page: number): Array<Article> {
@@ -76,8 +56,29 @@ export default class Home extends React.Component {
                         <Menu.Item key="3">Tutorials</Menu.Item>
                         <Menu.Item key="5">About</Menu.Item>
                     </Menu>
-                    <Dropdown overlay={detials} trigger={['click']}>
-                        <Avatar icon="user" />
+                    <Dropdown
+                        trigger={['click']}
+                        overlay={(
+                            <Menu>
+                                <Menu.Item>
+                                    Signed in as Ingress Id
+                                </Menu.Item>
+                                <Menu.Divider />
+                                <Menu.Item>
+                                    <Link to="/user/1" >个人主页</Link>
+                                </Menu.Item>
+                                <Menu.Item>
+                                    <a target="_blank" rel="noopener noreferrer" href="#">控制台</a>
+                                </Menu.Item>
+                                <Menu.Divider />
+                                <Menu.Item>
+                                    <a target="_blank" rel="noopener noreferrer" href="#">设置</a>
+                                </Menu.Item>
+                                <Menu.Item>注销</Menu.Item>
+                            </Menu>
+                        )}
+                    >
+                        <Avatar src="/assets/img/avatar-blue.jpg" />
                     </Dropdown>
                 </Header>
 

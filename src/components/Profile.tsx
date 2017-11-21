@@ -1,11 +1,17 @@
 import React from 'react';
+import { RouteComponentProps } from 'react-router';
 import './Profile.scss';
-import { Link } from 'react-router-dom';
-import { Card, Col, Layout, Pagination, Row, Tag, Avatar } from 'antd';
 import Article from '../types/Article';
+import { Card, Col, Layout, Pagination, Row, Tag } from 'antd';
+import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
 
-export default class Profile extends React.Component {
+interface ArticleRouterProps {
+    id: number;
+}
+interface ProfileProps extends RouteComponentProps<ArticleRouterProps> {}
+
+export default class Profile extends React.Component<ProfileProps> {
     getArticles(page: number): Array<Article> {
         let articles: Array<Article> = [];
 
@@ -34,7 +40,7 @@ export default class Profile extends React.Component {
                         <img src="/assets/img/avatar-blue.jpg" />
                     </div>
                     <div className="banner-content">
-                        <p className="username">Username</p>
+                        <p className="username">Username - {this.props.match.params.id}</p>
                         <div className="bio">
                             <p>[个人 bio 测试] 使用 Ant Motion 能够快速在 React 框架中使用动画。</p>
                             <p>我们提供了单项，组合动画，以及整套解决方案</p>
