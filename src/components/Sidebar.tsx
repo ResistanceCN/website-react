@@ -37,7 +37,7 @@ export default class Sidebar extends React.Component<{}, SidebarState> {
         viewportHeight: 0,
         visibleHeight: 0,
         hiddenHeight: 0,
-        fixedTop: 0,
+        fixedTop: 0
     };
 
     onScroll: EventListener;

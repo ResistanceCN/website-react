@@ -6,10 +6,10 @@ import { Card, Col, Layout, Pagination, Row, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
 
-interface ArticleRouterProps {
+interface ProfileRouterProps {
     id: number;
 }
-interface ProfileProps extends RouteComponentProps<ArticleRouterProps> {}
+interface ProfileProps extends RouteComponentProps<ProfileRouterProps> {}
 
 export default class Profile extends React.Component<ProfileProps> {
     getArticles(page: number): Array<Article> {

@@ -8,7 +8,7 @@ import ArticleType from '../types/Article';
 enum Status {
     Loading,
     OK,
-    NotFound,
+    NotFound
 }
 
 interface ArticleRouterProps {

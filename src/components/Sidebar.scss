@@ -32,19 +32,19 @@
     }
 
     .ant-timeline {
-        .ant-timeline-item-last {
-            &, .ant-timeline-item-content {
-                padding-bottom: 0;
-                min-height: 0;
-            }
-        }
-
         .ant-timeline-item {
             padding-bottom: 8px;
 
             .ant-timeline-item-content {
                 font-size: 13px;
                 padding-bottom: 0;
+            }
+        }
+
+        .ant-timeline-item-last {
+            &, .ant-timeline-item-content {
+                padding-bottom: 0;
+                min-height: 0;
             }
         }
     }
