@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router';
 import './Article.scss';
 import { Card, Col, Layout, Row, Tag } from 'antd';
 import Sidebar from './Sidebar';
-import ArticleType from '../types/Article';
+import { Article as ArticleType } from '../types';
 
 enum Status {
     Loading,

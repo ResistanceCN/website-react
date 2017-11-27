@@ -2,6 +2,16 @@
 # yarn lockfile v1
 
 
+"@types/gapi.auth2@^0.0.45":
+  version "0.0.45"
+  resolved "https://registry.yarnpkg.com/@types/gapi.auth2/-/gapi.auth2-0.0.45.tgz#b817f53fe0b70ee6e55acbc261a4971f4147f24d"
+  dependencies:
+    "@types/gapi" "*"
+
+"@types/gapi@*":
+  version "0.0.35"
+  resolved "https://registry.yarnpkg.com/@types/gapi/-/gapi-0.0.35.tgz#8e0d672d66d8c6ce8493f5e8e550344f7ff500dc"
+
 "@types/googlemaps@^3.30.0":
   version "3.30.0"
   resolved "https://registry.yarnpkg.com/@types/googlemaps/-/googlemaps-3.30.0.tgz#ca99a74b97d581b1cdbccf2973d05f26633d1975"

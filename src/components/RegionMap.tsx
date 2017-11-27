@@ -104,11 +104,9 @@ class GoogleMap {
     }
 
     static instance(): google.maps.Map {
-        if (typeof GoogleMap.map !== 'undefined') {
-            return GoogleMap.map;
+        if (typeof GoogleMap.map === 'undefined') {
+            GoogleMap.create();
         }
-
-        GoogleMap.create();
 
         return GoogleMap.map;
     }

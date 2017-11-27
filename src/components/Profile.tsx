@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import './Profile.scss';
-import Article from '../types/Article';
+import { Article } from '../types/Article';
 import { Card, Col, Layout, Pagination, Row, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';

@@ -2,7 +2,7 @@ import React from 'react';
 import './Home.scss';
 import { Link } from 'react-router-dom';
 import { Button, Card, Col, Layout, Pagination, Row, Tag } from 'antd';
-import Article from '../types/Article';
+import { Article } from '../types/Article';
 import Sidebar from './Sidebar';
 
 export default class Home extends React.Component {
