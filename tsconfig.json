@@ -9,7 +9,6 @@
     "jsx": "react",
     "moduleResolution": "node",
     "rootDir": "src",
-    "typeRoots" : ["src/types"],
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
