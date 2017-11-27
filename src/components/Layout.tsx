@@ -15,42 +15,46 @@ interface AppLayoutProps {
     checkUser(): void;
 }
 
-const AppLayout = (props: AppLayoutProps) => {
-    props.checkUser();
+class AppLayout extends React.Component<AppLayoutProps> {
+    componentDidMount() {
+        this.props.checkUser();
+    }
 
-    return (
-        <Layout className="layout main-layout">
-            <div className="header-placeholder" />
-            <Header className="main-header">
-                <Link to="/" className="brand">
-                    <img src="/assets/img/logo.svg" />
-                    <div className="name">CantonRES</div>
-                </Link>
+    render() {
+        return (
+            <Layout className="layout main-layout">
+                <div className="header-placeholder"/>
+                <Header className="main-header">
+                    <Link to="/" className="brand">
+                        <img src="/assets/img/logo.svg"/>
+                        <div className="name">CantonRES</div>
+                    </Link>
 
-                <Input className="search" placeholder="搜索……" />
+                    <Input className="search" placeholder="搜索……"/>
 
-                <div className="flex-spacer" />
+                    <div className="flex-spacer"/>
 
-                <Menu mode="horizontal" defaultSelectedKeys={['1']} className="main-menu">
-                    <Menu.Item key="1">Home</Menu.Item>
-                    <Menu.Item key="2">News</Menu.Item>
-                    <Menu.Item key="3">Tutorials</Menu.Item>
-                    <Menu.Item key="5">About</Menu.Item>
-                </Menu>
+                    <Menu mode="horizontal" defaultSelectedKeys={['1']} className="main-menu">
+                        <Menu.Item key="1">Home</Menu.Item>
+                        <Menu.Item key="2">News</Menu.Item>
+                        <Menu.Item key="3">Tutorials</Menu.Item>
+                        <Menu.Item key="5">About</Menu.Item>
+                    </Menu>
 
-                <UserMenu />
-            </Header>
+                    <UserMenu/>
+                </Header>
 
-            {props.children}
+                {this.props.children}
 
-            <Footer className="main-footer">
-                &copy; 2017 Canton Resistance. Based on React &amp; Ant Design
-            </Footer>
+                <Footer className="main-footer">
+                    &copy; 2017 Canton Resistance. Based on React &amp; Ant Design
+                </Footer>
 
-            <BackTop />
-        </Layout>
-    );
-};
+                <BackTop/>
+            </Layout>
+        );
+    }
+}
 
 const mapStateToProps = (state: State) => ({});
 
