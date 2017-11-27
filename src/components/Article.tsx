@@ -2,8 +2,8 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import './Article.scss';
 import { Card, Col, Layout, Row, Tag } from 'antd';
-import Sidebar from './Sidebar';
 import { Article as ArticleType } from '../types';
+import Sidebar from './Sidebar';
 
 enum Status {
     Loading,

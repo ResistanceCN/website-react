@@ -1,12 +1,12 @@
 import React, { ReactNode } from 'react';
+import { connect, Dispatch } from 'react-redux';
+import { withRouter } from 'react-router';
 import './Layout.scss';
 import { BackTop, Input, Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
-import UserMenu from './UserMenu';
-import { State } from '../reducers/index';
-import { connect, Dispatch } from 'react-redux';
+import { State } from '../reducers';
 import { checkUser } from '../actions/user';
-import { withRouter } from 'react-router';
+import UserMenu from './UserMenu';
 
 const { Header, Footer, Content } = Layout;
 
