@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import { user, UserState } from './user';
+import { auth, AuthState } from './auth';
 
 export interface State {
-    user: UserState;
+    auth: AuthState;
 }
 
 export const reducer = combineReducers<State>({
-    user
+    auth
 });

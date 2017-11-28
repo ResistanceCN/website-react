@@ -1,5 +1,5 @@
-import React, { CSSProperties } from 'react';
 import './Sidebar.scss';
+import React, { CSSProperties } from 'react';
 import { Card, Col, Icon, Timeline, Tooltip } from 'antd';
 
 enum SidebarStatus {

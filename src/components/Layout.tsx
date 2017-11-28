@@ -1,22 +1,22 @@
+import './Layout.scss';
 import React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import { RouteProps, withRouter } from 'react-router';
-import './Layout.scss';
 import { BackTop, Input, Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import { State } from '../reducers';
-import { checkUser } from '../actions/user';
+import { authCheck } from '../actions/user';
 import UserMenu from './UserMenu';
 
 const { Header, Footer } = Layout;
 
 interface AppLayoutProps {
-    checkUser(): void;
+    authCheck(): void;
 }
 
 class AppLayout extends React.Component<AppLayoutProps & RouteProps> {
     componentDidMount() {
-        this.props.checkUser();
+        this.props.authCheck();
     }
 
     componentDidUpdate(prevProps: Readonly<AppLayoutProps & RouteProps>) {
@@ -64,8 +64,8 @@ class AppLayout extends React.Component<AppLayoutProps & RouteProps> {
 const mapStateToProps = (state: State) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
-    checkUser() {
-        dispatch(checkUser());
+    authCheck() {
+        dispatch(authCheck());
     }
 });
 

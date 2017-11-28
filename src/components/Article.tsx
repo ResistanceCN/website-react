@@ -1,6 +1,6 @@
+import './Article.scss';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
-import './Article.scss';
 import { Card, Tag } from 'antd';
 import { Article as ArticleType } from '../types';
 import WithSidebar from './WithSidebar';

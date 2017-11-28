@@ -1,5 +1,5 @@
-import React from 'react';
 import './Home.scss';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, Layout, Pagination, Tag } from 'antd';
 import { Article } from '../types';

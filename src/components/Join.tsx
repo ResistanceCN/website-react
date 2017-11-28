@@ -1,5 +1,5 @@
-import React from 'react';
 import './Join.scss';
+import React from 'react';
 import { Button, Card, Form, Icon, Input, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import WithSidebar from './WithSidebar';

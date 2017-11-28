@@ -1,5 +1,5 @@
-import React, { CSSProperties } from 'react';
 import './RegionMap.css';
+import React, { CSSProperties } from 'react';
 import { geojson } from './regions';
 
 interface RegionMapProps {

@@ -1,6 +1,6 @@
+import './Profile.scss';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
-import './Profile.scss';
 import { Article } from '../types/Article';
 import { Card, Pagination, Tag } from 'antd';
 import { Link } from 'react-router-dom';

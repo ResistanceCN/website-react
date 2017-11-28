@@ -1,12 +1,12 @@
-import { USER_LOGIN, USER_LOGOUT } from './types';
-import { Faction } from '../types/Faction';
+import { AUTH_LOGIN, AUTH_LOGOUT } from './types';
+import { Faction } from '../types';
 
-export function checkUser() {
+export function authCheck() {
     // Check user status with localStorage.userToken after app loaded
     // Perform AJAX request here
 
     return {
-        type: USER_LOGIN,
+        type: AUTH_LOGIN,
         user: {
             id: 1,
             googleId: '123',
@@ -16,13 +16,13 @@ export function checkUser() {
     };
 }
 
-export function userLogin() {
+export function authLogin() {
     // Perform AJAX request here
 
     localStorage.userToken = 'abc123';
 
     return {
-        type: USER_LOGIN,
+        type: AUTH_LOGIN,
         user: {
             id: 2,
             googleId: '123',
@@ -32,10 +32,10 @@ export function userLogin() {
     };
 }
 
-export function userLogout() {
+export function authLogout() {
     // Perform AJAX request here
 
     return {
-        type: USER_LOGOUT
+        type: AUTH_LOGOUT
     };
 }
