@@ -14,6 +14,7 @@ enum Status {
 interface ArticleRouterProps {
     id: number;
 }
+
 interface ArticleProps extends RouteComponentProps<ArticleRouterProps> {}
 
 interface ArticleState {

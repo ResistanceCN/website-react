@@ -9,6 +9,7 @@ import Sidebar from './Sidebar';
 interface ProfileRouterProps {
     id: number;
 }
+
 interface ProfileProps extends RouteComponentProps<ProfileRouterProps> {}
 
 export default class Profile extends React.Component<ProfileProps> {

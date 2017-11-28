@@ -1,6 +1,6 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { connect, Dispatch } from 'react-redux';
-import { withRouter } from 'react-router';
+import { RouteProps, withRouter } from 'react-router';
 import './Layout.scss';
 import { BackTop, Input, Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
@@ -11,13 +11,18 @@ import UserMenu from './UserMenu';
 const { Header, Footer, Content } = Layout;
 
 interface AppLayoutProps {
-    children: ReactNode;
     checkUser(): void;
 }
 
-class AppLayout extends React.Component<AppLayoutProps> {
+class AppLayout extends React.Component<AppLayoutProps & RouteProps> {
     componentDidMount() {
         this.props.checkUser();
+    }
+
+    componentDidUpdate(prevProps: Readonly<AppLayoutProps & RouteProps>) {
+        if (this.props.location !== prevProps.location) {
+            window.scrollTo(0, 0);
+        }
     }
 
     render() {
