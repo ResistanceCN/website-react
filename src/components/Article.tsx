@@ -1,9 +1,9 @@
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import './Article.scss';
-import { Card, Col, Layout, Row, Tag } from 'antd';
+import { Card, Tag } from 'antd';
 import { Article as ArticleType } from '../types';
-import Sidebar from './Sidebar';
+import WithSidebar from './WithSidebar';
 
 enum Status {
     Loading,
@@ -71,27 +71,23 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
 
         return (
             <div className="flex-spacer">
-                <Layout.Content className="banner article-banner">
+                <div className="banner article-banner">
                     <div className="container">
                         <div className="banner-head">
                             {article.title}
                         </div>
                         <p>{article.date.toLocaleDateString() + ' ' + article.date.toLocaleTimeString()}</p>
                     </div>
-                </Layout.Content>
+                </div>
 
-                <Layout.Content className="container main">
-                    <Row>
-                        <Col span={16} className="news">
-                            <Card key={article.id} bordered={false} className="article">
-                                <div>{article.content}</div>
-                                <div>{article.tag.map((tag, i) => <Tag key={i}>{tag}</Tag>)}</div>
-                            </Card>
-                        </Col>
-
-                        <Sidebar />
-                    </Row>
-                </Layout.Content>
+                <div className="container main">
+                    <WithSidebar className="news">
+                        <Card key={article.id} bordered={false} className="article">
+                            <div>{article.content}</div>
+                            <div>{article.tag.map((tag, i) => <Tag key={i}>{tag}</Tag>)}</div>
+                        </Card>
+                    </WithSidebar>
+                </div>
             </div>
         );
     }

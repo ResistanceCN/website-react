@@ -8,7 +8,7 @@ import { State } from '../reducers';
 import { checkUser } from '../actions/user';
 import UserMenu from './UserMenu';
 
-const { Header, Footer, Content } = Layout;
+const { Header, Footer } = Layout;
 
 interface AppLayoutProps {
     checkUser(): void;

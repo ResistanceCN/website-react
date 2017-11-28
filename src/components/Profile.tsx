@@ -2,9 +2,9 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import './Profile.scss';
 import { Article } from '../types/Article';
-import { Card, Col, Layout, Pagination, Row, Tag } from 'antd';
+import { Card, Pagination, Tag } from 'antd';
 import { Link } from 'react-router-dom';
-import Sidebar from './Sidebar';
+import WithSidebar from './WithSidebar';
 
 interface ProfileRouterProps {
     id: number;
@@ -36,7 +36,7 @@ export default class Profile extends React.Component<ProfileProps> {
     render() {
         return (
             <div className="flex-spacer">
-                <Layout.Content className="banner profile-banner">
+                <div className="banner profile-banner">
                     <div className="banner-avatar">
                         <img src="/assets/img/avatar-blue.jpg" />
                     </div>
@@ -47,36 +47,32 @@ export default class Profile extends React.Component<ProfileProps> {
                             <p>我们提供了单项，组合动画，以及整套解决方案</p>
                         </div>
                     </div>
-                </Layout.Content>
+                </div>
 
-                <Layout.Content className="container main">
-                    <Row>
-                        <Col span={16} className="news">
-                            {this.getArticles(1).map(article => {
-                                return (
-                                    <Card
-                                        key={article.id}
-                                        title={<Link to={'/article/' + article.id}>{article.title}</Link>}
-                                        bordered={false}
-                                        className="article"
-                                    >
-                                        <div>{article.content}</div>
-                                        <div>
-                                            <Tag>{article.tag[0]}</Tag>
-                                            <Tag>{article.tag[1]}</Tag>
-                                        </div>
-                                    </Card>
-                                );
-                            })}
-                        </Col>
+                <div className="container main">
+                    <WithSidebar className="news">
+                        {this.getArticles(1).map(article => {
+                            return (
+                                <Card
+                                    key={article.id}
+                                    title={<Link to={'/article/' + article.id}>{article.title}</Link>}
+                                    bordered={false}
+                                    className="article"
+                                >
+                                    <div>{article.content}</div>
+                                    <div>
+                                        <Tag>{article.tag[0]}</Tag>
+                                        <Tag>{article.tag[1]}</Tag>
+                                    </div>
+                                </Card>
+                            );
+                        })}
+                    </WithSidebar>
+                </div>
 
-                        <Sidebar />
-                    </Row>
-                </Layout.Content>
-
-                <Layout.Content className="container pagination">
+                <div className="container pagination">
                     <Pagination defaultCurrent={1} total={50} showQuickJumper />
-                </Layout.Content>
+                </div>
             </div>
         );
     }
