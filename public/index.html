@@ -4,6 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="theme-color" content="#108ee9">
+
+        <meta name="google-signin-scope" content="profile email">
+        <meta name="google-signin-client_id" content="%REACT_APP_GOOGLE_CLIENT_ID%">
+
         <!--
             manifest.json provides metadata used when your web app is added to the
             homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
@@ -39,6 +43,6 @@
         -->
 
         <script src="https://apis.google.com/js/platform.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=<%= htmlWebpackPlugin.options.env.GOOGLE_MAP_KEY %>"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=%REACT_APP_GOOGLE_MAP_KEY%"></script>
     </body>
 </html>

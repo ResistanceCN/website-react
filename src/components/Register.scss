@@ -1,0 +1,12 @@
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .ant-card {
+        width: 100%;
+        max-width: 400px;
+        margin: 80px 0;
+    }
+}

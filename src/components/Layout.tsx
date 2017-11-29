@@ -5,7 +5,7 @@ import { RouteProps, withRouter } from 'react-router';
 import { BackTop, Input, Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import { State } from '../reducers';
-import { authCheck } from '../actions/user';
+import { authCheck } from '../actions/auth';
 import UserMenu from './UserMenu';
 
 const { Header, Footer } = Layout;

@@ -1,23 +1,26 @@
 import './UserMenu.css';
 import React from 'react';
+import { User } from '../types';
+import { State } from '../reducers';
+import { connect, Dispatch } from 'react-redux';
+import { authLogout } from '../actions/auth';
 import { Avatar, Button, Dropdown, Menu } from 'antd';
 import { Link } from 'react-router-dom';
-import { connect, Dispatch } from 'react-redux';
-import { User } from '../types/User';
-import { State } from '../reducers/index';
-import { authLogin, authLogout } from '../actions/user';
 
 interface UserMenuProps {
     user: User;
-    login(): void;
     logout(): void;
 }
 
 const UserMenu = (props: UserMenuProps) => {
-    const { user, login, logout } = props;
+    const { user, logout } = props;
 
     if (user === null) {
-        return <Button type="dashed" className="user-login" onClick={login}>登录</Button>;
+        return (
+            <Link to="/login">
+                <Button type="dashed" className="user-login">登录</Button>
+            </Link>
+        );
     }
 
     return (
@@ -54,9 +57,6 @@ const mapStateToProps = (state: State) => ({
 const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
     logout() {
         dispatch(authLogout());
-    },
-    login() {
-        dispatch(authLogin());
     }
 });
 
