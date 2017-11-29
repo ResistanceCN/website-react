@@ -5,18 +5,28 @@ import { RouteProps, withRouter } from 'react-router';
 import { BackTop, Input, Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import { State } from '../reducers';
-import { authCheck } from '../actions/auth';
+import { LOGIN_SUCCESS } from '../actions';
 import UserMenu from './UserMenu';
+import { User } from '../types/User';
 
 const { Header, Footer } = Layout;
 
 interface AppLayoutProps {
-    authCheck(): void;
+    login(user: User): void;
 }
 
 class AppLayout extends React.Component<AppLayoutProps & RouteProps> {
     componentDidMount() {
-        this.props.authCheck();
+        const authToken = localStorage.authToken;
+
+        if (authToken) {
+            // Perform AJAX request here
+            const user = null;
+
+            if (user !== null) {
+                this.props.login(user);
+            }
+        }
     }
 
     componentDidUpdate(prevProps: Readonly<AppLayoutProps & RouteProps>) {
@@ -64,8 +74,11 @@ class AppLayout extends React.Component<AppLayoutProps & RouteProps> {
 const mapStateToProps = (state: State) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
-    authCheck() {
-        dispatch(authCheck());
+    login(user: User) {
+        dispatch({
+            type: LOGIN_SUCCESS,
+            user
+        });
     }
 });
 

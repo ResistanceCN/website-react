@@ -1,0 +1,3 @@
+export const AUTH_RESET = 'AUTH_RESET';
+export const GOOGLE_SIGNED_IN = 'GOOGLE_SIGNED_IN';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
