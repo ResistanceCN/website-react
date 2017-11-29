@@ -14,7 +14,7 @@
             "check-space"
         ],
         "curly": true,
-        "eofline": false,
+        "eofline": true,
         "forin": true,
         "indent": [true, "spaces"],
         "interface-name": [true, "never-prefix"],
@@ -52,7 +52,7 @@
         "no-shadowed-variable": true,
         "no-string-literal": true,
         "no-switch-case-fall-through": true,
-        "no-trailing-whitespace": false,
+        "no-trailing-whitespace": true,
         "no-unused-expression": true,
         "no-use-before-declare": true,
         "one-line": [
@@ -66,7 +66,6 @@
         "radix": true,
         "semicolon": [true, "always"],
         "switch-default": true,
-
         "trailing-comma": [
             true,
             {
@@ -75,7 +74,6 @@
                 "esSpecCompliant": true
             }
         ],
-
         "triple-equals": [true, "allow-null-check"],
         "typedef": [
             true,
