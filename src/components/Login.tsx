@@ -2,8 +2,8 @@ import './Login.scss';
 import React from 'react';
 import { User } from '../types';
 import { State } from '../reducers';
-import { connect, Dispatch } from 'react-redux';
 import { GOOGLE_SIGNED_IN, LOGIN_SUCCESS } from '../actions';
+import { connect, Dispatch } from 'react-redux';
 import { Redirect } from 'react-router';
 import { Card } from 'antd';
 

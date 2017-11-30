@@ -1,16 +1,24 @@
 import './Join.scss';
 import React from 'react';
+import { User } from '../types';
+import { State } from '../reducers/index';
+import { connect, Dispatch } from 'react-redux';
 import { Button, Card, Form, Icon, Input, Tag } from 'antd';
+import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import WithSidebar from './WithSidebar';
 import RegionMap from './RegionMap';
 import { names as regionNames } from './regions';
 
-interface ArticleState {
+interface JoinProps {
+    user: User | null;
+}
+
+interface JoinState {
     regions: Set<string>;
 }
 
-export default class Article extends React.Component<{}, ArticleState> {
+class Join extends React.Component<JoinProps, JoinState> {
     state = {
         regions: new Set()
     };
@@ -33,6 +41,10 @@ export default class Article extends React.Component<{}, ArticleState> {
     }
 
     render() {
+        if (this.props.user === null) {
+            return <Redirect to="/login"/>;
+        }
+
         return (
             <div className="flex-spacer">
                 <div className="banner article-banner join-banner">
@@ -93,3 +105,14 @@ export default class Article extends React.Component<{}, ArticleState> {
         );
     }
 }
+
+const mapStateToProps = (state: State) => ({
+    user: state.auth.user
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<State>) => ({});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Join);

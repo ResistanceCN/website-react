@@ -2,8 +2,8 @@ import './UserMenu.scss';
 import React from 'react';
 import { User } from '../types';
 import { State } from '../reducers';
-import { connect, Dispatch } from 'react-redux';
 import { AUTH_RESET } from '../actions';
+import { connect, Dispatch } from 'react-redux';
 import { Avatar, Button, Dropdown, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 
@@ -14,12 +14,26 @@ interface UserMenuProps {
 
 class UserMenu extends React.Component<UserMenuProps> {
     logout() {
-        gapi.auth2.getAuthInstance().disconnect();
+        // Google says that the signOut() method is synchronous, but...
+        gapi.auth2.getAuthInstance().signOut();
 
         // Perform AJAX request here
         // localStorage.authToken = '';
 
-        this.props.logout();
+        // isSignedIn is not set to false immediately, so we have to wait
+        const wait = () => {
+            if (gapi.auth2.getAuthInstance().isSignedIn.get() === false) {
+                // If we do this before isSignedIn changed, the user might be redirected to login page
+                // Then gapi.auth2.init() would call onSuccess(), which will dispatch actions we don't want
+                this.props.logout();
+
+                return;
+            }
+
+            setTimeout(wait, 1);
+        };
+
+        wait();
     }
 
     componentDidMount() {

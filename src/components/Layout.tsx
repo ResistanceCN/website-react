@@ -1,12 +1,12 @@
 import './Layout.scss';
 import React from 'react';
-import { connect, Dispatch } from 'react-redux';
-import { RouteProps, withRouter } from 'react-router';
-import { User } from '../types/User';
-import { BackTop, Input, Layout, Menu } from 'antd';
-import { Link } from 'react-router-dom';
+import { User } from '../types';
 import { State } from '../reducers';
 import { LOGIN_SUCCESS } from '../actions';
+import { connect, Dispatch } from 'react-redux';
+import { RouteProps, withRouter } from 'react-router';
+import { BackTop, Input, Layout, Menu } from 'antd';
+import { Link } from 'react-router-dom';
 import UserMenu from './UserMenu';
 
 const { Header, Footer } = Layout;
