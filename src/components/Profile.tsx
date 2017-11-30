@@ -10,7 +10,7 @@ import { connect, Dispatch } from 'react-redux';
 import { State } from '../reducers/index';
 
 interface ProfileRouterProps {
-    id: number;
+    id: string;
 }
 
 interface ProfileProps extends RouteComponentProps<ProfileRouterProps> {
@@ -39,7 +39,11 @@ class Profile extends React.Component<ProfileProps> {
     }
 
     getUser(): User | null {
-        const id = this.props.match.params.id;
+        const id = parseInt(this.props.match.params.id);
+
+        if (isNaN(id)) {
+            return null;
+        }
 
         // Look up user from state or perform AJAX request here
 

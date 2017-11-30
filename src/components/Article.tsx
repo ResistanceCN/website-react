@@ -12,7 +12,7 @@ enum Status {
 }
 
 interface ArticleRouterProps {
-    id: number;
+    id: string;
 }
 
 interface ArticleProps extends RouteComponentProps<ArticleRouterProps> {}
@@ -36,7 +36,14 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
     };
 
     componentDidMount() {
-        const id = this.props.match.params.id;
+        const id = parseInt(this.props.match.params.id);
+
+        if (isNaN(id)) {
+            this.setState({
+                status: Status.NotFound
+            });
+            return;
+        }
 
         const article: ArticleType = {
             id,
