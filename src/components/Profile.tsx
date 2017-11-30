@@ -2,9 +2,10 @@ import './Profile.scss';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Article } from '../types/Article';
-import { Card, Pagination, Tag } from 'antd';
+import { Card, Pagination, Tag, Icon } from 'antd';
 import { Link } from 'react-router-dom';
 import WithSidebar from './WithSidebar';
+import ArticleTools from './ArticleTools';
 
 interface ProfileRouterProps {
     id: number;
@@ -60,9 +61,9 @@ export default class Profile extends React.Component<ProfileProps> {
                                     className="article"
                                 >
                                     <div>{article.content}</div>
-                                    <div>
-                                        <Tag>{article.tag[0]}</Tag>
-                                        <Tag>{article.tag[1]}</Tag>
+                                    <div className="article-footer">
+                                        <div>{article.tag.map((tag, i) => <Tag key={i}>{tag}</Tag>)}</div>
+                                        <ArticleTools />
                                     </div>
                                 </Card>
                             );

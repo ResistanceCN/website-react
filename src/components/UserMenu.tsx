@@ -37,7 +37,6 @@ class UserMenu extends React.Component<UserMenuProps> {
     }
 
     componentDidMount() {
-        console.log(gapi, typeof gapi);
         if (typeof gapi === 'undefined') {
             throw new Error('Google oAuth library is not loaded');
         }

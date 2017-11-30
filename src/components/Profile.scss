@@ -5,7 +5,6 @@
     justify-content: center;
     overflow: hidden;
     background: url("/assets/img/profile-banner.jpg") no-repeat fixed center -400px;
-
     .banner-avatar {
         width: 128px;
         height: 128px;
@@ -15,25 +14,42 @@
         overflow: hidden;
         box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.25);
         transition: .3s box-shadow;
-
         &:hover {
             box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.25);
         }
-
         img {
             width: 128px;
             height: 128px;
         }
     }
-
     .banner-content {
         margin-top: 16px;
         text-align: center;
         text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.65);
-
         .username {
             font-size: 28px;
             font-weight: 400;
         }
+    }
+}
+
+.article {
+    .article-footer {
+        display: flex;
+        justify-content: 1;
+        .tools {
+            display: none;
+            margin-left: auto;
+            margin-right: 2px;
+            .anticon {
+                margin: 14px 2px 0px 12px;
+                float: right;
+                font-size: 14pt;
+            }
+        }
+    }
+
+    &:hover .tools {
+        display: block;
     }
 }

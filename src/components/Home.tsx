@@ -57,10 +57,7 @@ export default class Home extends React.Component {
                                     className="article"
                                 >
                                     <div>{article.content}</div>
-                                    <div>
-                                        <Tag>{article.tag[0]}</Tag>
-                                        <Tag>{article.tag[1]}</Tag>
-                                    </div>
+                                    <div>{article.tag.map((tag, i) => <Tag key={i}>{tag}</Tag>)}</div>
                                 </Card>
                             );
                         })}
