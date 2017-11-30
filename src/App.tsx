@@ -19,7 +19,7 @@ export default () => (
                 <Route path="/join" component={Join} />
                 <Route path="/form/:name" component={Home} />
                 <Route path="/user/:id" component={Profile} />
-                <Route component={Home}/>
+                <Route component={Home} />
             </Switch>
         </Layout>
     </Router>

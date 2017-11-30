@@ -37,6 +37,7 @@ class UserMenu extends React.Component<UserMenuProps> {
     }
 
     componentDidMount() {
+        console.log(gapi, typeof gapi);
         if (typeof gapi === 'undefined') {
             throw new Error('Google oAuth library is not loaded');
         }
@@ -53,14 +54,14 @@ class UserMenu extends React.Component<UserMenuProps> {
                     overlay={(
                         <Menu>
                             <Menu.Item>Signed in as {user.name}</Menu.Item>
-                            <Menu.Divider/>
+                            <Menu.Divider />
                             <Menu.Item>
                                 <Link to={'/user/' + user.id}>个人主页</Link>
                             </Menu.Item>
                             <Menu.Item>
                                 <a target="_blank" rel="noopener noreferrer" href="#">控制台</a>
                             </Menu.Item>
-                            <Menu.Divider/>
+                            <Menu.Divider />
                             <Menu.Item>
                                 <a target="_blank" rel="noopener noreferrer" href="#">设置</a>
                             </Menu.Item>
@@ -68,7 +69,7 @@ class UserMenu extends React.Component<UserMenuProps> {
                         </Menu>
                     )}
                 >
-                    <Avatar className="user-avatar" src="/assets/img/avatar-blue.jpg"/>
+                    <Avatar className="user-avatar" src="/assets/img/avatar-blue.jpg" />
                 </Dropdown>
             );
         }

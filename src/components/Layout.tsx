@@ -38,16 +38,16 @@ class AppLayout extends React.Component<AppLayoutProps & RouteProps> {
     render() {
         return (
             <Layout className="layout main-layout">
-                <div className="header-placeholder"/>
+                <div className="header-placeholder" />
                 <Header className="main-header">
                     <Link to="/" className="brand">
-                        <img src="/assets/img/logo.svg"/>
+                        <img src="/assets/img/logo.svg" />
                         <div className="name">CantonRES</div>
                     </Link>
 
-                    <Input className="search" placeholder="搜索……"/>
+                    <Input className="search" placeholder="搜索……" />
 
-                    <div className="flex-spacer"/>
+                    <div className="flex-spacer" />
 
                     <Menu mode="horizontal" defaultSelectedKeys={['1']} className="main-menu">
                         <Menu.Item key="1">Home</Menu.Item>
@@ -56,7 +56,7 @@ class AppLayout extends React.Component<AppLayoutProps & RouteProps> {
                         <Menu.Item key="5">About</Menu.Item>
                     </Menu>
 
-                    <UserMenu/>
+                    <UserMenu />
                 </Header>
 
                 {this.props.children}
@@ -65,7 +65,7 @@ class AppLayout extends React.Component<AppLayoutProps & RouteProps> {
                     &copy; 2017 Canton Resistance. Based on React &amp; Ant Design
                 </Footer>
 
-                <BackTop/>
+                <BackTop />
             </Layout>
         );
     }

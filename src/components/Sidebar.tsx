@@ -176,16 +176,16 @@ export default class Sidebar extends React.Component<{}, SidebarState> {
             <Col span={8} className="sidebar" style={this.state.sidebarFixStyle}>
                 <Card bordered={false} className="tools">
                     <Tooltip title="prompt text">
-                        <Icon type="link"/>
+                        <Icon type="link" />
                     </Tooltip>
                     <Tooltip title="prompt text">
-                        <Icon type="edit"/>
+                        <Icon type="edit" />
                     </Tooltip>
                     <Tooltip title="prompt text">
-                        <Icon type="check"/>
+                        <Icon type="check" />
                     </Tooltip>
                     <Tooltip title="prompt text">
-                        <Icon type="book"/>
+                        <Icon type="book" />
                     </Tooltip>
                 </Card>
 

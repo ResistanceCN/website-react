@@ -42,7 +42,7 @@ class Join extends React.Component<JoinProps, JoinState> {
 
     render() {
         if (this.props.user === null) {
-            return <Redirect to="/login"/>;
+            return <Redirect to="/login" />;
         }
 
         return (
@@ -74,13 +74,13 @@ class Join extends React.Component<JoinProps, JoinState> {
 
                                 <Form.Item label="主要活动区域">
                                     <p>如你发现战区与现实的行政区矛盾，还是请按照此地图中的战区选择</p>
-                                    <RegionMap onSelect={e => { this.onSelectRegion(e); }} />
+                                    <RegionMap onSelect={e => this.onSelectRegion(e)} />
                                     <div>
                                         {Array.from(this.state.regions).map(region => (
                                             <Tag
                                                 key={region}
                                                 closable
-                                                afterClose={() => { this.onRemoveRegion(region); }}
+                                                afterClose={() => this.onRemoveRegion(region)}
                                             >
                                                 {regionNames[region]}
                                             </Tag>

@@ -57,7 +57,7 @@ class Login extends React.Component<LoginProps> {
 
     render() {
         if (this.props.user !== null) {
-            return <Redirect to="/"/>;
+            return <Redirect to="/" />;
         }
 
         return (
@@ -66,7 +66,7 @@ class Login extends React.Component<LoginProps> {
                     <p>使用 Google 账户登录后，可以进行发表文章、参与投票、申请加入社群等操作。</p>
                     <p>用于登录的 Google 账户<b>并非</b>必须是你的 Ingress 账户。</p>
 
-                    <div id="google-sign-in-button"/>
+                    <div id="google-sign-in-button" />
                 </Card>
             </div>
         );
