@@ -36,7 +36,7 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
     };
 
     componentDidMount() {
-        const id = parseInt(this.props.match.params.id);
+        const id = parseInt(this.props.match.params.id, 10);
 
         if (isNaN(id)) {
             this.setState({

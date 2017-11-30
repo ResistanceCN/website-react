@@ -39,7 +39,7 @@ class Profile extends React.Component<ProfileProps> {
     }
 
     getUser(): User | null {
-        const id = parseInt(this.props.match.params.id);
+        const id = parseInt(this.props.match.params.id, 10);
 
         if (isNaN(id)) {
             return null;
@@ -61,8 +61,6 @@ class Profile extends React.Component<ProfileProps> {
         if (user === null) {
             return <Redirect to="/" />;
         }
-
-        console.log(this.props.user, user);
 
         const isMyself = this.props.user !== null && user.id === this.props.user.id;
 
