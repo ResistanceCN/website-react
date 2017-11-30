@@ -1,19 +1,23 @@
 import './Profile.scss';
 import React from 'react';
-import { RouteComponentProps } from 'react-router';
-import { Article } from '../types/Article';
-import { Card, Pagination, Tag, Icon } from 'antd';
+import { Redirect, RouteComponentProps, withRouter } from 'react-router';
+import { Article, Faction, User } from '../types';
+import { Card, Pagination, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import WithSidebar from './WithSidebar';
 import ArticleTools from './ArticleTools';
+import { connect, Dispatch } from 'react-redux';
+import { State } from '../reducers/index';
 
 interface ProfileRouterProps {
     id: number;
 }
 
-interface ProfileProps extends RouteComponentProps<ProfileRouterProps> {}
+interface ProfileProps extends RouteComponentProps<ProfileRouterProps> {
+    user: User | null;
+}
 
-export default class Profile extends React.Component<ProfileProps> {
+class Profile extends React.Component<ProfileProps> {
     getArticles(page: number): Array<Article> {
         let articles: Array<Article> = [];
 
@@ -34,7 +38,30 @@ export default class Profile extends React.Component<ProfileProps> {
         return articles;
     }
 
+    getUser(): User | null {
+        const id = this.props.match.params.id;
+
+        // Look up user from state or perform AJAX request here
+
+        return {
+            id,
+            googleId: '',
+            name: 'Test User - ' + id,
+            faction: Faction.Resistance
+        };
+    }
+
     render() {
+        const user = this.getUser();
+
+        if (user === null) {
+            return <Redirect to="/" />;
+        }
+
+        console.log(this.props.user, user);
+
+        const isMyself = this.props.user !== null && user.id === this.props.user.id;
+
         return (
             <div className="flex-spacer">
                 <div className="banner profile-banner">
@@ -51,19 +78,20 @@ export default class Profile extends React.Component<ProfileProps> {
                 </div>
 
                 <div className="container main">
-                    <WithSidebar className="news">
+                    <WithSidebar className="news profile">
                         {this.getArticles(1).map(article => {
                             return (
                                 <Card
                                     key={article.id}
                                     title={<Link to={'/article/' + article.id}>{article.title}</Link>}
                                     bordered={false}
-                                    className="article"
+                                    className="article-card"
                                 >
                                     <div>{article.content}</div>
                                     <div className="article-footer">
                                         <div>{article.tag.map((tag, i) => <Tag key={i}>{tag}</Tag>)}</div>
-                                        <ArticleTools />
+                                        <div className="flex-spacer" />
+                                        <ArticleTools manageMode={isMyself} />
                                     </div>
                                 </Card>
                             );
@@ -78,3 +106,14 @@ export default class Profile extends React.Component<ProfileProps> {
         );
     }
 }
+
+const mapStateToProps = (state: State) => ({
+    user: state.auth.user
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<State>) => ({});
+
+export default withRouter(connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Profile));

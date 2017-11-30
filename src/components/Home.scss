@@ -50,17 +50,19 @@
 .news {
     position: relative;
 
-    .ant-card {
+    .article-card {
         margin-bottom: 12px;
 
         .ant-card-head-title a {
             color: inherit;
             text-decoration: none;
         }
-    }
 
-    .ant-tag {
-        margin-top: 12px;
+        .article-footer {
+            display: flex;
+            height: 32px;
+            align-items: flex-end;
+        }
     }
 }
 

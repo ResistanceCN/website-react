@@ -1,18 +1,15 @@
 import React from 'react';
-import { User } from '../types';
 import { connect, Dispatch } from 'react-redux';
 import { State } from '../reducers';
 import { Icon } from 'antd';
 
 interface ArticleToolsProps {
-    user: User;
+    manageMode: boolean;
 }
 
 class ArticleTools extends React.Component<ArticleToolsProps> {
     render() {
-        const { user } = this.props;
-
-        if (user !== null) {
+        if (this.props.manageMode) {
             return (
                 <div className="tools">
                     <Icon type="ellipsis" />
@@ -33,9 +30,7 @@ class ArticleTools extends React.Component<ArticleToolsProps> {
     }
 }
 
-const mapStateToProps = (state: State) => ({
-    user: state.auth.user
-});
+const mapStateToProps = (state: State) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch<State>) => ({});
 

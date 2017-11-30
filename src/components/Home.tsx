@@ -54,10 +54,12 @@ export default class Home extends React.Component {
                                     key={article.id}
                                     title={<Link to={'/article/' + article.id}>{article.title}</Link>}
                                     bordered={false}
-                                    className="article"
+                                    className="article-card"
                                 >
                                     <div>{article.content}</div>
-                                    <div>{article.tag.map((tag, i) => <Tag key={i}>{tag}</Tag>)}</div>
+                                    <div className="article-footer">
+                                        {article.tag.map((tag, i) => <Tag key={i}>{tag}</Tag>)}
+                                    </div>
                                 </Card>
                             );
                         })}
