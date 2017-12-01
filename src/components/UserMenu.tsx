@@ -58,7 +58,7 @@ class UserMenu extends React.Component<UserMenuProps> {
                                 <Link to={'/user/' + user.id}>个人主页</Link>
                             </Menu.Item>
                             <Menu.Item>
-                                <a target="_blank" rel="noopener noreferrer" href="#">控制台</a>
+                                <Link to={'/adminpanel/' + user.id}>控制台</Link>
                             </Menu.Item>
                             <Menu.Divider />
                             <Menu.Item>

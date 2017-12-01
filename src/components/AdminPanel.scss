@@ -1,0 +1,27 @@
+.flex-spacer {
+    display: flex;
+    justify-content: 1;
+    margin-top: 12px;
+    .sidebar {
+        padding: 0px;
+        margin-left: 48px;
+        width: 248px;
+    }
+    .container {
+        height: 100%;
+        padding: 0px 12px;
+        margin-left: 0px;
+        display: flex;
+        justify-content: 1;
+        .ant-table {
+            width: 960px;
+            background: #fff;
+        }
+        .chart {
+            width: 128px;
+            height: 128px;
+            margin-left: 12px;
+            background: #fff;
+        }
+    }
+}

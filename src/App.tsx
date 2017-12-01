@@ -7,6 +7,7 @@ import Login from './components/Login';
 import Article from './components/Article';
 import Join from './components/Join';
 import Profile from './components/Profile';
+import AdminPanel from './components/AdminPanel';
 
 export default () => (
     <Router>
@@ -19,6 +20,7 @@ export default () => (
                 <Route path="/join" component={Join} />
                 <Route path="/form/:name" component={Home} />
                 <Route path="/user/:id" component={Profile} />
+                <Route path="/adminpanel/:id" component={AdminPanel} />
                 <Route component={Home} />
             </Switch>
         </Layout>
