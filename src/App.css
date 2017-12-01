@@ -27,6 +27,12 @@ p {
     align-self: center;
 }
 
+.container-fluid {
+    width: 100%;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
 .ant-card {
     font-size: 14px;
 }
