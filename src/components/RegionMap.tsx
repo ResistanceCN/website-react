@@ -1,6 +1,6 @@
 import './RegionMap.css';
 import React, { CSSProperties } from 'react';
-import { geojson } from './regions';
+import { geojson } from '../regions';
 
 interface RegionMapProps {
     onSelect(event: google.maps.Data.MouseEvent): void;
@@ -92,7 +92,7 @@ class GoogleMap {
         map.data.addGeoJson(geojson);
 
         map.data.setStyle((feature: google.maps.Data.Feature) => {
-            let color = feature.getProperty('color');
+            const color = feature.getProperty('color');
             return {
                 fillColor: color,
                 strokeColor: color,

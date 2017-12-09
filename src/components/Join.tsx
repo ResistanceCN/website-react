@@ -8,7 +8,7 @@ import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import WithSidebar from './WithSidebar';
 import RegionMap from './RegionMap';
-import { names as regionNames } from './regions';
+import { names as regionNames } from '../regions';
 
 interface JoinProps {
     user: User | null;

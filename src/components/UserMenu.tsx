@@ -45,6 +45,8 @@ class UserMenu extends React.Component<UserMenuProps> {
     render() {
         const { user } = this.props;
 
+        const isAdmin = true;
+
         if (user !== null) {
             return (
                 <Dropdown
@@ -58,12 +60,14 @@ class UserMenu extends React.Component<UserMenuProps> {
                                 <Link to={'/user/' + user.id}>个人主页</Link>
                             </Menu.Item>
                             <Menu.Item>
-                                <Link to={'/adminpanel/' + user.id}>控制台</Link>
+                                <Link to="/settings">设置</Link>
                             </Menu.Item>
+                            {isAdmin ? (
+                                <Menu.Item>
+                                    <Link to={'/admin'}>控制台</Link>
+                                </Menu.Item>
+                            ) : ''}
                             <Menu.Divider />
-                            <Menu.Item>
-                                <a target="_blank" rel="noopener noreferrer" href="#">设置</a>
-                            </Menu.Item>
                             <Menu.Item><a onClick={() => this.logout()}>注销</a></Menu.Item>
                         </Menu>
                     )}

@@ -1,13 +1,13 @@
 import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Layout from './components/Layout';
-import Home from './components/Home';
-import Login from './components/Login';
-import Article from './components/Article';
-import Join from './components/Join';
-import Profile from './components/Profile';
-import AdminPanel from './components/AdminPanel';
+import Layout from './Layout';
+import Home from './Home';
+import Login from './Login';
+import Article from './Article';
+import Join from './Join';
+import Profile from './Profile';
+import Admin from './admin/Admin';
 
 export default () => (
     <Router>
@@ -20,7 +20,7 @@ export default () => (
                 <Route path="/join" component={Join} />
                 <Route path="/form/:name" component={Home} />
                 <Route path="/user/:id" component={Profile} />
-                <Route path="/adminpanel/:id" component={AdminPanel} />
+                <Route path="/admin" component={Admin} />
                 <Route component={Home} />
             </Switch>
         </Layout>
