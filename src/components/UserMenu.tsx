@@ -5,6 +5,7 @@ import { State } from '../reducers';
 import { AUTH_RESET } from '../actions';
 import { connect, Dispatch } from 'react-redux';
 import { Avatar, Button, Dropdown, Menu } from 'antd';
+import { RouteProps, withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 
 interface UserMenuProps {
@@ -12,7 +13,7 @@ interface UserMenuProps {
     logout(): void;
 }
 
-class UserMenu extends React.Component<UserMenuProps> {
+class UserMenu extends React.Component<UserMenuProps & RouteProps> {
     logout() {
         // Google says that the signOut() method is synchronous, but...
         gapi.auth2.getAuthInstance().signOut();
@@ -78,7 +79,7 @@ class UserMenu extends React.Component<UserMenuProps> {
         }
 
         return (
-            <Link to="/login">
+            <Link to={{ pathname: '/login', state: { from: location.pathname }}}>
                 <Button type="dashed" className="login-btn">登录</Button>
             </Link>
         );
@@ -97,7 +98,7 @@ const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
     }
 });
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(UserMenu);
+)(UserMenu));

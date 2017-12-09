@@ -4,7 +4,7 @@ import { User } from '../types';
 import { State } from '../reducers/index';
 import { connect, Dispatch } from 'react-redux';
 import { Button, Card, Form, Icon, Input, Tag } from 'antd';
-import { Redirect } from 'react-router';
+import { Redirect, RouteProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import WithSidebar from './WithSidebar';
 import RegionMap from './RegionMap';
@@ -18,7 +18,7 @@ interface JoinState {
     regions: Set<string>;
 }
 
-class Join extends React.Component<JoinProps, JoinState> {
+class Join extends React.Component<JoinProps & RouteProps, JoinState> {
     state = {
         regions: new Set()
     };
@@ -42,7 +42,7 @@ class Join extends React.Component<JoinProps, JoinState> {
 
     render() {
         if (this.props.user === null) {
-            return <Redirect to="/login" />;
+            return <Redirect to={{ pathname: '/login', state: { from: '/join' }}} />;
         }
 
         return (

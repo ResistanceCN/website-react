@@ -4,7 +4,7 @@ import { User } from '../types';
 import { State } from '../reducers';
 import { GOOGLE_SIGNED_IN, LOGIN_SUCCESS } from '../actions';
 import { connect, Dispatch } from 'react-redux';
-import { Redirect } from 'react-router';
+import { Redirect, RouteProps } from 'react-router';
 import { Card } from 'antd';
 
 interface LoginProps {
@@ -13,7 +13,7 @@ interface LoginProps {
     login(user: User): void;
 }
 
-class Login extends React.Component<LoginProps> {
+class Login extends React.Component<LoginProps & RouteProps> {
     onSuccess(googleUser: gapi.auth2.GoogleUser) {
         this.props.googleSignIn(googleUser);
 
@@ -57,7 +57,9 @@ class Login extends React.Component<LoginProps> {
 
     render() {
         if (this.props.user !== null) {
-            return <Redirect to="/" />;
+            const from = this.props.location!.state.from || '/';
+            console.log(this.props.location)
+            return <Redirect to={from} />;
         }
 
         return (
