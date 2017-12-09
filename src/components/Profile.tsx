@@ -93,7 +93,7 @@ class Profile extends React.Component<ProfileProps> {
                                     <div className="article-footer">
                                         <div>{article.tag.map((tag, i) => <Tag key={i}>{tag}</Tag>)}</div>
                                         <div className="flex-spacer" />
-                                        <ArticleTools manageMode={isMyself} />
+                                        <ArticleTools id={article.id} manageMode={isMyself} />
                                     </div>
                                 </Card>
                             );

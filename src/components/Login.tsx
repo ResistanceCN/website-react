@@ -58,7 +58,6 @@ class Login extends React.Component<LoginProps & RouteProps> {
     render() {
         if (this.props.user !== null) {
             const from = this.props.location!.state.from || '/';
-            console.log(this.props.location)
             return <Redirect to={from} />;
         }
 

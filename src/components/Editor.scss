@@ -1,0 +1,124 @@
+@import "~codemirror/lib/codemirror";
+@import "~simplemde/src/css/simplemde";
+@import "/assets/css/icomoon.css";
+
+.editor-title {
+    width: 100%;
+    height: 48px;
+    line-height: 48px;
+    margin: 40px 8px 0;
+
+    font-size: 24px;
+    font-weight: 300;
+
+    border: none;
+    outline: none;
+    background: transparent;
+
+    position: relative;
+
+    &:before {
+        content: ">";
+    }
+}
+
+.editor {
+    width: 100%;
+    margin: 20px 0 40px;
+    position: relative;
+
+    .ant-card-body {
+        padding: 0;
+    }
+
+    .editor-toolbar {
+        box-sizing: border-box;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 998;
+
+        width: 100%;
+        background: #fff;
+        border: none;
+        border-bottom: 1px solid #eee;
+
+        opacity: 1;
+        transition: .3s box-shadow;
+
+        &.fixed {
+            position: fixed;
+            top: 64px;
+            border-radius: 0;
+            border-bottom-color: #ddd;
+        }
+
+        a {
+            text-decoration: none !important;
+        }
+
+        .icomoon {
+            font-size: 14px;
+        }
+
+        .icomoon, .separator {
+            line-height: 30px;
+            vertical-align: middle;
+        }
+    }
+
+    .CodeMirror {
+        border: none;
+        margin-top: 51px;
+
+        .CodeMirror-line {
+            padding-top: 2px;
+            padding-bottom: 2px;
+        }
+
+        .cm-formatting, .cm-comment {
+            font-family: monospace;
+            background: none;
+        }
+
+        .cm-formatting-header, .cm-formatting-quote {
+            color: #90a4ae;
+        }
+
+        .cm-formatting-task {
+            color: #0d47a1;
+        }
+
+        .cm-url, .cm-tag, .cm-image-marker {
+            font-family: monospace;
+        }
+
+        .block-code {
+            background: rgba(#263238, 0.05);
+            padding-top: 0;
+            padding-bottom: 0;
+            padding-left: 16px;
+
+            &.block-start {
+                padding-top: 16px;
+            }
+
+            &.block-end {
+                padding-top: 12px;
+                padding-bottom: 4px;
+            }
+
+            * {
+                font-family: monospace !important;
+                font-size: 14px !important;
+            }
+        }
+
+        .block-comment * {
+            font-family: monospace !important;
+            font-size: 14px !important;
+            color: #bdbdbd !important;
+            text-decoration: none !important;
+        }
+    }
+}
