@@ -228,14 +228,14 @@ Mike |  32
 
 \`\`\`latex
 $$
-f(x;\\mu,\\sigma^2) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{ -\\frac{1}{2}\\left(\\frac{x-\\mu}{\\sigma}\\right)^2 } \\tag{1}
+f(x;\\mu,\\sigma^2) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{ -\\frac{1}{2}\\left(\\frac{x-\\mu}{\\sigma}\\right)^2 }
 $$
 \`\`\`
 
 效果：
 
 $$
-f(x;\\mu,\\sigma^2) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{ -\\frac{1}{2}\\left(\\frac{x-\\mu}{\\sigma}\\right)^2 } \\tag{1}
+f(x;\\mu,\\sigma^2) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{ -\\frac{1}{2}\\left(\\frac{x-\\mu}{\\sigma}\\right)^2 }
 $$
 
 注意：LaTeX 和 ASCIIMath 公式不是标准 Markdown 的行为。少部分平台不支持 LaTeX 公式；大多数平台都不支持 ASCIIMath 公式。

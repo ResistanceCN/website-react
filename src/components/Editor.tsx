@@ -197,7 +197,7 @@ class Editor extends React.Component<EditorProps> {
                 {
                     name: 'unordered-list',
                     action: SimpleMDE.toggleUnorderedList,
-                    className: 'icomoon icomoon-list',
+                    className: 'icomoon icomoon-list2',
                     title: 'Generic List'
                 },
                 {

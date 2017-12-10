@@ -1,3 +1,5 @@
+@import "~github-markdown-css";
+
 .loading-container {
     height: 100%;
     display: flex;
@@ -20,6 +22,14 @@
     }
 }
 
-.content {
+.markdown-body {
     margin-bottom: 16px;
+
+    ul {
+        list-style: disc;
+    }
+
+    ol {
+        list-style: decimal;
+    }
 }
