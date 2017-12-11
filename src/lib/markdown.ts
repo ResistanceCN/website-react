@@ -1,5 +1,5 @@
 import MarkdownIt from 'markdown-it';
-import sanitizeHTML from 'sanitize-html';
+import sanitizeHTML, { IFrame } from 'sanitize-html';
 import markdownItKatex from './markdownItKatex';
 
 const renderer = new MarkdownIt({
@@ -17,10 +17,10 @@ export default (markdown: string) => sanitizeHTML(renderer.render(markdown), {
     ],
     // allowedTags: false,
     allowedAttributes: false,
-    exclusiveFilter(frame) {
+    exclusiveFilter(frame: IFrame) {
         return frame.tag === 'input' && frame.attribs.type !== 'checkbox';
     },
     transformTags: {
-        'a': sanitizeHTML.simpleTransform('a', { target: '_blank' }),
+        'a': sanitizeHTML.simpleTransform('a', { target: '_blank' })
     }
 });

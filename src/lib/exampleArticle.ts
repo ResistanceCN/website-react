@@ -202,11 +202,14 @@ Mike |  32
 行内代码： <code>\\\`yarn add showdown\\\`</code>
 
 代码块：
-    \`\`\`
-    fun main() {
-        println("Hello World!")
-    }
-    \`\`\`
+
+<pre>
+\`\`\`
+fun main() {
+    println("Hello World!")
+}
+\`\`\`
+</pre>
 
 部分编辑器会支持代码块的代码高亮，需要在第一个 <code>\\\`\\\`\\\`</code> 后面跟上代码语言，例如 <code>\\\`\\\`\\\`markdown</code>
 

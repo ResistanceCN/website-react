@@ -2,12 +2,6 @@
 @import "~simplemde/src/css/simplemde";
 @import "/assets/css/icomoon.css";
 
-.editor-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-}
-
 .editor-title {
     height: 56px;
     line-height: 56px;
@@ -30,6 +24,8 @@
 }
 
 .editor {
+    height: calc(100vh - 186px);
+    overflow-y: hidden;
     background: #fff;
     border-bottom: 1px solid #eee;
     display: flex;
@@ -37,122 +33,16 @@
     align-items: stretch;
 }
 
-.md-content {
-    width: 50%;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-
-    .editor-toolbar {
-        box-sizing: border-box;
-        position: absolute;
-        left: 0;
-        top: 0;
-        z-index: 998;
-
-        width: 100%;
-        background: #fff;
-        border: none;
-        border-bottom: 1px solid #eee;
-
-        opacity: 1;
-        border-radius: 0;
-        transition: .3s box-shadow;
-
-        &.fixed {
-            position: fixed;
-            top: 64px;
-            border-bottom-color: #eee;
-        }
-
-        a {
-            text-decoration: none !important;
-        }
-
-        .icomoon {
-            font-size: 14px;
-        }
-
-        .icomoon, .separator {
-            line-height: 30px;
-            vertical-align: middle;
-        }
-    }
-
-    .CodeMirror {
-        border: none;
-        margin-top: 49px;
-        border-radius: 0;
-        background: #fafafa;
-        flex-grow: 1;
-
-        .CodeMirror-scroll {
-            overflow: visible !important;
-        }
-
-        .CodeMirror-vscrollbar, .CodeMirror-hscrollbar {
-            display: none !important;
-        }
-
-        .CodeMirror-line {
-            padding-top: 2px;
-            padding-bottom: 2px;
-        }
-
-        .cm-formatting, .cm-comment {
-            font-family: monospace;
-            background: none;
-        }
-
-        .cm-formatting-header, .cm-formatting-quote {
-            color: #90a4ae;
-        }
-
-        .cm-formatting-task {
-            color: #0d47a1;
-        }
-
-        .cm-url, .cm-tag, .cm-image-marker {
-            font-family: monospace;
-        }
-
-        .block-code {
-            background: #f3f3f3;
-            padding-top: 0;
-            padding-bottom: 0;
-            padding-left: 16px;
-
-            &.block-start {
-                padding-top: 16px;
-            }
-
-            &.block-end {
-                padding-top: 12px;
-                padding-bottom: 4px;
-            }
-
-            * {
-                font-family: monospace !important;
-                font-size: 14px !important;
-            }
-        }
-
-        .block-comment * {
-            font-family: monospace !important;
-            font-size: 14px !important;
-            color: #b0b0b0 !important;
-            text-decoration: none !important;
-        }
-    }
-
-    .editor-statusbar {
-        border-top: 1px solid #eee;
-    }
-}
-
 .md-preview {
     width: 50%;
     margin: 0;
     padding: 16px;
     border-left: 1px solid #eee;
+    overflow-y: auto;
+    position: relative;
+
+    // This element will let the page scrolls even if overflow-y is not visible
+    .katex-mathml {
+        display: none;
+    }
 }

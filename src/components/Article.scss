@@ -35,5 +35,9 @@
 
     .katex {
         font-size: 24px;
+
+        .frac-line {
+            min-height: 1px;
+        }
     }
 }
