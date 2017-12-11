@@ -17,7 +17,10 @@ export default (markdown: string) => sanitizeHTML(renderer.render(markdown), {
     ],
     // allowedTags: false,
     allowedAttributes: false,
-    exclusiveFilter: frame => {
+    exclusiveFilter(frame) {
         return frame.tag === 'input' && frame.attribs.type !== 'checkbox';
+    },
+    transformTags: {
+        'a': sanitizeHTML.simpleTransform('a', { target: '_blank' }),
     }
 });

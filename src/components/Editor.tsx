@@ -3,9 +3,9 @@ import React from 'react';
 import { Article, User } from '../types';
 import { State } from '../reducers';
 import { connect, Dispatch } from 'react-redux';
-import { Card } from 'antd';
 import { Redirect, RouteComponentProps } from 'react-router';
 import SimpleMDE from 'simplemde';
+import renderMarkdown from '../lib/markdown';
 import exampleArticle from '../lib/exampleArticle';
 
 interface CodeBlock {
@@ -32,6 +32,12 @@ enum ToolbarStatus {
     Fixed
 }
 
+enum ArticleStatus {
+    Loading,
+    OK,
+    NotFound
+}
+
 interface EditorRouterProps {
     id: string;
 }
@@ -40,20 +46,41 @@ interface EditorProps extends RouteComponentProps<EditorRouterProps> {
     user: User | null;
 }
 
-class Editor extends React.Component<EditorProps> {
+interface EditorState {
+    article: Article;
+    status: ArticleStatus;
+}
+
+class Editor extends React.Component<EditorProps, EditorState> {
+    state = {
+        article: {
+            id: 0,
+            title: '',
+            author: 0,
+            tag: [],
+            date: new Date(),
+            content: ''
+        },
+        status: ArticleStatus.Loading
+    };
+
     textarea?: HTMLTextAreaElement;
     editor?: SimpleMDE;
     toolbarStatus: ToolbarStatus = ToolbarStatus.Static;
+    refreshHandler: number;
 
     onScroll: EventListener;
     onResize: EventListener;
 
-    getArticle(): Article | null {
+    getArticle() {
         const id = parseInt(this.props.match.params.id, 10);
         const user = this.props.user;
 
         if (isNaN(id) || user === null) {
-            return null;
+            this.setState({
+                status: ArticleStatus.NotFound
+            });
+            return;
         }
 
         const article: Article = {
@@ -66,14 +93,28 @@ class Editor extends React.Component<EditorProps> {
         };
 
         if (article.author !== user.id) {
-            return null;
+            this.setState({
+                status: ArticleStatus.NotFound
+            });
+            return;
         }
 
-        return article;
+        this.setState({
+            article
+        });
     }
 
     onChange(content: string) {
-        //
+        // if (content === this.state.article.content) {
+        //     return;
+        // }
+
+        // this.setState({
+        //     article: {
+        //         ...this.state.article,
+        //         content
+        //     }
+        // });
     }
 
     updateToolbarPos() {
@@ -84,7 +125,7 @@ class Editor extends React.Component<EditorProps> {
             if (this.toolbarStatus === ToolbarStatus.Fixed) { return; }
 
             toolbar.className = 'editor-toolbar fixed';
-            toolbar.style.cssText = `width: ${rect.width}px; left: ${rect.left}px;`;
+            toolbar.style.cssText = `width: ${rect.width / 2}px; left: ${rect.left}px;`;
 
             this.toolbarStatus = ToolbarStatus.Fixed;
         } else {
@@ -135,6 +176,10 @@ class Editor extends React.Component<EditorProps> {
                 }
             });
         });
+    }
+
+    componentWillMount() {
+        this.getArticle();
     }
 
     componentDidMount () {
@@ -258,12 +303,27 @@ class Editor extends React.Component<EditorProps> {
 
         window.addEventListener('scroll', this.onScroll);
         window.addEventListener('resize', this.onResize);
+
+        this.refreshHandler = window.setInterval(() => {
+            const content = this.editor!.value();
+
+            if (content !== this.state.article.content) {
+                this.setState({
+                    article: {
+                        ...this.state.article,
+                        content
+                    }
+                })
+            }
+        }, 2000)
     }
 
     componentWillUnmount() {
         if (typeof this.editor === 'undefined') {
             return;
         }
+
+        window.clearInterval(this.refreshHandler);
 
         // This will destroy the SimpleMDE instance
         this.editor.toTextArea();
@@ -273,23 +333,32 @@ class Editor extends React.Component<EditorProps> {
     }
 
     render() {
-        const article = this.getArticle();
-
-        if (article === null) {
+        if (this.state.status === ArticleStatus.NotFound) {
             return <Redirect to="/" />;
         }
 
         return (
-            <div className="flex-spacer container editor-container">
-                <input name="title" className="editor-title" defaultValue={article.title} placeholder="Title here..." />
-                <Card bordered={false} className="editor">
-                    <textarea
-                        name="content"
-                        autoComplete="off"
-                        defaultValue={article.content}
-                        ref={ref => this.textarea = ref!}
+            <div className="flex-spacer editor-wrapper">
+                <div className="editor-title">
+                    <input name="title" defaultValue={this.state.article.title} placeholder="Title here..." />
+                    <div />
+                </div>
+                <div className="editor flex-spacer">
+                    <div className="md-content">
+                        <textarea
+                            name="content"
+                            autoComplete="off"
+                            defaultValue={this.state.article.content}
+                            ref={ref => this.textarea = ref!}
+                        />
+                    </div>
+                    <div
+                        className="md-preview markdown-body"
+                        dangerouslySetInnerHTML={{
+                            __html: renderMarkdown(this.state.article.content)
+                        }}
                     />
-                </Card>
+                </div>
             </div>
         );
     }

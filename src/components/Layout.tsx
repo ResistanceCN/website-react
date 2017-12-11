@@ -16,12 +16,18 @@ interface AppLayoutProps {
 }
 
 class AppLayout extends React.Component<AppLayoutProps & RouteProps> {
-    componentDidMount() {
+    componentWillMount() {
         const authToken = localStorage.authToken;
 
-        if (authToken) {
+        // For testing
+        if (authToken || true) {
             // Perform AJAX request here
-            const user = null;
+            const user = {
+                id: 2,
+                googleId: 'test',
+                name: 'Test User',
+                faction: 0
+            };
 
             if (user !== null) {
                 this.props.login(user);
