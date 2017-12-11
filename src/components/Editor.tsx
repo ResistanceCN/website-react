@@ -6,7 +6,7 @@ import { connect, Dispatch } from 'react-redux';
 import { Card } from 'antd';
 import { Redirect, RouteComponentProps } from 'react-router';
 import SimpleMDE from 'simplemde';
-import exampleArticle from '../exampleArticle';
+import exampleArticle from '../lib/exampleArticle';
 
 interface CodeBlock {
     name: string;

@@ -1,66 +1,75 @@
 // https://github.com/waylonflinn/markdown-it-katex
 // Added support for ASCIIMath
 
-import katex from "katex";
-import asciimath from "asciimath-to-latex";
+import katex from 'katex';
+import MarkdownIt from 'markdown-it';
+import * as T from './markdownItTypes';
+
+const asciimath = require('asciimath-to-latex');
 
 // Test if potential opening or closing delimiter
-// Assumes that there is a "$" at state.src[pos]
-function isValidLatexDelimiter(state, pos) {
+// Assumes that there is a '$' at state.src[pos]
+function isValidLatexDelimiter(state: T.StateInline, pos: number): T.Delimiter {
     let prevChar, nextChar,
         max = state.posMax,
-        can_open = true,
-        can_close = true;
+        canOpen = true,
+        canClose = true;
 
     prevChar = pos > 0 ? state.src.charCodeAt(pos - 1) : -1;
     nextChar = pos + 1 <= max ? state.src.charCodeAt(pos + 1) : -1;
 
     // Check non-whitespace conditions for opening and closing, and
     // check that closing delimeter isn't followed by a number
-    if (prevChar === 0x20 /* " " */ || prevChar === 0x09 /* \t */ ||
-        (nextChar >= 0x30 /* "0" */ && nextChar <= 0x39 /* "9" */)) {
-        can_close = false;
+    if (prevChar === 0x20 /* ' ' */ || prevChar === 0x09 /* \t */ ||
+        (nextChar >= 0x30 /* '0' */ && nextChar <= 0x39 /* '9' */)) {
+        canClose = false;
     }
-    if (nextChar === 0x20 /* " " */ || nextChar === 0x09 /* \t */) {
-        can_open = false;
+    if (nextChar === 0x20 /* ' ' */ || nextChar === 0x09 /* \t */) {
+        canOpen = false;
     }
 
-    return { can_open, can_close };
+    return {
+        can_open: canOpen,
+        can_close: canClose
+    };
 }
 
-function isValidASCIIMathDelimiter(state, pos) {
+function isValidASCIIMathDelimiter(state: T.StateInline, pos: number): T.Delimiter {
     let prevChar, nextChar,
         max = state.posMax,
-        can_open = true,
-        can_close = true;
+        canOpen = true,
+        canClose = true;
 
     prevChar = pos > 0 ? state.src.charCodeAt(pos - 1) : -1;
     nextChar = pos + 1 <= max ? state.src.charCodeAt(pos + 1) : -1;
 
     // Check non-whitespace conditions for opening and closing, and
     // check that closing delimeter isn't followed by a number
-    if (nextChar === 0x20 /* " " */ || nextChar === 0x09 /* \t */ ||
-        (prevChar >= 0x30 /* "0" */ && prevChar <= 0x39 /* "9" */)) {
-        can_close = false;
+    if (nextChar === 0x20 /* ' ' */ || nextChar === 0x09 /* \t */ ||
+        (prevChar >= 0x30 /* '0' */ && prevChar <= 0x39 /* '9' */)) {
+        canClose = false;
     }
-    if (prevChar === 0x20 /* " " */ || prevChar === 0x09 /* \t */) {
-        can_open = false;
+    if (prevChar === 0x20 /* ' ' */ || prevChar === 0x09 /* \t */) {
+        canOpen = false;
     }
 
-    return { can_open, can_close };
+    return {
+        can_open: canOpen,
+        can_close: canClose
+    };
 }
 
-function asciiMathInline(state, silent) {
-    let start, match, token, res, pos, esc_count;
+function asciiMathInlineRule(state: T.StateInline, silent: boolean) {
+    let start, match, token, res, pos, escCount;
 
-    if (state.src[state.pos] !== "%") {
+    if (state.src[state.pos] !== '%') {
         return false;
     }
 
     res = isValidASCIIMathDelimiter(state, state.pos);
     if (!res.can_open) {
         if (!silent) {
-            state.pending += "%";
+            state.pending += '%';
         }
         state.pos += 1;
         return true;
@@ -72,11 +81,11 @@ function asciiMathInline(state, silent) {
     // we have found an opening delimiter already.
     start = state.pos + 1;
     match = start;
-    while ((match = state.src.indexOf("%", match)) !== -1) {
+    while ((match = state.src.indexOf('%', match)) !== -1) {
         // Found potential $, look for escapes, pos will point to
         // first non escape when complete
         pos = match - 1;
-        while (state.src[pos] === "\\") {
+        while (state.src[pos] === '\\') {
             pos -= 1;
         }
 
@@ -90,7 +99,7 @@ function asciiMathInline(state, silent) {
     // No closing delimter found.  Consume $ and continue.
     if (match === -1) {
         if (!silent) {
-            state.pending += "%";
+            state.pending += '%';
         }
         state.pos = start;
         return true;
@@ -99,7 +108,7 @@ function asciiMathInline(state, silent) {
     // Check if we have empty content, ie: $$.  Do not parse.
     if (match - start === 0) {
         if (!silent) {
-            state.pending += "%%";
+            state.pending += '%%';
         }
         state.pos = start + 1;
         return true;
@@ -109,7 +118,7 @@ function asciiMathInline(state, silent) {
     res = isValidASCIIMathDelimiter(state, match);
     if (!res.can_close) {
         if (!silent) {
-            state.pending += "%";
+            state.pending += '%';
         }
         state.pos = start;
         return true;
@@ -117,7 +126,7 @@ function asciiMathInline(state, silent) {
 
     if (!silent) {
         token = state.push('asciimath_inline', 'math', 0);
-        token.markup = "%";
+        token.markup = '%';
         token.content = state.src.slice(start, match);
     }
 
@@ -125,17 +134,17 @@ function asciiMathInline(state, silent) {
     return true;
 }
 
-function latexInline(state, silent) {
-    let start, match, token, res, pos, esc_count;
+function latexInlineRule(state: T.StateInline, silent: boolean) {
+    let start, match, token, res, pos, escCount;
 
-    if (state.src[state.pos] !== "$") {
+    if (state.src[state.pos] !== '$') {
         return false;
     }
 
     res = isValidLatexDelimiter(state, state.pos);
     if (!res.can_open) {
         if (!silent) {
-            state.pending += "$";
+            state.pending += '$';
         }
         state.pos += 1;
         return true;
@@ -147,11 +156,11 @@ function latexInline(state, silent) {
     // we have found an opening delimiter already.
     start = state.pos + 1;
     match = start;
-    while ((match = state.src.indexOf("$", match)) !== -1) {
+    while ((match = state.src.indexOf('$', match)) !== -1) {
         // Found potential $, look for escapes, pos will point to
         // first non escape when complete
         pos = match - 1;
-        while (state.src[pos] === "\\") {
+        while (state.src[pos] === '\\') {
             pos -= 1;
         }
 
@@ -165,7 +174,7 @@ function latexInline(state, silent) {
     // No closing delimter found.  Consume $ and continue.
     if (match === -1) {
         if (!silent) {
-            state.pending += "$";
+            state.pending += '$';
         }
         state.pos = start;
         return true;
@@ -174,7 +183,7 @@ function latexInline(state, silent) {
     // Check if we have empty content, ie: $$.  Do not parse.
     if (match - start === 0) {
         if (!silent) {
-            state.pending += "$$";
+            state.pending += '$$';
         }
         state.pos = start + 1;
         return true;
@@ -184,7 +193,7 @@ function latexInline(state, silent) {
     res = isValidLatexDelimiter(state, match);
     if (!res.can_close) {
         if (!silent) {
-            state.pending += "$";
+            state.pending += '$';
         }
         state.pos = start;
         return true;
@@ -192,7 +201,7 @@ function latexInline(state, silent) {
 
     if (!silent) {
         token = state.push('latex_inline', 'math', 0);
-        token.markup = "$";
+        token.markup = '$';
         token.content = state.src.slice(start, match);
     }
 
@@ -200,7 +209,7 @@ function latexInline(state, silent) {
     return true;
 }
 
-function latexBlock(state, start, end, silent) {
+function latexBlockRule(state: T.StateBlock, start: number, end: number, silent: boolean) {
     let firstLine, lastLine, next, lastPos, found = false, token,
         pos = state.bMarks[start] + state.tShift[start],
         max = state.eMarks[start];
@@ -259,57 +268,43 @@ function latexBlock(state, start, end, silent) {
     return true;
 }
 
-export default function (md, options) {
-    options = options || {};
+function asciiMathRenderer(tokens: Array<MarkdownIt.Token>, index: number) {
+    const latex = asciimath(tokens[index].content);
 
-    const asciiMathRenderer = (tokens, idx) => {
-        const latex = asciimath(tokens[idx].content);
+    try {
+        return katex.renderToString(latex, { displayMode: false });
+    } catch (error) {
+        return tokens[index].content;
+    }
+}
 
-        try {
-            return katex.renderToString(latex, { displayMode: false });
-        } catch (error) {
-            if (options.throwOnError) {
-                console.log(error);
-            }
+function katexInlineRenderer(tokens: Array<MarkdownIt.Token>, index: number) {
+    const latex = tokens[index].content;
 
-            return tokens[idx].content;
-        }
-    };
+    try {
+        return katex.renderToString(latex, { displayMode: false });
+    } catch (error) {
+        return latex;
+    }
+}
 
-    const katexInlineRenderer = (tokens, idx) => {
-        const latex = tokens[idx].content;
+function katexBlockRenderer(tokens: Array<MarkdownIt.Token>, index: number) {
+    const latex = tokens[index].content;
 
-        try {
-            return katex.renderToString(latex, { displayMode: false });
-        } catch (error) {
-            if (options.throwOnError) {
-                console.log(error);
-            }
+    try {
+        return katex.renderToString(latex, { displayMode: true }) + '\n';
+    } catch (error) {
+        return latex + '\n';
+    }
+}
 
-            return latex;
-        }
-    };
-
-    const katexBlockRenderer = function (tokens, idx) {
-        const latex = tokens[idx].content;
-
-        try {
-            return katex.renderToString(latex, { displayMode: true }) + "\n";
-        } catch (error) {
-            if (options.throwOnError) {
-                console.log(error);
-            }
-
-            return latex + "\n";
-        }
-    };
-
-    md.inline.ruler.after("escape", "asciimath_inline", asciiMathInline);
-    md.inline.ruler.after("escape", "latex_inline", latexInline);
-    md.block.ruler.after("blockquote", "latex_block", latexBlock, {
-        alt: ["paragraph", "reference", "blockquote", "list"]
+export default function (md: MarkdownIt.MarkdownIt) {
+    (md.inline.ruler as T.Ruler).after('escape', 'asciimath_inline', asciiMathInlineRule as T.Rule);
+    (md.inline.ruler as T.Ruler).after('escape', 'latex_inline', latexInlineRule as T.Rule);
+    (md.block.ruler as T.Ruler).after('blockquote', 'latex_block', latexBlockRule as T.Rule, {
+        alt: ['paragraph', 'reference', 'blockquote', 'list']
     });
     md.renderer.rules.asciimath_inline = asciiMathRenderer;
     md.renderer.rules.latex_inline = katexInlineRenderer;
     md.renderer.rules.latex_block = katexBlockRenderer;
-};
+}

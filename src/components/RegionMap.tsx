@@ -1,6 +1,6 @@
 import './RegionMap.css';
 import React, { CSSProperties } from 'react';
-import { geojson } from '../regions';
+import { geojson } from '../lib/regions';
 
 interface RegionMapProps {
     onSelect(event: google.maps.Data.MouseEvent): void;

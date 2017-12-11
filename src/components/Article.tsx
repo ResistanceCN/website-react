@@ -4,17 +4,8 @@ import { RouteComponentProps } from 'react-router';
 import { Card, Tag } from 'antd';
 import { Article as ArticleType } from '../types';
 import WithSidebar from './WithSidebar';
-import MarkdownIt from 'markdown-it';
-import MarkdownItKaTeX from '../lib/markdown-it-katex';
-import sanitizeHTML from 'sanitize-html';
-import exampleArticle from '../exampleArticle';
-
-const renderer = new MarkdownIt({
-    html: true,
-    linkify: true
-});
-renderer.use(MarkdownItKaTeX);
-renderer.use(require('markdown-it-task-lists'));
+import renderMarkdown from '../lib/markdown';
+import exampleArticle from '../lib/exampleArticle';
 
 enum Status {
     Loading,
@@ -101,17 +92,7 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
                             <div
                                 className="markdown-body"
                                 dangerouslySetInnerHTML={{
-                                    __html: sanitizeHTML(renderer.render(article.content), {
-                                        allowedTags: [
-                                            ...sanitizeHTML.defaults.allowedTags,
-                                            'h2', 'img', 'div', 'span', 'input', 'svg', 'path'
-                                        ],
-                                        // allowedTags: false,
-                                        allowedAttributes: false,
-                                        exclusiveFilter: frame => {
-                                            return frame.tag === 'input' && frame.attribs['type'] !== 'checkbox';
-                                        }
-                                    })
+                                    __html: renderMarkdown(article.content)
                                 }}
                             />
                             <div>{article.tag.map((tag, i) => <Tag key={i}>{tag}</Tag>)}</div>
