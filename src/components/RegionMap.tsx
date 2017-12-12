@@ -9,12 +9,14 @@ interface RegionMapProps {
 interface RegionMapState {
     hint: string;
     hintStyle: CSSProperties;
+    mapError: boolean;
 }
 
 export default class RegionMap extends React.Component<RegionMapProps, RegionMapState> {
     state = {
         hint: '',
-        hintStyle: {}
+        hintStyle: {},
+        mapError: false
     };
 
     mapContainer: HTMLDivElement;
@@ -33,36 +35,50 @@ export default class RegionMap extends React.Component<RegionMapProps, RegionMap
     }
 
     componentDidMount() {
-        const map = GoogleMap.instance();
+        try {
+            const map = GoogleMap.instance();
 
-        this.mapEventListeners = [
-            map.data.addListener('mouseover', (event: google.maps.Data.MouseEvent) => {
-                map.data.revertStyle();
-                map.data.overrideStyle(event.feature, {
-                    strokeColor: 'white',
-                    strokeWeight: 3,
-                    zIndex: google.maps.Marker.MAX_ZINDEX
-                });
-                this.setHint(event.feature.getProperty('name'));
-            }),
+            this.mapEventListeners = [
+                map.data.addListener('mouseover', (event: google.maps.Data.MouseEvent) => {
+                    map.data.revertStyle();
+                    map.data.overrideStyle(event.feature, {
+                        strokeColor: 'white',
+                        strokeWeight: 3,
+                        zIndex: google.maps.Marker.MAX_ZINDEX
+                    });
+                    this.setHint(event.feature.getProperty('name'));
+                }),
 
-            map.data.addListener('mouseout', (event: google.maps.Data.MouseEvent) => {
-                map.data.revertStyle();
-                this.setHint('');
-            }),
+                map.data.addListener('mouseout', (event: google.maps.Data.MouseEvent) => {
+                    map.data.revertStyle();
+                    this.setHint('');
+                }),
 
-            map.data.addListener('click', this.props.onSelect)
-        ];
+                map.data.addListener('click', this.props.onSelect)
+            ];
 
-        this.mapContainer.appendChild(map.getDiv());
+            this.mapContainer.appendChild(map.getDiv());
+        } catch (e) {
+            this.setState({
+                mapError: true
+            });
+        }
     }
 
     componentWillUnmount() {
-        this.mapEventListeners.splice(0).forEach(l => l.remove());
-        GoogleMap.instance().getDiv().remove();
+        try {
+            this.mapEventListeners.splice(0).forEach(l => l.remove());
+            GoogleMap.instance().getDiv().remove();
+        } catch (e) {
+            // @TODO
+        }
     }
 
     render() {
+        if (this.state.mapError) {
+            return <div className="map-error">Google 地图加载失败</div>;
+        }
+
         return (
             <div id="region-map-container" ref={ref => this.mapContainer = ref!}>
                 <div id="region-map-hint" style={this.state.hintStyle}>{this.state.hint}</div>
@@ -77,7 +93,9 @@ class GoogleMap {
 
     protected static create() {
         if (typeof google === 'undefined') {
-            throw new Error('Google Maps SDK not loaded');
+            // tslint:disable-next-line
+            console.error('Google Maps SDK not loaded');
+            return;
         }
 
         let target = document.createElement('div');

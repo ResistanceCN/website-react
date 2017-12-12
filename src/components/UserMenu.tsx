@@ -7,6 +7,7 @@ import { connect, Dispatch } from 'react-redux';
 import { Avatar, Button, Dropdown, Menu } from 'antd';
 import { RouteProps, withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
+import { auth2 } from '../lib/googleAuth2';
 
 interface UserMenuProps {
     user: User;
@@ -14,33 +15,36 @@ interface UserMenuProps {
 }
 
 class UserMenu extends React.Component<UserMenuProps & RouteProps> {
-    logout() {
-        // Google says that the signOut() method is synchronous, but...
-        gapi.auth2.getAuthInstance().signOut();
+    async googleSignOut(api: typeof gapi.auth2) {
+        return new Promise(resolve => {
+            // Google says that the signOut() method is synchronous, but...
+            api.getAuthInstance().signOut();
 
-        // Perform AJAX request here
-        // localStorage.authToken = '';
+            // Perform AJAX request here
+            // localStorage.authToken = '';
 
-        // isSignedIn is not set to false immediately, so we have to wait
-        const wait = () => {
-            if (gapi.auth2.getAuthInstance().isSignedIn.get() === false) {
-                // If we do this before isSignedIn changed, the user might be redirected to login page
-                // Then gapi.auth2.init() would call onSuccess(), which will dispatch actions we don't want
-                this.props.logout();
+            // isSignedIn is not set to false immediately, so we have to wait
+            const wait = () => {
+                if (api.getAuthInstance().isSignedIn.get() === false) {
+                    // If we do logout() before isSignedIn changed, the user might be redirected to login page
+                    // Then gapi.auth2.init() would call onSuccess(), which will dispatch actions we don't want
+                    resolve();
 
-                return;
-            }
+                    return;
+                }
 
-            setTimeout(wait, 1);
-        };
+                setTimeout(wait, 1);
+            };
 
-        wait();
+            wait();
+        });
     }
 
-    componentDidMount() {
-        if (typeof gapi === 'undefined') {
-            throw new Error('Google oAuth library is not loaded');
-        }
+    async logout() {
+        auth2()
+            .then(async api => await this.googleSignOut(api))
+            .catch(() => 0) // Do nothing
+            .then(() => this.props.logout()); // Always
     }
 
     render() {

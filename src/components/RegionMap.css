@@ -1,3 +1,10 @@
+.map-error {
+    padding: 24px;
+    text-align: center;
+    border: 1px solid #D9D9D9;
+    border-radius: 4px;
+}
+
 #region-map-container {
     position: relative;
 }
