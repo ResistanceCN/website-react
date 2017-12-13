@@ -270,9 +270,13 @@ function latexBlockRule(state: T.StateBlock, start: number, end: number, silent:
 
 function asciiMathRenderer(tokens: Array<MarkdownIt.Token>, index: number) {
     const latex = asciimath(tokens[index].content);
+    const options = {
+        displayMode: false,
+        throwOnError: false
+    };
 
     try {
-        return katex.renderToString(latex, { displayMode: false });
+        return katex.renderToString(latex, options);
     } catch (error) {
         return tokens[index].content;
     }
@@ -280,9 +284,13 @@ function asciiMathRenderer(tokens: Array<MarkdownIt.Token>, index: number) {
 
 function katexInlineRenderer(tokens: Array<MarkdownIt.Token>, index: number) {
     const latex = tokens[index].content;
+    const options = {
+        displayMode: false,
+        throwOnError: false
+    };
 
     try {
-        return katex.renderToString(latex, { displayMode: false });
+        return katex.renderToString(latex, options);
     } catch (error) {
         return latex;
     }
@@ -290,9 +298,13 @@ function katexInlineRenderer(tokens: Array<MarkdownIt.Token>, index: number) {
 
 function katexBlockRenderer(tokens: Array<MarkdownIt.Token>, index: number) {
     const latex = tokens[index].content;
+    const options = {
+        displayMode: true,
+        throwOnError: false
+    };
 
     try {
-        return katex.renderToString(latex, { displayMode: true }) + '\n';
+        return katex.renderToString(latex, options) + '\n';
     } catch (error) {
         return latex + '\n';
     }
