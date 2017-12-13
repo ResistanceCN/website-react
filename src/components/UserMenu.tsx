@@ -21,7 +21,7 @@ class UserMenu extends React.Component<UserMenuProps & RouteProps> {
             api.getAuthInstance().signOut();
 
             // Perform AJAX request here
-            // localStorage.authToken = '';
+            localStorage.authToken = '';
 
             // isSignedIn is not set to false immediately, so we have to wait
             const wait = () => {

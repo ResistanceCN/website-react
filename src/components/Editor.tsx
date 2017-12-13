@@ -7,6 +7,7 @@ import { Redirect, RouteComponentProps } from 'react-router';
 import AceEditor from 'react-ace';
 import 'brace/mode/markdown';
 import 'brace/theme/tomorrow';
+import throttle from 'lodash/throttle';
 import renderMarkdown from '../lib/markdown';
 import exampleArticle from '../lib/exampleArticle';
 
@@ -28,11 +29,6 @@ const blocks: Array<CodeBlock> = [
         endToken: '-->'
     }
 ];
-
-enum ToolbarStatus {
-    Static,
-    Fixed
-}
 
 enum ArticleStatus {
     Loading,
@@ -70,7 +66,19 @@ class Editor extends React.Component<EditorProps, EditorState> {
     preview: HTMLElement;
     scrollTogether: EventListener;
 
-    getArticle() {
+    onChange = throttle(
+        (content: string) => {
+            this.setState({
+                article: {
+                    ...this.state.article,
+                    content
+                }
+            });
+        },
+        240
+    );
+
+    componentWillMount() {
         const id = parseInt(this.props.match.params.id, 10);
         const user = this.props.user;
 
@@ -101,19 +109,6 @@ class Editor extends React.Component<EditorProps, EditorState> {
             status: ArticleStatus.OK,
             article
         });
-    }
-
-    onChange(content: string) {
-        this.setState({
-            article: {
-                ...this.state.article,
-                content
-            }
-        });
-    }
-
-    componentWillMount() {
-        this.getArticle();
     }
 
     componentDidMount() {
@@ -154,7 +149,7 @@ class Editor extends React.Component<EditorProps, EditorState> {
                         fontSize={14}
                         value={this.state.article.content}
                         editorProps={{$blockScrolling: true}}
-                        onChange={content => this.onChange(content)}
+                        onChange={this.onChange}
                     />
                     <div
                         className="md-preview markdown-body"

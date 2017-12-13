@@ -19,8 +19,7 @@ class AppLayout extends React.Component<AppLayoutProps & RouteProps> {
     componentWillMount() {
         const authToken = localStorage.authToken;
 
-        // For testing
-        if (authToken || true) {
+        if (authToken) {
             // Perform AJAX request here
             const user = {
                 id: 2,

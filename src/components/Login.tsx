@@ -27,7 +27,8 @@ class Login extends React.Component<LoginProps & RouteProps, LoginState> {
         this.props.googleSignIn(googleUser);
 
         // Perform AJAX request here
-        // localStorage.authToken = response.token;
+        localStorage.authToken = 'response.token goes here';
+
         const user: User = {
             id: 2,
             googleId: googleUser.getId(),
