@@ -10,21 +10,23 @@ const asciimath = require('asciimath-to-latex');
 // Test if potential opening or closing delimiter
 // Assumes that there is a '$' at state.src[pos]
 function isValidLatexDelimiter(state: T.StateInline, pos: number): T.Delimiter {
-    let prevChar, nextChar,
-        max = state.posMax,
-        canOpen = true,
-        canClose = true;
+    const max = state.posMax;
 
-    prevChar = pos > 0 ? state.src.charCodeAt(pos - 1) : -1;
-    nextChar = pos + 1 <= max ? state.src.charCodeAt(pos + 1) : -1;
+    const prevChar = pos > 0 ? state.src.charCodeAt(pos - 1) : -1;
+    const nextChar = pos + 1 <= max ? state.src.charCodeAt(pos + 1) : -1;
 
-    // Check non-whitespace conditions for opening and closing, and
-    // check that closing delimeter isn't followed by a number
-    if (prevChar === 0x20 /* ' ' */ || prevChar === 0x09 /* \t */ ||
-        (nextChar >= 0x30 /* '0' */ && nextChar <= 0x39 /* '9' */)) {
+    let canOpen = true;
+    let canClose = true;
+
+    // Check that closing delimiter isn't following to a backslash
+    if (prevChar === 0x5C /* '\\' */) {
         canClose = false;
     }
-    if (nextChar === 0x20 /* ' ' */ || nextChar === 0x09 /* \t */) {
+
+    // Check that opening delimiter isn't followed by a number and following to a whitespace
+    // It's 
+    if ((prevChar === 0x20 /* ' ' */ || prevChar === 0x09 /* \t */) &&
+        (nextChar >= 0x30 /* '0' */ && nextChar <= 0x39 /* '9' */)) {
         canOpen = false;
     }
 
@@ -35,22 +37,16 @@ function isValidLatexDelimiter(state: T.StateInline, pos: number): T.Delimiter {
 }
 
 function isValidASCIIMathDelimiter(state: T.StateInline, pos: number): T.Delimiter {
-    let prevChar, nextChar,
-        max = state.posMax,
-        canOpen = true,
-        canClose = true;
+    const max = state.posMax;
 
-    prevChar = pos > 0 ? state.src.charCodeAt(pos - 1) : -1;
-    nextChar = pos + 1 <= max ? state.src.charCodeAt(pos + 1) : -1;
+    const prevChar = pos > 0 ? state.src.charCodeAt(pos - 1) : -1;
+    const nextChar = pos + 1 <= max ? state.src.charCodeAt(pos + 1) : -1;
 
-    // Check non-whitespace conditions for opening and closing, and
-    // check that closing delimeter isn't followed by a number
-    if (nextChar === 0x20 /* ' ' */ || nextChar === 0x09 /* \t */ ||
-        (prevChar >= 0x30 /* '0' */ && prevChar <= 0x39 /* '9' */)) {
-        canClose = false;
-    }
-    if (prevChar === 0x20 /* ' ' */ || prevChar === 0x09 /* \t */) {
-        canOpen = false;
+    let canOpen = true;
+    let canClose = true;
+
+    if (prevChar >= 0x30 /* '0' */ && prevChar <= 0x39 /* '9' */) {
+        canOpen = canClose = false;
     }
 
     return {
@@ -278,7 +274,7 @@ function asciiMathRenderer(tokens: Array<MarkdownIt.Token>, index: number) {
     try {
         return katex.renderToString(latex, options);
     } catch (error) {
-        return tokens[index].content;
+        return `<p>${tokens[index].content}<br /><span class="math-error">${error.message}</span></p>`;
     }
 }
 
@@ -292,7 +288,7 @@ function katexInlineRenderer(tokens: Array<MarkdownIt.Token>, index: number) {
     try {
         return katex.renderToString(latex, options);
     } catch (error) {
-        return latex;
+        return `<p>${latex}</p><span class="math-error">${error.message}</span></p>`;
     }
 }
 
@@ -306,7 +302,7 @@ function katexBlockRenderer(tokens: Array<MarkdownIt.Token>, index: number) {
     try {
         return katex.renderToString(latex, options) + '\n';
     } catch (error) {
-        return latex + '\n';
+        return `<p>${latex}<br /><span class="math-error">${error.message}</span></p>`;
     }
 }
 
