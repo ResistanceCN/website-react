@@ -24,7 +24,6 @@ function isValidLatexDelimiter(state: T.StateInline, pos: number): T.Delimiter {
     }
 
     // Check that opening delimiter isn't followed by a number and following to a whitespace
-    // It's 
     if ((prevChar === 0x20 /* ' ' */ || prevChar === 0x09 /* \t */) &&
         (nextChar >= 0x30 /* '0' */ && nextChar <= 0x39 /* '9' */)) {
         canOpen = false;
