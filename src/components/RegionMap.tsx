@@ -34,8 +34,10 @@ export default class RegionMap extends React.Component<RegionMapProps, RegionMap
         });
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         try {
+            await GoogleMap.loaded();
+
             const map = GoogleMap.instance();
 
             this.mapEventListeners = [
@@ -62,6 +64,7 @@ export default class RegionMap extends React.Component<RegionMapProps, RegionMap
             this.setState({
                 mapError: true
             });
+            throw e;
         }
     }
 
@@ -92,12 +95,6 @@ class GoogleMap {
     protected static map: google.maps.Map;
 
     protected static create() {
-        if (typeof google === 'undefined') {
-            // tslint:disable-next-line
-            console.error('Google Maps SDK not loaded');
-            return;
-        }
-
         let target = document.createElement('div');
         target.id = 'region-map';
 
@@ -127,5 +124,31 @@ class GoogleMap {
         }
 
         return GoogleMap.map;
+    }
+
+    static loaded(): Promise<{}> {
+        return new Promise((resolve, reject) => {
+            const wait = () => {
+                switch (asyncScripts.map) {
+                    case -1:
+                        // Failed
+                        reject();
+                        // tslint:disable-next-line
+                        console.error('Cannot load Google Maps SDK');
+                        break;
+
+                    case 1:
+                        // Success
+                        resolve();
+                        break;
+
+                    default:
+                        // Loading
+                        setTimeout(wait, 200);
+                }
+            };
+
+            wait();
+        });
     }
 }

@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -7,6 +7,19 @@
 
         <meta name="google-signin-scope" content="profile email">
         <meta name="google-signin-client_id" content="%REACT_APP_GOOGLE_CLIENT_ID%">
+
+        <script>
+            // 0: loading; 1: success; -1: failed
+            window.asyncScripts = {
+                gapi: 0,
+                map: 0
+            };
+        </script>
+
+        <script async src="https://apis.google.com/js/platform.js"
+                onload="window.asyncScripts.gapi = 1;" onerror="window.asyncScripts.gapi = -1;"></script>
+        <script async src="https://maps.googleapis.com/maps/api/js?key=%REACT_APP_GOOGLE_MAP_KEY%"
+                onload="window.asyncScripts.map = 1;" onerror="window.asyncScripts.map = -1;"></script>
 
         <!--
             manifest.json provides metadata used when your web app is added to the
@@ -42,8 +55,5 @@
             To begin the development, run `npm start` or `yarn start`.
             To create a production bundle, use `npm run build` or `yarn build`.
         -->
-
-        <script src="https://apis.google.com/js/platform.js"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=%REACT_APP_GOOGLE_MAP_KEY%"></script>
     </body>
 </html>

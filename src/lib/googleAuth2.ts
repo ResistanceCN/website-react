@@ -2,22 +2,36 @@ let loaded = false;
 
 function gapiInit(): Promise<typeof gapi> {
     return new Promise((resolve, reject) => {
-        if (typeof gapi === 'undefined') {
-            // tslint:disable-next-line
-            console.error('Google oAuth library is not loaded');
-            reject();
-        }
-
         if (loaded) {
             resolve(gapi);
             return;
         }
 
-        gapi.load('auth2', () => {
-            gapi.auth2.init({});
-            loaded = true;
-            resolve(gapi);
-        });
+        const wait = () => {
+            switch (asyncScripts.gapi) {
+                case -1:
+                    // Failed
+                    reject();
+                    // tslint:disable-next-line
+                    console.error('Cannot load Google oAuth library');
+                    break;
+
+                case 1:
+                    // Success
+                    gapi.load('auth2', () => {
+                        gapi.auth2.init({});
+                        resolve(gapi);
+                        loaded = true;
+                    });
+                    break;
+
+                default:
+                    // Loading
+                    setTimeout(wait, 200);
+            }
+        };
+
+        wait();
     });
 }
 

@@ -62,7 +62,7 @@ class Editor extends React.Component<EditorProps, EditorState> {
         status: ArticleStatus.Loading
     };
 
-    scrollbar: HTMLElement;
+    scrollbar: HTMLElement | null = null;
     preview: HTMLElement;
     scrollTogether: EventListener;
 
@@ -112,18 +112,24 @@ class Editor extends React.Component<EditorProps, EditorState> {
     }
 
     componentDidMount() {
-        this.scrollbar = document.querySelector('.ace_scrollbar-v') as HTMLElement;
+        const scrollbar = document.querySelector('.ace_scrollbar-v');
 
-        this.scrollTogether = event => {
-            const rate = this.scrollbar.scrollTop / this.scrollbar.scrollHeight;
-            this.preview.scrollTo({ top: this.preview.scrollHeight * rate });
-        };
+        if (scrollbar !== null) {
+            this.scrollbar = scrollbar as HTMLElement;
 
-        this.scrollbar.addEventListener('scroll', this.scrollTogether);
+            this.scrollTogether = event => {
+                const rate = this.scrollbar!.scrollTop / this.scrollbar!.scrollHeight;
+                this.preview.scrollTo({ top: this.preview.scrollHeight * rate });
+            };
+
+            this.scrollbar.addEventListener('scroll', this.scrollTogether);
+        }
     }
 
     componentWillUnmount() {
-        this.scrollbar.removeEventListener('scroll', this.scrollTogether);
+        if (this.scrollbar !== null) {
+            this.scrollbar.removeEventListener('scroll', this.scrollTogether);
+        }
     }
 
     render() {
