@@ -33,6 +33,10 @@
         list-style: decimal;
     }
 
+    code, pre {
+        font-family: "cjk-fallback", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    }
+
     .katex {
         font-size: 22px;
 

@@ -1,5 +1,13 @@
 @import '~antd/dist/antd.css';
 
+@font-face {
+    font-family: 'cjk-fallback';
+    src: local('Noto Sans CJK SC'),
+         local('Microsoft YaHei'),
+         local('PingFang SC');
+    unicode-range: U+3000-30FF, U+FF00-FFEF, U+4E00-9FAF;
+}
+
 body {
     margin: 0;
     padding: 0;

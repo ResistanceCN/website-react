@@ -31,6 +31,11 @@
     align-items: stretch;
 }
 
+.ace_editor {
+    font-family: "cjk-fallback", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
+    line-height: 20px !important;
+}
+
 .md-preview {
     width: 50%;
     margin: 0;
