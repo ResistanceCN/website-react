@@ -39,18 +39,6 @@
     overflow-y: auto;
     position: relative;
 
-    .katex {
-        // These issues appear inside scrolling container only
-
-        .frac-line {
-            min-height: 1px;
-        }
-
-        .sqrt .hide-tail.mtight {
-            overflow: visible;
-        }
-    }
-
     // This element will let the page scrolls even if overflow-y is not visible
     .katex-mathml {
         display: none;

@@ -34,6 +34,18 @@
     }
 
     .katex {
-        font-size: 24px;
+        font-size: 22px;
+
+        .frac-line {
+            min-height: 1px;
+
+            svg {
+                margin-top: -1px;
+            }
+        }
+
+        .sqrt .hide-tail:not(.frac-line) {
+            overflow: visible;
+        }
     }
 }
