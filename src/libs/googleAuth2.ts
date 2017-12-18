@@ -9,14 +9,14 @@ function gapiInit(): Promise<typeof gapi> {
 
         const wait = () => {
             switch (asyncScripts.gapi) {
-                case -1:
+                case ScriptStatus.Failed:
                     // Failed
                     reject();
                     // tslint:disable-next-line
                     console.error('Cannot load Google oAuth library');
                     break;
 
-                case 1:
+                case ScriptStatus.Success:
                     // Success
                     gapi.load('auth2', () => {
                         gapi.auth2.init({});
@@ -25,7 +25,7 @@ function gapiInit(): Promise<typeof gapi> {
                     });
                     break;
 
-                default:
+                case ScriptStatus.Loading:
                     // Loading
                     setTimeout(wait, 200);
             }

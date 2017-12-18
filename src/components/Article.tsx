@@ -4,8 +4,8 @@ import { RouteComponentProps } from 'react-router';
 import { Card, Tag } from 'antd';
 import { Article as ArticleType } from '../types';
 import WithSidebar from './WithSidebar';
-import renderMarkdown from '../lib/markdown';
-import exampleArticle from '../lib/exampleArticle';
+import renderMarkdown from '../libs/markdown';
+import exampleArticle from '../libs/exampleArticle';
 
 enum Status {
     Loading,

@@ -3,7 +3,7 @@
 
 import katex from 'katex';
 import MarkdownIt from 'markdown-it';
-import * as T from './markdownItTypes';
+import T = MarkdownItExtendedTypes;
 
 const asciimath = require('asciimath-to-latex');
 

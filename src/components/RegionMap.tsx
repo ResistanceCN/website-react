@@ -1,6 +1,6 @@
 import './RegionMap.css';
 import React, { CSSProperties } from 'react';
-import { geojson } from '../lib/regions';
+import { geojson } from '../libs/regions';
 
 interface RegionMapProps {
     onSelect(event: google.maps.Data.MouseEvent): void;
@@ -64,7 +64,6 @@ export default class RegionMap extends React.Component<RegionMapProps, RegionMap
             this.setState({
                 mapError: true
             });
-            throw e;
         }
     }
 
@@ -130,19 +129,19 @@ class GoogleMap {
         return new Promise((resolve, reject) => {
             const wait = () => {
                 switch (asyncScripts.map) {
-                    case -1:
+                    case ScriptStatus.Failed:
                         // Failed
                         reject();
                         // tslint:disable-next-line
                         console.error('Cannot load Google Maps SDK');
                         break;
 
-                    case 1:
+                    case ScriptStatus.Success:
                         // Success
                         resolve();
                         break;
 
-                    default:
+                    case ScriptStatus.Loading:
                         // Loading
                         setTimeout(wait, 200);
                 }

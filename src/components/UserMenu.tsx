@@ -7,7 +7,7 @@ import { connect, Dispatch } from 'react-redux';
 import { Avatar, Button, Dropdown, Menu } from 'antd';
 import { RouteProps, withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
-import { auth2 } from '../lib/googleAuth2';
+import { auth2 } from '../libs/googleAuth2';
 
 interface UserMenuProps {
     user: User;

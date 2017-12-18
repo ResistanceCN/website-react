@@ -8,8 +8,8 @@ import AceEditor from 'react-ace';
 import 'brace/mode/markdown';
 import 'brace/theme/tomorrow';
 import throttle from 'lodash/throttle';
-import renderMarkdown from '../lib/markdown';
-import exampleArticle from '../lib/exampleArticle';
+import renderMarkdown from '../libs/markdown';
+import exampleArticle from '../libs/exampleArticle';
 
 interface CodeBlock {
     name: string;

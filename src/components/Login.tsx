@@ -6,7 +6,7 @@ import { GOOGLE_SIGNED_IN, LOGIN_SUCCESS } from '../actions';
 import { connect, Dispatch } from 'react-redux';
 import { Redirect, RouteProps } from 'react-router';
 import { Card } from 'antd';
-import { signin2 } from '../lib/googleAuth2';
+import { signin2 } from '../libs/googleAuth2';
 
 interface LoginProps {
     user: User | null;
