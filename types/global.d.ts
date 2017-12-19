@@ -1,4 +1,4 @@
-declare enum ScriptStatus {
+declare const enum ScriptStatus {
     Loading = 0,
     Success = 1,
     Failed = -1
