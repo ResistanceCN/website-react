@@ -164,7 +164,7 @@ LearnShare | 12
 Mike |  32
 \`\`\`
 
-效果如下
+其中 \`---\` 以上的部分是表头。每一行的 \`|\` 可以不对齐，每一列的 \`---\` 长度也可以不等。效果如下：
 
 | name       | age  |
 | ---------- | ---- |
@@ -199,7 +199,9 @@ Mike |  32
 
 ### 代码
 
-行内代码： <code>\\\`yarn add showdown\\\`</code>
+行内代码： <code>\\\`yarn add markdown-it\\\`</code>
+
+效果：\`yarn add markdown-it\`
 
 代码块：
 
@@ -211,7 +213,21 @@ fun main() {
 \`\`\`
 </pre>
 
-部分编辑器会支持代码块的代码高亮，需要在第一个 <code>\\\`\\\`\\\`</code> 后面跟上代码语言，例如 <code>\\\`\\\`\\\`markdown</code>
+效果：
+
+\`\`\`
+fun main() {
+    println("Hello World!")
+}
+\`\`\`
+
+部分平台会支持代码块的代码高亮，可在第一个 <code>\\\`\\\`\\\`</code> 后面跟上代码语言。如上文示例中的第一行改为 <code>\\\`\\\`\\\`kotlin</code> 后，效果如下：
+
+\`\`\`kotlin
+fun main() {
+    println("Hello World!")
+}
+\`\`\`
 
 ### ASCIIMath 公式
 
@@ -229,7 +245,7 @@ fun main() {
 
 公式块：
 
-\`\`\`latex
+\`\`\`tex
 $$
 f(x;\\mu,\\sigma^2) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{ -\\frac{1}{2}\\left(\\frac{x-\\mu}{\\sigma}\\right)^2 }
 $$
@@ -241,5 +257,5 @@ $$
 f(x;\\mu,\\sigma^2) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{ -\\frac{1}{2}\\left(\\frac{x-\\mu}{\\sigma}\\right)^2 }
 $$
 
-注意：LaTeX 和 ASCIIMath 公式不是标准 Markdown 的行为。少部分平台不支持 LaTeX 公式；大多数平台都不支持 ASCIIMath 公式。
+注意：LaTeX 和 ASCIIMath 公式不是标准 Markdown 的行为。大部分平台不支持 LaTeX 公式；几乎全部平台都不支持 ASCIIMath 公式。
 `;
