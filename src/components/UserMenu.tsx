@@ -20,9 +20,6 @@ class UserMenu extends React.Component<UserMenuProps & RouteProps> {
             // Google says that the signOut() method is synchronous, but...
             api.getAuthInstance().signOut();
 
-            // Perform AJAX request here
-            localStorage.authToken = '';
-
             // isSignedIn is not set to false immediately, so we have to wait
             const wait = () => {
                 if (api.getAuthInstance().isSignedIn.get() === false) {
@@ -41,6 +38,9 @@ class UserMenu extends React.Component<UserMenuProps & RouteProps> {
     }
 
     async logout() {
+        // Perform AJAX request here
+        localStorage.authToken = '';
+
         auth2()
             .then(async api => await this.googleSignOut(api))
             .catch(() => 0) // Do nothing
