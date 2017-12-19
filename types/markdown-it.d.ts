@@ -5,9 +5,9 @@ export as namespace MarkdownItExtendedTypes;
 
 declare module MarkdownItExtendedTypes {
     export interface Delimiter {
-        can_open: boolean,
-        can_close: boolean,
-        length?: number
+        can_open: boolean;
+        can_close: boolean;
+        length?: number;
     }
 
     // https://github.com/markdown-it/markdown-it/blob/master/lib/rules_inline/state_inline.js
