@@ -1,10 +1,22 @@
 import MarkdownIt from 'markdown-it';
 import sanitizeHTML, { IFrame } from 'sanitize-html';
+import highlightJS from 'highlight.js';
 import markdownItKatex from './markdownItKatex';
 
 const renderer = new MarkdownIt({
     html: true,
-    linkify: true
+    linkify: true,
+    highlight(str: string, lang: string) {
+        if (lang && highlightJS.getLanguage(lang)) {
+            try {
+                return highlightJS.highlight(lang, str).value;
+            } catch {
+                //
+            }
+        }
+
+        return ''; // use external default escaping
+    }
 });
 
 renderer.use(markdownItKatex);
