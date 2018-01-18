@@ -2,15 +2,17 @@ import './Article.scss';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Card, Tag } from 'antd';
-import { Article as ArticleType } from '../types';
+import { Article as ArticleType, User } from '../types';
 import WithSidebar from './WithSidebar';
 import renderMarkdown from '../libs/markdown';
-import exampleArticle from '../libs/exampleArticle';
+import gql from 'graphql-tag';
+import apollo from '../apollo';
 
 enum Status {
     Loading,
     OK,
-    NotFound
+    NotFound,
+    Failed
 }
 
 interface ArticleRouterProps {
@@ -21,7 +23,7 @@ interface ArticleProps extends RouteComponentProps<ArticleRouterProps> {}
 
 interface ArticleState {
     status: Status;
-    article: ArticleType;
+    article?: ArticleType;
 }
 
 export default class Article extends React.Component<ArticleProps, ArticleState> {
@@ -30,45 +32,66 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
         article: {
             id: 0,
             title: '',
-            author: 0,
-            tag: [],
-            date: new Date(),
+            author: {} as User,
+            tags: [],
+            publishedAt: new Date(),
             content: ''
         }
     };
 
-    componentDidMount() {
+    getArticle() {
         const id = parseInt(this.props.match.params.id, 10);
 
-        if (isNaN(id)) {
+        apollo.query<{ article: ArticleType }>({
+            query: gql`
+                query($id: Int) {
+                    article: articleById(id: $id) {
+                        id
+                        title
+                        author { id }
+                        tags
+                        content
+                        publishedAt
+                    }
+                }
+            `,
+            variables: { id }
+        }).then(response => {
+            console.log(response);
+
             this.setState({
-                status: Status.NotFound
+                ...this.state,
+                status: Status.OK,
+                article: {
+                    ...response.data.article,
+                    // The API returns time in string
+                    publishedAt: new Date(response.data.article.publishedAt)
+                }
             });
-            return;
-        }
-
-        const article: ArticleType = {
-            id,
-            title: '宇囚 - ' + id,
-            author: 1,
-            tag: ['科幻', '短片小说'],
-            date: new Date(),
-            content: exampleArticle
-        };
-
-        this.setState({
-            article,
-            status: Status.OK
+        }).catch(e => {
+            this.setState({
+                ...this.state,
+                status: Status.Failed
+            });
+            throw e;
         });
+    }
+
+    componentDidMount() {
+        this.getArticle();
+    }
+
+    componentDidUpdate(prevProps: ArticleProps, prevState: ArticleState) {
+        if (this.props.match.params.id !== prevProps.match.params.id) {
+            this.getArticle();
+        }
     }
 
     render() {
         if (this.state.status === Status.Loading) {
             return (
-                <div className="flex-spacer">
-                    <div className="container loading-container">
-                        <div className="loading">Loading...</div>
-                    </div>
+                <div className="flex-spacer container loading-container">
+                    <div className="loading">Loading...</div>
                 </div>
             );
         }
@@ -82,7 +105,10 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
                         <div className="banner-head">
                             {article.title}
                         </div>
-                        <p>{article.date.toLocaleDateString() + ' ' + article.date.toLocaleTimeString()}</p>
+                        <p>
+                            {article.publishedAt.toLocaleDateString()}
+                            {article.publishedAt.toLocaleTimeString()}
+                        </p>
                     </div>
                 </div>
 
@@ -95,7 +121,11 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
                                     __html: renderMarkdown(article.content)
                                 }}
                             />
-                            <div>{article.tag.map((tag, i) => <Tag key={i}>{tag}</Tag>)}</div>
+                            {article.tags.length > 0 ? (
+                                <div className="article-footer">
+                                    {article.tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)}
+                                </div>
+                            ) : ''}
                         </Card>
                     </WithSidebar>
                 </div>

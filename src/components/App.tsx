@@ -16,12 +16,12 @@ export default () => (
             <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/login" component={Login} />
-                <Route exact path="/page/:page" component={Home} />
-                <Route exact path="/article/:id" component={Article} />
-                <Route exact path="/article/:id/edit" component={Editor} />
+                <Route exact path="/page/:page(\\d+)" component={Home} />
+                <Route exact path="/article/:id(\\d+)" component={Article} />
+                <Route exact path="/article/:id(\\d+)/edit" component={Editor} />
                 <Route exact path="/join" component={Join} />
-                <Route exact path="/form/:name" component={Home} />
-                <Route exact path="/user/:id" component={Profile} />
+                <Route exact path="/form/:name(\\w+)" component={Home} />
+                <Route exact path="/user/:id(\\d+)" component={Profile} />
                 <Route path="/admin" component={Admin} />
                 <Route component={Home} />
             </Switch>

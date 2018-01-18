@@ -2,7 +2,6 @@
 @import "~highlight.js/styles/tomorrow";
 
 .loading-container {
-    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,8 +23,6 @@
 }
 
 .markdown-body {
-    margin-bottom: 16px;
-
     ul {
         list-style: disc;
     }
@@ -42,4 +39,10 @@
         // @TODO: Apply this style to Chrome only
         font-size: 22px;
     }
+}
+
+.article-footer {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
 }

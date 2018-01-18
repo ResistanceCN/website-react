@@ -1,8 +1,10 @@
+import { User } from './User';
+
 export interface Article {
     id: number;
     title: string;
-    author: number;
-    tag: Array<string>;
-    date: Date;
+    author: User;
+    tags: Array<string>;
+    publishedAt: Date;
     content: string;
 }

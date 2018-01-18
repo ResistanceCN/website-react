@@ -1,7 +1,7 @@
 import './Join.scss';
 import React from 'react';
 import { User } from '../types';
-import { State } from '../reducers/index';
+import { State } from '../reducers';
 import { connect, Dispatch } from 'react-redux';
 import { Button, Card, Form, Icon, Input, Tag } from 'antd';
 import { Redirect, RouteProps } from 'react-router';

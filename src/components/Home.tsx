@@ -1,29 +1,82 @@
 import './Home.scss';
 import React from 'react';
+import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Button, Card, Layout, Pagination, Tag } from 'antd';
 import { Article } from '../types';
 import WithSidebar from './WithSidebar';
+import gql from 'graphql-tag';
+import apollo from '../apollo';
 
-export default class Home extends React.Component {
-    getArticles(page: number): Array<Article> {
-        let articles: Array<Article> = [];
+interface HomeRouterProps {
+    page: string;
+}
 
-        for (let i = 1; i <= 10; ++i) {
-            articles.push({
-                id: i,
-                title: '宇囚 - ' + i,
-                author: 1,
-                tag: ['科幻', '短片小说'],
-                date: new Date(),
-                content: '第一个开拓者在启航后85年返回，打通了连接太阳系与织女星系的虫洞，\
-                由此掀开了人类文明殖民银河系的大幕。资源由各个星系源源不断的流入人类手中，\
-                技术随着时间推移变得愈发出神入化，智慧的足迹踏遍银河系的颗行星，\
-                冒险家的故事传颂在整个星河。'
-            });
+interface HomeProps extends RouteComponentProps<HomeRouterProps> {}
+
+interface HomeState {
+    articles: Array<Article>;
+    totalPages: number;
+}
+
+export default class Home extends React.Component<HomeProps, HomeState> {
+    state = {
+        articles: [],
+        totalPages: 1
+    };
+
+    getPage(props?: HomeProps): number {
+        const p = props || this.props;
+        return parseInt(p.match.params.page || '1', 10);
+    }
+
+    async getArticles() {
+        const page = this.getPage();
+
+        let response = await apollo.query<{ latestArticles: Array<Article> }>({
+            query: gql`
+                query {
+                    latestArticles(count: 15) {
+                        id
+                        title
+                        author { id }
+                        tags
+                        content
+                        publishedAt
+                    }
+                }
+            `
+        });
+
+        this.setState({
+            ...this.state,
+            articles: response.data.latestArticles.map(article => ({
+                ...article,
+                // The API returns time in string
+                publishedAt: new Date(article.publishedAt)
+            }))
+        });
+    }
+
+    componentDidMount() {
+        this.getArticles();
+
+        apollo.query<{ articleCount: number }>({
+            query: gql`
+                query { articleCount }
+            `
+        }).then(response => {
+            this.setState({
+                ...this.state,
+                totalPages: Math.ceil(response.data.articleCount / 15)
+            })
+        });
+    }
+
+    componentDidUpdate(prevProps: HomeProps, prevState: HomeState) {
+        if (this.getPage() !== this.getPage(prevProps)) {
+            this.getArticles();
         }
-
-        return articles;
     }
 
     render() {
@@ -48,7 +101,7 @@ export default class Home extends React.Component {
 
                 <div className="container main">
                     <WithSidebar className="news">
-                        {this.getArticles(1).map(article => {
+                        {this.state.articles ? this.state.articles.map((article: Article) => {
                             return (
                                 <Card
                                     key={article.id}
@@ -57,17 +110,26 @@ export default class Home extends React.Component {
                                     className="article-card"
                                 >
                                     <div>{article.content}</div>
-                                    <div className="article-footer">
-                                        {article.tag.map((tag, i) => <Tag key={i}>{tag}</Tag>)}
-                                    </div>
+
+                                    {article.tags.length > 0 ? (
+                                        <div className="article-footer">
+                                            {article.tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)}
+                                        </div>
+                                    ) : ''}
                                 </Card>
                             );
-                        })}
+                        }) : ''}
                     </WithSidebar>
                 </div>
 
                 <Layout.Content className="container pagination">
-                    <Pagination defaultCurrent={1} total={50} showQuickJumper />
+                    {this.state.totalPages > 1 ? (
+                        <Pagination
+                            current={this.getPage()}
+                            total={this.state.totalPages}
+                            showQuickJumper={this.state.totalPages > 3}
+                        />
+                    ) : ''}
                 </Layout.Content>
             </div>
         );

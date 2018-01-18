@@ -54,9 +54,9 @@ class Editor extends React.Component<EditorProps, EditorState> {
         article: {
             id: 0,
             title: '',
-            author: 0,
-            tag: [],
-            date: new Date(),
+            author: {} as User,
+            tags: [],
+            publishedAt: new Date(),
             content: ''
         },
         status: ArticleStatus.Loading
@@ -92,13 +92,13 @@ class Editor extends React.Component<EditorProps, EditorState> {
         const article: Article = {
             id,
             title: '宇囚 - ' + id,
-            author: 2,
-            tag: ['科幻', '短片小说'],
-            date: new Date(),
+            author: { id: 2 } as User,
+            tags: ['科幻', '短片小说'],
+            publishedAt: new Date(),
             content: exampleArticle
         };
 
-        if (article.author !== user.id) {
+        if (article.author.id !== user.id) {
             this.setState({
                 status: ArticleStatus.NotFound
             });
@@ -138,7 +138,7 @@ class Editor extends React.Component<EditorProps, EditorState> {
         }
 
         return (
-            <div className="flex-spacer ">
+            <div className="flex-spacer">
                 <div className="editor-title">
                     <input name="title" defaultValue={this.state.article.title} placeholder="Title here..." />
                     <div />
