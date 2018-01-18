@@ -57,8 +57,6 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
             `,
             variables: { id }
         }).then(response => {
-            console.log(response);
-
             this.setState({
                 ...this.state,
                 status: Status.OK,

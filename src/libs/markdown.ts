@@ -25,7 +25,7 @@ renderer.use(require('markdown-it-task-lists'));
 export default (markdown: string) => sanitizeHTML(renderer.render(markdown), {
     allowedTags: [
         ...sanitizeHTML.defaults.allowedTags,
-        'h2', 'img', 'div', 'span', 'input', 'svg', 'path'
+        'h2', 'img', 'div', 'span', 'input', 'svg', 'path', 'line'
     ],
     // allowedTags: false,
     allowedAttributes: false,

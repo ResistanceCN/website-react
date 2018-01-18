@@ -3479,7 +3479,7 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-katex@0.9.0-beta:
+katex@^0.9.0-beta:
   version "0.9.0-beta"
   resolved "https://registry.yarnpkg.com/katex/-/katex-0.9.0-beta.tgz#4d1f0946bf9391806d8953f9e1a5c28d02adb5b8"
   dependencies:

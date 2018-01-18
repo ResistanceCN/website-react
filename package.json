@@ -32,7 +32,7 @@
         "highlight.js": "^9.12.0",
         "html-webpack-plugin": "2.29.0",
         "jest": "20.0.4",
-        "katex": "0.9.0-beta",
+        "katex": "^0.9.0-beta",
         "lodash": "^4.17.4",
         "markdown-it": "^8.4.0",
         "markdown-it-task-lists": "^2.1.0",

@@ -48,6 +48,8 @@
     overflow-y: auto;
     position: relative;
 
+    /*
+    The bug has fixed in KaTeX 0.9.0-beta
     .katex {
         .frac-line {
             min-height: 1px;
@@ -61,6 +63,7 @@
             overflow: visible;
         }
     }
+    */
 
     // This element will let the page scrolls even if overflow-y is not visible
     .katex-mathml {
