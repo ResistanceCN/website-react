@@ -39,18 +39,7 @@
     }
 
     .katex {
+        // @TODO: Apply this style to Chrome only
         font-size: 22px;
-
-        .frac-line {
-            min-height: 1px;
-
-            svg {
-                margin-top: -1px;
-            }
-        }
-
-        .sqrt .hide-tail:not(.frac-line) {
-            overflow: visible;
-        }
     }
 }

@@ -48,6 +48,20 @@
     overflow-y: auto;
     position: relative;
 
+    .katex {
+        .frac-line {
+            min-height: 1px;
+
+            svg {
+                margin-top: -1px;
+            }
+        }
+
+        .sqrt .hide-tail:not(.frac-line) {
+            overflow: visible;
+        }
+    }
+
     // This element will let the page scrolls even if overflow-y is not visible
     .katex-mathml {
         display: none;
