@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Button, Card, Layout, Pagination, Tag } from 'antd';
 import { Article } from '../types';
 import WithSidebar from './WithSidebar';
+import renderMarkdown from '../libs/markdown';
 import gql from 'graphql-tag';
 import apollo from '../apollo';
 
@@ -52,6 +53,8 @@ export default class Home extends React.Component<HomeProps, HomeState> {
             ...this.state,
             articles: response.data.latestArticles.map(article => ({
                 ...article,
+                // Shows summaries only
+                content: article.content.split(/<!-- *more *-->/i)[0],
                 // The API returns time in string
                 publishedAt: new Date(article.publishedAt)
             }))
@@ -69,7 +72,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
             this.setState({
                 ...this.state,
                 totalPages: Math.ceil(response.data.articleCount / 15)
-            })
+            });
         });
     }
 
@@ -109,7 +112,12 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                                     bordered={false}
                                     className="article-card"
                                 >
-                                    <div>{article.content}</div>
+                                    <div
+                                        className="markdown-body"
+                                        dangerouslySetInnerHTML={{
+                                            __html: renderMarkdown(article.content)
+                                        }}
+                                    />
 
                                     {article.tags.length > 0 ? (
                                         <div className="article-footer">
