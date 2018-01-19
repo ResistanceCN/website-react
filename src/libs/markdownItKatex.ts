@@ -7,6 +7,15 @@ import T = MarkdownItExtendedTypes;
 
 const asciimath = require('asciimath-to-latex');
 
+// Chrome limits the minimum font size, causing small texts in \frac{} overflow
+const isChrome = navigator.appVersion.indexOf('Chrome/') !== -1;
+if (isChrome) {
+    const style = document.createElement('style');
+    style.type = 'text/css';
+    style.appendChild(document.createTextNode('.katex { font-size: 22px; }'));
+    document.head.appendChild(style);
+}
+
 // Test if potential opening or closing delimiter
 // Assumes that there is a '$' at state.src[pos]
 function isValidLatexDelimiter(state: T.StateInline, pos: number): T.Delimiter {
