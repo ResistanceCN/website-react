@@ -4,18 +4,18 @@ import { User } from '../types';
 import { State } from '../reducers';
 import { LOGIN_SUCCESS } from '../actions';
 import { connect, Dispatch } from 'react-redux';
-import { RouteProps, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { BackTop, Input, Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import UserMenu from './UserMenu';
 
 const { Header, Footer } = Layout;
 
-interface AppLayoutProps {
+interface AppLayoutProps extends RouteComponentProps<{}> {
     login(user: User): void;
 }
 
-class AppLayout extends React.Component<AppLayoutProps & RouteProps> {
+class AppLayout extends React.Component<AppLayoutProps> {
     componentWillMount() {
         const authToken = localStorage.authToken;
 
@@ -34,7 +34,7 @@ class AppLayout extends React.Component<AppLayoutProps & RouteProps> {
         }
     }
 
-    componentDidUpdate(prevProps: Readonly<AppLayoutProps & RouteProps>) {
+    componentDidUpdate(prevProps: Readonly<AppLayoutProps>) {
         if (this.props.location !== prevProps.location) {
             window.scrollTo(0, 0);
         }

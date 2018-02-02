@@ -4,13 +4,13 @@ import { User } from '../types';
 import { State } from '../reducers';
 import { connect, Dispatch } from 'react-redux';
 import { Button, Card, Form, Icon, Input, Tag } from 'antd';
-import { Redirect, RouteProps } from 'react-router';
+import { Redirect, RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import WithSidebar from './WithSidebar';
 import RegionMap from './RegionMap';
 import { names as regionNames } from '../libs/regions';
 
-interface JoinProps {
+interface JoinProps extends RouteComponentProps<{}> {
     user: User | null;
 }
 
@@ -18,7 +18,7 @@ interface JoinState {
     regions: Set<string>;
 }
 
-class Join extends React.Component<JoinProps & RouteProps, JoinState> {
+class Join extends React.Component<JoinProps, JoinState> {
     state = {
         regions: new Set()
     };

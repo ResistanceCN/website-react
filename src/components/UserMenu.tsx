@@ -5,16 +5,16 @@ import { State } from '../reducers';
 import { AUTH_RESET } from '../actions';
 import { connect, Dispatch } from 'react-redux';
 import { Avatar, Button, Dropdown, Menu } from 'antd';
-import { RouteProps, withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import { auth2 } from '../libs/googleAuth2';
 
-interface UserMenuProps {
+interface UserMenuProps extends RouteComponentProps<{}> {
     user: User;
     logout(): void;
 }
 
-class UserMenu extends React.Component<UserMenuProps & RouteProps> {
+class UserMenu extends React.Component<UserMenuProps> {
     async googleSignOut(api: typeof gapi.auth2) {
         return new Promise(resolve => {
             // Google says that the signOut() method is synchronous, but...
@@ -30,7 +30,7 @@ class UserMenu extends React.Component<UserMenuProps & RouteProps> {
                     return;
                 }
 
-                setTimeout(wait, 1);
+                setTimeout(wait);
             };
 
             wait();

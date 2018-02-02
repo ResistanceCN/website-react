@@ -4,11 +4,11 @@ import { User } from '../types';
 import { State } from '../reducers';
 import { GOOGLE_SIGNED_IN, LOGIN_SUCCESS } from '../actions';
 import { connect, Dispatch } from 'react-redux';
-import { Redirect, RouteProps } from 'react-router';
+import { Redirect, RouteComponentProps } from 'react-router';
 import { Card } from 'antd';
 import { signin2 } from '../libs/googleAuth2';
 
-interface LoginProps {
+interface LoginProps extends RouteComponentProps<{}> {
     user: User | null;
     googleSignIn(googleUser: gapi.auth2.GoogleUser): void;
     login(user: User): void;
@@ -18,7 +18,7 @@ interface LoginState {
     gapiError: boolean;
 }
 
-class Login extends React.Component<LoginProps & RouteProps, LoginState> {
+class Login extends React.Component<LoginProps, LoginState> {
     state = {
         gapiError: false
     };
