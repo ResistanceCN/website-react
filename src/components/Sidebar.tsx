@@ -40,7 +40,6 @@ export default class Sidebar extends React.Component<{}, SidebarState> {
         fixedTop: 0
     };
 
-    onScroll: EventListener;
     onResize: EventListener;
 
     getTimeline(): Array<string> {
@@ -56,7 +55,12 @@ export default class Sidebar extends React.Component<{}, SidebarState> {
         const sidebarAttr = this.sidebar;
 
         // 左侧新闻区域
-        const newsArea = document.querySelector('.news')!.getBoundingClientRect();
+        let newsArea;
+        try {
+            newsArea = document.querySelector('.news')!.getBoundingClientRect();
+        } catch {
+            return;
+        }
 
         // 第一个可见的 Card 距固定位置的高度
         const visibleStartPos = newsArea.top + this.sidebar.hiddenHeight - 76;
@@ -154,20 +158,21 @@ export default class Sidebar extends React.Component<{}, SidebarState> {
     componentDidMount() {
         this.calculateSidebarAttr();
 
-        this.onScroll = () => {
-            this.updateSidebarStatus();
-        };
         this.onResize = () => {
             this.calculateSidebarAttr();
-            this.updateSidebarStatus();
+            // this.updateSidebarStatus();
         };
 
-        window.addEventListener('scroll', this.onScroll);
         window.addEventListener('resize', this.onResize);
+
+        const animationLoop = () => {
+            this.updateSidebarStatus();
+            requestAnimationFrame(animationLoop);
+        };
+        requestAnimationFrame(animationLoop);
     }
 
     componentWillUnmount() {
-        window.removeEventListener('scroll', this.onScroll);
         window.removeEventListener('resize', this.onResize);
     }
 
