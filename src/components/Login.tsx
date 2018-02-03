@@ -6,6 +6,8 @@ import { GOOGLE_SIGNED_IN, LOGIN_SUCCESS } from '../actions';
 import { connect, Dispatch } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { Card } from 'antd';
+import gql from 'graphql-tag';
+import apollo from '../apollo';
 import { signin2 } from '../libs/googleAuth2';
 
 interface LoginProps extends RouteComponentProps<{}> {
@@ -23,24 +25,34 @@ class Login extends React.Component<LoginProps, LoginState> {
         gapiError: false
     };
 
-    onSuccess(googleUser: gapi.auth2.GoogleUser) {
+    async onSuccess(googleUser: gapi.auth2.GoogleUser) {
         this.props.googleSignIn(googleUser);
 
-        // Perform AJAX request here
-        localStorage.authToken = 'response.token goes here';
+        const idToken = googleUser.getAuthResponse().id_token;
+        const response = await fetch(process.env.REACT_APP_API_ENDPOINT + '/auth?google_token=' + idToken);
+        const data = await response.json();
 
-        const user: User = {
-            id: 2,
-            googleId: googleUser.getId(),
-            name: googleUser.getBasicProfile().getName(),
-            faction: 0
+        if (data.register) {
+            // Redirect to register form
+            return;
+        }
+
+        localStorage.authToken = data.token;
+
+        const result = await apollo.query<{ me: User }>({
+            query: gql`
+                query {
+                    me { id name faction }
+                }
+            `
+        });
+
+        const user = {
+            ...result.data.me,
+            googleId: googleUser.getId()
         };
 
-        if (user.id !== 0) {
-            this.props.login(user);
-        } else {
-            // Show register form
-        }
+        this.props.login(user);
     }
 
     onFailure() {
