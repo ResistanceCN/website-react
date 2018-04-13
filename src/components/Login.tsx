@@ -18,11 +18,13 @@ interface LoginProps extends RouteComponentProps<{}> {
 
 interface LoginState {
     gapiError: boolean;
+    newUser: boolean;
 }
 
 class Login extends React.Component<LoginProps, LoginState> {
     state = {
-        gapiError: false
+        gapiError: false,
+        newUser: false
     };
 
     async onSuccess(googleUser: gapi.auth2.GoogleUser) {
@@ -32,12 +34,14 @@ class Login extends React.Component<LoginProps, LoginState> {
         const response = await fetch(process.env.REACT_APP_API_ENDPOINT + '/auth?google_token=' + idToken);
         const data = await response.json();
 
-        if (data.register) {
-            // Redirect to register form
-            return;
-        }
-
         localStorage.authToken = data.token;
+
+        if (data.newUser) {
+            return this.setState({
+                ...this.state,
+                newUser: true
+            });
+        }
 
         const result = await apollo.query<{ me: User }>({
             query: gql`
@@ -80,6 +84,10 @@ class Login extends React.Component<LoginProps, LoginState> {
         if (this.props.user !== null) {
             const { from } = this.props.location!.state || { from: '/' };
             return <Redirect to={from} />;
+        }
+
+        if (this.state.newUser) {
+            return <Redirect to="/register" />;
         }
 
         return (

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Layout from './Layout';
 import Home from './Home';
 import Login from './Login';
+import Register from './Register';
 import Article from './Article';
 import Editor from './Editor';
 import Join from './Join';
@@ -16,12 +17,13 @@ export default () => (
             <Switch>
                 <Route exact path="/" component={Home} />
                 <Route exact path="/login" component={Login} />
+                <Route exact path="/register" component={Register} />
                 <Route exact path="/page/:page(\\d+)" component={Home} />
-                <Route exact path="/article/:id(\\d+)" component={Article} />
-                <Route exact path="/article/:id(\\d+)/edit" component={Editor} />
+                <Route exact path="/article/:id(\\w+)" component={Article} />
+                <Route exact path="/article/:id(\\w+)/edit" component={Editor} />
                 <Route exact path="/join" component={Join} />
                 <Route exact path="/form/:name(\\w+)" component={Home} />
-                <Route exact path="/user/:id(\\d+)" component={Profile} />
+                <Route exact path="/user/:id(\\w+)" component={Profile} />
                 <Route path="/admin" component={Admin} />
                 <Route component={Home} />
             </Switch>

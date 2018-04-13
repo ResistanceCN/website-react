@@ -16,6 +16,7 @@
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": false,
+    "allowUnreachableCode": true,
     "allowSyntheticDefaultImports": true
   },
   "exclude": [
