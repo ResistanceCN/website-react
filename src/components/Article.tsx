@@ -104,8 +104,10 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
                             {article.title}
                         </div>
                         <p>
-                            {article.publishedAt.toLocaleDateString()}
-                            {article.publishedAt.toLocaleTimeString()}
+                            {article.publishedAt.getTime() === 0 ? '草稿' : [
+                                article.publishedAt.toLocaleDateString(),
+                                article.publishedAt.toLocaleTimeString()
+                            ].join(' ')}
                         </p>
                     </div>
                 </div>
