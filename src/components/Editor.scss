@@ -19,6 +19,15 @@
         border: none;
         outline: none;
     }
+
+    .editor-submit {
+        height: 100%;
+        border-radius: 0;
+
+        &:after {
+            display: none;
+        }
+    }
 }
 
 .editor {

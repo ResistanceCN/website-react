@@ -1,7 +1,7 @@
-import { Faction } from "./Faction";
+import { Faction } from './Faction';
 
 export interface User {
-    id: number;
+    id: string;
     googleId: string;
     name: string;
     faction: Faction;

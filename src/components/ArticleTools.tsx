@@ -5,7 +5,7 @@ import { Icon } from 'antd';
 import { Link } from 'react-router-dom';
 
 interface ArticleToolsProps {
-    id: number;
+    id: string;
     manageMode: boolean;
 }
 

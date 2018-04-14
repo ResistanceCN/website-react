@@ -1,15 +1,17 @@
 import './Editor.scss';
-import React from 'react';
-import { Article, User } from '../types';
+import React, { ChangeEvent } from 'react';
+import { Article as ArticleType, Article, User } from '../types';
 import { State } from '../reducers';
 import { connect, Dispatch } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
+import { Button, message } from 'antd';
 import AceEditor from 'react-ace';
 import 'brace/mode/markdown';
 import 'brace/theme/tomorrow';
 import throttle from 'lodash/throttle';
 import renderMarkdown from '../libs/markdown';
-import exampleArticle from '../libs/exampleArticle';
+import gql from 'graphql-tag';
+import apollo from '../apollo';
 
 interface CodeBlock {
     name: string;
@@ -33,7 +35,8 @@ const blocks: Array<CodeBlock> = [
 enum ArticleStatus {
     Loading,
     OK,
-    NotFound
+    NotFound,
+    Updating
 }
 
 interface EditorRouterProps {
@@ -52,7 +55,7 @@ interface EditorState {
 class Editor extends React.Component<EditorProps, EditorState> {
     state = {
         article: {
-            id: 0,
+            id: '0',
             title: '',
             author: {} as User,
             tags: [],
@@ -66,9 +69,10 @@ class Editor extends React.Component<EditorProps, EditorState> {
     preview: HTMLElement;
     scrollTogether: EventListener;
 
-    onChange = throttle(
+    onContentChange = throttle(
         (content: string) => {
             this.setState({
+                ...this.state,
                 article: {
                     ...this.state.article,
                     content
@@ -78,37 +82,103 @@ class Editor extends React.Component<EditorProps, EditorState> {
         240
     );
 
+    onTitleChange(e: ChangeEvent<HTMLInputElement>) {
+        this.setState({
+            ...this.state,
+            article: {
+                ...this.state.article,
+                title: e.target.value
+            }
+        });
+    }
+
+    getArticle(user: User) {
+        const id = this.props.match.params.id;
+
+        apollo.query<{ article: ArticleType }>({
+            query: gql`
+                query($id: ID) {
+                    article: articleById(id: $id) {
+                        id
+                        title
+                        author { id }
+                        tags
+                        content
+                        publishedAt
+                    }
+                }
+            `,
+            variables: { id }
+        }).then(response => {
+            const article = response.data.article;
+
+            if (article.author.id !== user.id) {
+                return this.setState({
+                    status: ArticleStatus.NotFound
+                });
+            }
+
+            this.setState({
+                ...this.state,
+                status: ArticleStatus.OK,
+                article: {
+                    ...response.data.article,
+                    // The API returns time in string
+                    publishedAt: new Date(response.data.article.publishedAt)
+                }
+            });
+        }).catch(e => {
+            this.setState({
+                ...this.state,
+                status: ArticleStatus.NotFound
+            });
+            // throw e;
+        });
+    }
+
+    onSubmit() {
+        this.setState({
+            ...this.state,
+            status: ArticleStatus.Updating
+        });
+
+        apollo.mutate<{ article: Article }>({
+            mutation: gql`
+                mutation ($id: ID, $title: String, $content: String) {
+                    article: updateArticle(id: $id, title: $title, content: $content) {
+                        updatedAt
+                    }
+                }
+            `,
+            variables: {
+                id: this.state.article.id,
+                title: this.state.article.title,
+                content: this.state.article.content
+            }
+        }).then(result => {
+            message.success('提交成功');
+            // redirect
+        }).catch(error => {
+            message.error(error.toString().replace('Error: GraphQL error: ', ''));
+        }).then(() => {
+            this.setState({
+                ...this.state,
+                status: ArticleStatus.OK
+            })
+        });
+    }
+
     componentWillMount() {
-        const id = parseInt(this.props.match.params.id, 10);
         const user = this.props.user;
 
-        if (isNaN(id) || user === null) {
+        if (user === null) {
             this.setState({
                 status: ArticleStatus.NotFound
             });
             return;
         }
 
-        const article: Article = {
-            id,
-            title: '宇囚 - ' + id,
-            author: { id: 2 } as User,
-            tags: ['科幻', '短片小说'],
-            publishedAt: new Date(),
-            content: exampleArticle
-        };
-
-        if (article.author.id !== user.id) {
-            this.setState({
-                status: ArticleStatus.NotFound
-            });
-            return;
-        }
-
-        this.setState({
-            status: ArticleStatus.OK,
-            article
-        });
+        this.getArticle(user);
     }
 
     componentDidMount() {
@@ -140,8 +210,20 @@ class Editor extends React.Component<EditorProps, EditorState> {
         return (
             <div className="flex-spacer">
                 <div className="editor-title">
-                    <input name="title" defaultValue={this.state.article.title} placeholder="Title here..." />
-                    <div />
+                    <input
+                        value={this.state.article.title}
+                        placeholder="Title here..."
+                        name="title"
+                        onChange={e => this.onTitleChange(e)}
+                    />
+                    <Button
+                        type="primary"
+                        className="editor-submit"
+                        onClick={e => this.onSubmit()}
+                        loading={this.state.status === ArticleStatus.Updating}
+                    >
+                        提交
+                    </Button>
                 </div>
                 <div className="editor flex-spacer">
                     <AceEditor
@@ -155,7 +237,7 @@ class Editor extends React.Component<EditorProps, EditorState> {
                         fontSize={14}
                         value={this.state.article.content}
                         editorProps={{$blockScrolling: true}}
-                        onChange={this.onChange}
+                        onChange={this.onContentChange}
                     />
                     <div
                         className="md-preview markdown-body"

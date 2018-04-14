@@ -23,7 +23,7 @@ class Profile extends React.Component<ProfileProps> {
 
         for (let i = 1; i <= 10; ++i) {
             articles.push({
-                id: i,
+                id: i.toString(),
                 title: '宇囚 - ' + i,
                 author: {} as User,
                 tags: ['科幻', '短片小说'],
@@ -39,11 +39,7 @@ class Profile extends React.Component<ProfileProps> {
     }
 
     getUser(): User | null {
-        const id = parseInt(this.props.match.params.id, 10);
-
-        if (isNaN(id)) {
-            return null;
-        }
+        const id = this.props.match.params.id;
 
         // Look up user from state or perform AJAX request here
 

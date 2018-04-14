@@ -33,6 +33,7 @@ export default (markdown: string) => sanitizeHTML(renderer.render(markdown), {
         return frame.tag === 'input' && frame.attribs.type !== 'checkbox';
     },
     transformTags: {
+        'h1': sanitizeHTML.simpleTransform('h2', {}),
         'a': sanitizeHTML.simpleTransform('a', { target: '_blank' })
     }
 });

@@ -40,7 +40,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
                 const user = result.data.me;
                 this.props.login(user);
             } catch (error) {
-                localStorage.authToken = '';
+                // localStorage.authToken = '';
             }
         }
 

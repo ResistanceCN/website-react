@@ -30,7 +30,7 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
     state = {
         status: Status.Loading,
         article: {
-            id: 0,
+            id: '0',
             title: '',
             author: {} as User,
             tags: [],
@@ -40,7 +40,7 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
     };
 
     getArticle() {
-        const id = parseInt(this.props.match.params.id, 10);
+        const id = this.props.match.params.id;
 
         apollo.query<{ article: ArticleType }>({
             query: gql`

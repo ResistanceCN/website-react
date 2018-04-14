@@ -1,7 +1,7 @@
 import { User } from './User';
 
 export interface Article {
-    id: number;
+    id: string;
     title: string;
     author: User;
     tags: Array<string>;
