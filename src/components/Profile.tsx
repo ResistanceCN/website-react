@@ -1,13 +1,22 @@
 import './Profile.scss';
 import React from 'react';
 import { Redirect, RouteComponentProps, withRouter } from 'react-router';
-import { Article, Faction, User } from '../types';
+import { Article, User } from '../types';
 import { Card, Pagination, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import WithSidebar from './WithSidebar';
 import ArticleTools from './ArticleTools';
 import { connect, Dispatch } from 'react-redux';
 import { State } from '../reducers/index';
+import gql from 'graphql-tag';
+import apollo from '../apollo';
+import renderMarkdown from '../libs/markdown';
+
+enum ProfileStatus {
+    Loading,
+    OK,
+    NotFound
+}
 
 interface ProfileRouterProps {
     id: string;
@@ -17,47 +26,73 @@ interface ProfileProps extends RouteComponentProps<ProfileRouterProps> {
     user: User | null;
 }
 
-class Profile extends React.Component<ProfileProps> {
-    getArticles(page: number): Array<Article> {
-        let articles: Array<Article> = [];
+interface ProfileState {
+    status: ProfileStatus;
+    user: User | null;
+    articles: Array<Article>;
+}
 
-        for (let i = 1; i <= 10; ++i) {
-            articles.push({
-                id: i.toString(),
-                title: '宇囚 - ' + i,
-                author: {} as User,
-                tags: ['科幻', '短片小说'],
-                publishedAt: new Date(),
-                content: '第一个开拓者在启航后85年返回，打通了连接太阳系与织女星系的虫洞，\
-                由此掀开了人类文明殖民银河系的大幕。资源由各个星系源源不断的流入人类手中，\
-                技术随着时间推移变得愈发出神入化，智慧的足迹踏遍银河系的颗行星，\
-                冒险家的故事传颂在整个星河。'
-            });
-        }
+class Profile extends React.Component<ProfileProps, ProfileState> {
+    state = {
+        status: ProfileStatus.Loading,
+        user: null,
+        articles: []
+    };
 
-        return articles;
-    }
-
-    getUser(): User | null {
+    componentWillMount() {
         const id = this.props.match.params.id;
+        apollo.query<{ user: User & { articles: Array<Article> } }>({
+            query: gql`
+                query ($id: ID) {
+                    user: userById(id: $id) {
+                        id
+                        name
+                        articles {
+                            id
+                            title
+                            tags
+                            content
+                            publishedAt
+                        }
+                    }
+                }
+            `,
+            variables: { id }
+        }).then(result => {
+            const user = result.data.user;
+            const articles = user.articles;
+            // Look up user from state or perform AJAX request here
 
-        // Look up user from state or perform AJAX request here
-
-        return {
-            id,
-            googleId: '',
-            name: 'Test User - ' + id,
-            faction: Faction.Resistance
-        };
+            this.setState({
+                status: ProfileStatus.OK,
+                user,
+                articles: articles.map(article => ({
+                    ...article,
+                    // Shows summaries only
+                    content: article.content.split(/<!-- *more *-->/i)[0],
+                    // The API returns time in string
+                    publishedAt: new Date(article.publishedAt)
+                }))
+            });
+        }).catch(error => {
+            this.setState({
+                ...this.state,
+                status: ProfileStatus.NotFound
+            });
+        });
     }
 
     render() {
-        const user = this.getUser();
-
-        if (user === null) {
-            return <Redirect to="/" />;
+        switch (this.state.status) {
+            case ProfileStatus.NotFound:
+                return <Redirect to="/" />;
+            case ProfileStatus.Loading:
+                return <div />;
+            default:
+                break;
         }
 
+        const user: User = this.state.user!;
         const isMyself = this.props.user !== null && user.id === this.props.user.id;
 
         return (
@@ -67,7 +102,7 @@ class Profile extends React.Component<ProfileProps> {
                         <img src="/assets/img/avatar-blue.jpg" />
                     </div>
                     <div className="banner-content">
-                        <p className="username">Username - {this.props.match.params.id}</p>
+                        <p className="username">{user.name}</p>
                         <div className="bio">
                             <p>[个人 bio 测试] 使用 Ant Motion 能够快速在 React 框架中使用动画。</p>
                             <p>我们提供了单项，组合动画，以及整套解决方案</p>
@@ -77,15 +112,21 @@ class Profile extends React.Component<ProfileProps> {
 
                 <div className="container main">
                     <WithSidebar className="news profile">
-                        {this.getArticles(1).map(article => {
+                        {this.state.articles.map((article: Article) => {
+                            const prefix = article.publishedAt === null ? '[草稿] ' : '';
                             return (
                                 <Card
                                     key={article.id}
-                                    title={<Link to={'/article/' + article.id}>{article.title}</Link>}
+                                    title={<Link to={'/article/' + article.id}>{prefix + article.title}</Link>}
                                     bordered={false}
                                     className="article-card"
                                 >
-                                    <div>{article.content}</div>
+                                    <div
+                                        className="markdown-body"
+                                        dangerouslySetInnerHTML={{
+                                            __html: renderMarkdown(article.content)
+                                        }}
+                                    />
                                     <div className="article-footer">
                                         <div>{article.tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)}</div>
                                         <div className="flex-spacer" />

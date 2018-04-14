@@ -164,7 +164,7 @@ class Editor extends React.Component<EditorProps, EditorState> {
             this.setState({
                 ...this.state,
                 status: ArticleStatus.OK
-            })
+            });
         });
     }
 
