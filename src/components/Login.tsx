@@ -46,7 +46,7 @@ class Login extends React.Component<LoginProps, LoginState> {
         const result = await apollo.query<{ me: User }>({
             query: gql`
                 query {
-                    me { id name faction }
+                    me { id name faction emailHash }
                 }
             `
         });

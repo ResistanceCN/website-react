@@ -9,6 +9,7 @@
     .banner-avatar {
         width: 128px;
         height: 128px;
+        box-sizing: content-box;
         background: #fff;
         border: 3px solid #fff;
         border-radius: 67px;

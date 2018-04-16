@@ -5,4 +5,5 @@ export interface User {
     googleId: string;
     name: string;
     faction: Faction;
+    emailHash: string;
 }

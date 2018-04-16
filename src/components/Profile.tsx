@@ -7,8 +7,9 @@ import { Link } from 'react-router-dom';
 import WithSidebar from './WithSidebar';
 import ArticleTools from './ArticleTools';
 import { connect, Dispatch } from 'react-redux';
-import { State } from '../reducers/index';
+import { State } from '../reducers';
 import gql from 'graphql-tag';
+import { gravatar } from '../libs/utils';
 import apollo from '../apollo';
 import renderMarkdown from '../libs/markdown';
 
@@ -47,6 +48,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
                     user: userById(id: $id) {
                         id
                         name
+                        emailHash
                         articles {
                             id
                             title
@@ -99,7 +101,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
             <div className="flex-spacer">
                 <div className="banner profile-banner">
                     <div className="banner-avatar">
-                        <img src="/assets/img/avatar-blue.jpg" />
+                        <img src={gravatar(user.emailHash, 128)} />
                     </div>
                     <div className="banner-content">
                         <p className="username">{user.name}</p>

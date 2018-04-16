@@ -23,12 +23,13 @@ export default class RegionMap extends React.Component<RegionMapProps, RegionMap
     mapEventListeners: Array<google.maps.MapsEventListener> = [];
 
     setHint(hint: string) {
-        const rel = GoogleMap.instance().getDiv().querySelector('.gm-style-mtc') as HTMLElement;
+        const el = GoogleMap.instance().getDiv().querySelector('.gm-style-mtc');
+        const parent = el === null ? null : el.parentElement;
 
         this.setState({
             hint,
             hintStyle: {
-                left: rel.parentElement !== null ? rel.parentElement!.offsetWidth + 20 : 0,
+                left: parent === null ? 0 : parent.offsetWidth + 20,
                 display: hint === '' ? 'none' : 'block'
             }
         });
