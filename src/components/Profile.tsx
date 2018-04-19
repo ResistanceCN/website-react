@@ -115,7 +115,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
                 <div className="container main">
                     <WithSidebar className="news profile">
                         {this.state.articles.map((article: Article) => {
-                            const prefix = article.publishedAt === null ? '[草稿] ' : '';
+                            const prefix = article.publishedAt.getTime() === 0 ? '[草稿] ' : '';
                             return (
                                 <Card
                                     key={article.id}

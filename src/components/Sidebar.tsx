@@ -1,6 +1,7 @@
 import './Sidebar.scss';
 import React, { CSSProperties } from 'react';
 import { Card, Col, Icon, Timeline, Tooltip } from 'antd';
+import { Link } from 'react-router-dom';
 
 enum SidebarStatus {
     Static,
@@ -183,8 +184,8 @@ export default class Sidebar extends React.Component<{}, SidebarState> {
                     <Tooltip title="prompt text">
                         <Icon type="link" />
                     </Tooltip>
-                    <Tooltip title="prompt text">
-                        <Icon type="edit" />
+                    <Tooltip title="写文章">
+                        <Link to="/article/new"><Icon type="edit" /></Link>
                     </Tooltip>
                     <Tooltip title="prompt text">
                         <Icon type="check" />
