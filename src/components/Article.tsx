@@ -3,6 +3,7 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Card, Tag } from 'antd';
 import { Article as ArticleType, ArticleStatus, nullArticle } from '../types';
+import Loading from './Loading';
 import WithSidebar from './WithSidebar';
 import renderMarkdown from '../libs/markdown';
 import gql from 'graphql-tag';
@@ -81,11 +82,7 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
 
     render() {
         if (this.state.status === Status.Loading) {
-            return (
-                <div className="flex-spacer container loading-container">
-                    <div className="loading">Loading...</div>
-                </div>
-            );
+            return <Loading />;
         }
 
         const article = this.state.article;

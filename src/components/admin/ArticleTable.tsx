@@ -2,6 +2,7 @@ import React from 'react';
 import { message, Popconfirm, Table } from 'antd';
 import { Article, ArticleStatus } from '../../types';
 import gql from 'graphql-tag';
+import Loading from '../Loading';
 import { adminClient as apollo } from '../../apollo';
 import { errorText } from '../../libs/utils';
 
@@ -65,11 +66,6 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
             return;
         }
 
-        // this.setState({
-        //     ...this.state,
-        //     loading: false
-        // });
-
         this.getArticles();
     }
 
@@ -79,7 +75,7 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
 
     render() {
         if (this.state.data.length === 0) {
-            return null;
+            return <Loading />;
         }
 
         return (

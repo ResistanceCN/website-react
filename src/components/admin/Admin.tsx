@@ -1,4 +1,4 @@
-import './Admin.scss';
+import './Admin.css';
 import React from 'react';
 import { User } from '../../types';
 import { State } from '../../reducers';
@@ -7,7 +7,6 @@ import { Layout, Menu } from 'antd';
 import { Redirect, Route, RouteComponentProps, withRouter } from 'react-router';
 import { Link, Switch } from 'react-router-dom';
 import Overview from './Overview';
-import ExampleTable from './ExampleTable';
 import AllArticles from './AllArticles';
 import PendingArticles from './PendingArticles';
 import PublishedArticles from './PublishedArticles';
@@ -40,7 +39,6 @@ export class Admin extends React.Component<AdminProps> {
                         style={{ height: '100%' }}
                     >
                         <Menu.Item key="overview"><Link to="/admin">Overview</Link></Menu.Item>
-                        <Menu.Item key="table"><Link to="/admin/table">Example Table</Link></Menu.Item>
                         <Menu.ItemGroup key="articles" title="文章管理">
                             <Menu.Item key="allArticles">
                                 <Link to="/admin/allArticles">所有文章</Link>
@@ -57,7 +55,6 @@ export class Admin extends React.Component<AdminProps> {
                 <div className="flex-spacer container-fluid panel-container">
                     <Switch>
                         <Route exact path="/admin" component={Overview} />
-                        <Route path="/admin/table" component={ExampleTable} />
                         <Route path="/admin/allArticles" component={AllArticles} />
                         <Route path="/admin/pendingArticles" component={PendingArticles} />
                         <Route path="/admin/publishedArticles" component={PublishedArticles} />

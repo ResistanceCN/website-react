@@ -7,6 +7,7 @@ import { connect, Dispatch } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { BackTop, Input, Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
+import Loading from './Loading';
 import UserMenu from './UserMenu';
 import { client as apollo } from '../apollo';
 import gql from 'graphql-tag';
@@ -32,7 +33,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
                 const result = await apollo.query<{ me: User }>({
                     query: gql`
                         query {
-                            me { id name faction emailHash }
+                            me { id name faction emailHash isAdmin }
                         }
                     `
                 });
@@ -58,8 +59,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
 
     render() {
         if (!this.state.ready) {
-            // @TODO: Loading animation
-            return null;
+            return <Loading className="main-layout" size="large" />;
         }
 
         return (

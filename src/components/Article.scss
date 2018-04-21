@@ -1,16 +1,6 @@
 @import "~github-markdown-css";
 @import "~highlight.js/styles/atom-one-light";
 
-.loading-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .loading {
-        font-size: 32px;
-    }
-}
-
 .article-banner {
     height: 240px;
     background-size: auto 450px;
