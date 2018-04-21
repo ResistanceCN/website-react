@@ -65,8 +65,8 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
         }
     }
 
-    async updateStatus(article: Article, status: ArticleStatus) {
-        await this.mutate({
+    updateStatus(article: Article, status: ArticleStatus) {
+        this.mutate({
             mutation: gql`
                 mutation($id: ID!, $status: ArticleStatus) {
                     updateArticle(id: $id, status: $status) {
@@ -81,8 +81,8 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
         });
     }
 
-    async deleteArticle(article: Article) {
-        await this.mutate({
+    deleteArticle(article: Article) {
+        this.mutate({
             mutation: gql`
                 mutation($id: ID!) {
                     deleteArticle(id: $id)

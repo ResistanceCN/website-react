@@ -68,7 +68,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
                 <Header className="main-header">
                     <Link to="/" className="brand">
                         <img src="/assets/img/logo.svg" />
-                        <div className="name">GCR</div>
+                        <div className="name">Resistance</div>
                     </Link>
 
                     <Input className="search" placeholder="搜索……" />

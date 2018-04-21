@@ -1,5 +1,5 @@
 import './Register.scss';
-import React, { ChangeEvent, FormEvent } from 'react';
+import React, { FormEvent } from 'react';
 import { User } from '../types';
 import { State } from '../reducers';
 import { connect, Dispatch } from 'react-redux';
@@ -21,6 +21,13 @@ interface LoginState {
     name: string;
     faction: number;
     error: string;
+}
+
+interface BindingEvent {
+    target: {
+        name?: string;
+        value?: string;
+    };
 }
 
 class Register extends React.Component<LoginProps, LoginState> {
@@ -62,11 +69,10 @@ class Register extends React.Component<LoginProps, LoginState> {
         }
     }
 
-    handleChange(e: ChangeEvent<{}>) {
-        const el = e.target as HTMLParamElement;
+    handleChange(e: BindingEvent) {
         this.setState({
             ...this.state,
-            [el.name]: el.value
+            [e.target.name!]: e.target.value
         });
     }
 

@@ -4,6 +4,7 @@ import { Redirect, RouteComponentProps, withRouter } from 'react-router';
 import { Article, User } from '../types';
 import { Card, Pagination, Tag } from 'antd';
 import { Link } from 'react-router-dom';
+import Loading from './Loading';
 import WithSidebar from './WithSidebar';
 import ArticleTools from './ArticleTools';
 import { connect, Dispatch } from 'react-redux';
@@ -89,7 +90,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
             case ProfileStatus.NotFound:
                 return <Redirect to="/" />;
             case ProfileStatus.Loading:
-                return null;
+                return <Loading />;
             default:
                 break;
         }
