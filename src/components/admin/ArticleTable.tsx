@@ -21,12 +21,14 @@ interface ArticleTableProps {
 interface ArticleTableState {
     data: Array<Article>;
     loading: boolean;
+    ready: boolean;
 }
 
 export default class ArticleTable extends React.Component<ArticleTableProps, ArticleTableState> {
     state = {
         data: [],
-        loading: true
+        loading: true,
+        ready: false
     };
 
     async getArticles() {
@@ -66,15 +68,20 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
             return;
         }
 
-        this.getArticles();
+        await this.getArticles();
     }
 
-    componentDidMount() {
-        this.getArticles();
+    async componentDidMount() {
+        await this.getArticles();
+
+        this.setState({
+            ...this.state,
+            ready: true
+        });
     }
 
     render() {
-        if (this.state.data.length === 0) {
+        if (!this.state.ready) {
             return <Loading />;
         }
 
