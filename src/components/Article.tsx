@@ -37,7 +37,7 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
 
         apollo.query<{ article: ArticleType }>({
             query: gql`
-                query($id: ID) {
+                query($id: ID!) {
                     article: articleById(id: $id) {
                         id
                         title

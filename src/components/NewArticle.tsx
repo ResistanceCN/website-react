@@ -35,7 +35,7 @@ class NewArticle extends React.Component<NewArticleProps, NewArticleState> {
         try {
             const result = await apollo.mutate<{ article: Article }>({
                 mutation: gql`
-                    mutation ($title: String, $content: String) {
+                    mutation ($title: String!, $content: String!) {
                         article: createArticle(title: $title, content: $content) {
                             id
                             title

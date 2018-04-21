@@ -40,7 +40,7 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
 
         apollo.query<{ article: Article }>({
             query: gql`
-                query($id: ID) {
+                query($id: ID!) {
                     article: articleById(id: $id) {
                         id
                         title
@@ -83,7 +83,7 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
         try {
             const result = await apollo.mutate<{ article: Article }>({
                 mutation: gql`
-                    mutation ($id: ID, $title: String, $content: String) {
+                    mutation ($id: ID!, $title: String, $content: String) {
                         article: updateArticle(id: $id, title: $title, content: $content) {
                             id
                         }

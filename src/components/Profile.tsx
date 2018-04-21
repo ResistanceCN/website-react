@@ -44,7 +44,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
         const id = this.props.match.params.id;
         apollo.query<{ user: User & { articles: Array<Article> } }>({
             query: gql`
-                query($id: ID) {
+                query($id: ID!) {
                     user: userById(id: $id) {
                         id
                         name

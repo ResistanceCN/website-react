@@ -36,7 +36,7 @@ class Register extends React.Component<LoginProps, LoginState> {
         try {
             const result = await apollo.mutate<{ me: User }>({
                 mutation: gql`
-                    mutation ($name: String, $faction: Int) {
+                    mutation ($name: String!, $faction: Int!) {
                         me: createProfile(name: $name, faction: $faction) {
                             id
                             googleId
