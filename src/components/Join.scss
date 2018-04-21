@@ -18,7 +18,11 @@
     }
 
     .form-action {
+        font-size: 12px;
+        color: #8c8c8c;
+
         display: flex;
+        align-items: center;
         justify-content: flex-end;
 
         .ant-btn {

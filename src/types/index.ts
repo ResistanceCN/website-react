@@ -3,3 +3,4 @@
 export * from './Article';
 export * from './Faction';
 export * from './User';
+export * from './JoinInfo';
