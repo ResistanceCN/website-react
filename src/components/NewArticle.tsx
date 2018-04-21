@@ -1,16 +1,16 @@
 import './Editor.scss';
 import React from 'react';
-import { Article, User } from '../types';
+import { Article, nullArticle, User } from '../types';
 import { State } from '../reducers';
 import { connect, Dispatch } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { message } from 'antd';
 import gql from 'graphql-tag';
 import Editor from './Editor';
-import apollo from '../apollo';
-import { later } from '../libs/utils';
+import { client as apollo } from '../apollo';
+import { errorText, later } from '../libs/utils';
 
-enum ArticleStatus {
+enum NewArticleStatus {
     Loading,
     OK,
     LoginRequired
@@ -22,20 +22,13 @@ interface NewArticleProps extends RouteComponentProps<{}> {
 
 interface NewArticleState {
     article: Article;
-    status: ArticleStatus;
+    status: NewArticleStatus;
 }
 
 class NewArticle extends React.Component<NewArticleProps, NewArticleState> {
     state = {
-        article: {
-            id: '',
-            title: '',
-            author: {} as User,
-            tags: [],
-            publishedAt: new Date(),
-            content: ''
-        },
-        status: ArticleStatus.Loading
+        article: nullArticle,
+        status: NewArticleStatus.Loading
     };
 
     async onSubmit(title: string, content: string): Promise<void> {
@@ -64,7 +57,7 @@ class NewArticle extends React.Component<NewArticleProps, NewArticleState> {
             await later(3000);
             this.props.history.push('/article/' + result.data!.article.id);
         } catch (error) {
-            message.error(error.toString().replace('Error: GraphQL error: ', ''));
+            message.error(errorText(error));
         }
     }
 
@@ -73,21 +66,21 @@ class NewArticle extends React.Component<NewArticleProps, NewArticleState> {
 
         if (user === null) {
             this.setState({
-                status: ArticleStatus.LoginRequired
+                status: NewArticleStatus.LoginRequired
             });
             return;
         }
 
         this.setState({
-            status: ArticleStatus.OK
+            status: NewArticleStatus.OK
         });
     }
 
     render() {
-        if (this.state.status === ArticleStatus.LoginRequired) {
+        if (this.state.status === NewArticleStatus.LoginRequired) {
             return <Redirect to="/login" />;
-        } else if (this.state.status === ArticleStatus.Loading) {
-            return <div />;
+        } else if (this.state.status === NewArticleStatus.Loading) {
+            return null;
         }
 
         return (

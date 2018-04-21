@@ -7,3 +7,11 @@ export interface User {
     faction: Faction;
     emailHash: string;
 }
+
+export const nullUser: User = {
+    id: '',
+    googleId: '',
+    name: '',
+    faction: Faction.Unspecified,
+    emailHash: ''
+};

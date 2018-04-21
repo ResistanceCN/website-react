@@ -7,7 +7,7 @@ import { Article } from '../types';
 import WithSidebar from './WithSidebar';
 import renderMarkdown from '../libs/markdown';
 import gql from 'graphql-tag';
-import apollo from '../apollo';
+import { client as apollo } from '../apollo';
 
 interface HomeRouterProps {
     page: string;

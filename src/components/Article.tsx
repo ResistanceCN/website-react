@@ -2,11 +2,11 @@ import './Article.scss';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Card, Tag } from 'antd';
-import { Article as ArticleType, User } from '../types';
+import { Article as ArticleType, ArticleStatus, nullArticle } from '../types';
 import WithSidebar from './WithSidebar';
 import renderMarkdown from '../libs/markdown';
 import gql from 'graphql-tag';
-import apollo from '../apollo';
+import { client as apollo } from '../apollo';
 
 enum Status {
     Loading,
@@ -29,14 +29,7 @@ interface ArticleState {
 export default class Article extends React.Component<ArticleProps, ArticleState> {
     state = {
         status: Status.Loading,
-        article: {
-            id: '0',
-            title: '',
-            author: {} as User,
-            tags: [],
-            publishedAt: new Date(),
-            content: ''
-        }
+        article: nullArticle
     };
 
     getArticle() {
@@ -51,6 +44,7 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
                         author { id }
                         tags
                         content
+                        status
                         publishedAt
                     }
                 }
@@ -104,7 +98,7 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
                             {article.title}
                         </div>
                         <p>
-                            {article.publishedAt.getTime() === 0 ? '草稿' : [
+                            {article.status === ArticleStatus.DRAFT ? '草稿' : [
                                 article.publishedAt.toLocaleDateString(),
                                 article.publishedAt.toLocaleTimeString()
                             ].join(' ')}

@@ -10,7 +10,7 @@ import { connect, Dispatch } from 'react-redux';
 import { State } from '../reducers';
 import gql from 'graphql-tag';
 import { gravatar } from '../libs/utils';
-import apollo from '../apollo';
+import { client as apollo } from '../apollo';
 import renderMarkdown from '../libs/markdown';
 
 enum ProfileStatus {
@@ -44,7 +44,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
         const id = this.props.match.params.id;
         apollo.query<{ user: User & { articles: Array<Article> } }>({
             query: gql`
-                query ($id: ID) {
+                query($id: ID) {
                     user: userById(id: $id) {
                         id
                         name
@@ -89,7 +89,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
             case ProfileStatus.NotFound:
                 return <Redirect to="/" />;
             case ProfileStatus.Loading:
-                return <div />;
+                return null;
             default:
                 break;
         }

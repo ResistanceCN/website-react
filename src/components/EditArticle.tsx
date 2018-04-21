@@ -1,16 +1,16 @@
 import './Editor.scss';
 import React from 'react';
-import { Article, User } from '../types';
+import { Article, nullArticle, User } from '../types';
 import { State } from '../reducers';
 import { connect, Dispatch } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { message } from 'antd';
 import gql from 'graphql-tag';
 import Editor from './Editor';
-import apollo from '../apollo';
-import { later } from '../libs/utils';
+import { client as apollo } from '../apollo';
+import { errorText, later } from '../libs/utils';
 
-enum ArticleStatus {
+enum EditArticleStatus {
     Loading,
     OK,
     NotFound
@@ -26,20 +26,13 @@ interface EditArticleProps extends RouteComponentProps<EditArticleRouterProps> {
 
 interface EditArticleState {
     article: Article;
-    status: ArticleStatus;
+    status: EditArticleStatus;
 }
 
 class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
     state = {
-        article: {
-            id: '0',
-            title: '',
-            author: {} as User,
-            tags: [],
-            publishedAt: new Date(),
-            content: ''
-        },
-        status: ArticleStatus.Loading
+        article: nullArticle,
+        status: EditArticleStatus.Loading
     };
 
     getArticle(user: User) {
@@ -64,13 +57,13 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
 
             if (article.author.id !== user.id) {
                 return this.setState({
-                    status: ArticleStatus.NotFound
+                    status: EditArticleStatus.NotFound
                 });
             }
 
             this.setState({
                 ...this.state,
-                status: ArticleStatus.OK,
+                status: EditArticleStatus.OK,
                 article: {
                     ...response.data.article,
                     // The API returns time in string
@@ -80,7 +73,7 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
         }).catch(e => {
             this.setState({
                 ...this.state,
-                status: ArticleStatus.NotFound
+                status: EditArticleStatus.NotFound
             });
             // throw e;
         });
@@ -120,7 +113,7 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
             await later(3000);
             this.props.history.push('/article/' + this.state.article.id);
         } catch (error) {
-            message.error(error.toString().replace('Error: GraphQL error: ', ''));
+            message.error(errorText(error));
         }
     }
 
@@ -129,7 +122,7 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
 
         if (user === null) {
             this.setState({
-                status: ArticleStatus.NotFound
+                status: EditArticleStatus.NotFound
             });
             return;
         }
@@ -138,10 +131,10 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
     }
 
     render() {
-        if (this.state.status === ArticleStatus.NotFound) {
+        if (this.state.status === EditArticleStatus.NotFound) {
             return <Redirect to="/" />;
-        } else if (this.state.status === ArticleStatus.Loading) {
-            return <div />;
+        } else if (this.state.status === EditArticleStatus.Loading) {
+            return null;
         }
 
         return (

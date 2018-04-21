@@ -7,7 +7,7 @@ import { connect, Dispatch } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { Card } from 'antd';
 import gql from 'graphql-tag';
-import apollo from '../apollo';
+import { client as apollo } from '../apollo';
 import { signin2 } from '../libs/googleAuth2';
 
 interface LoginProps extends RouteComponentProps<{}> {
@@ -31,7 +31,7 @@ class Login extends React.Component<LoginProps, LoginState> {
         this.props.googleSignIn(googleUser);
 
         const idToken = googleUser.getAuthResponse().id_token;
-        const response = await fetch(process.env.REACT_APP_API_ENDPOINT + '/auth?google_token=' + idToken);
+        const response = await fetch(process.env.REACT_APP_API_AUTH + '?google_token=' + idToken);
         const data = await response.json();
 
         localStorage.authToken = data.token;

@@ -10,13 +10,21 @@ const authLink = setContext((_, { headers }) => ({
     }
 }));
 
-const httpLink = new HttpLink({
-    uri: process.env.REACT_APP_API_ENDPOINT + '/graphql'
-});
-
-const client = new ApolloClient({
-    link: authLink.concat(httpLink),
+export const client = new ApolloClient({
+    link: authLink.concat(new HttpLink({
+        uri: process.env.REACT_APP_API_ENDPOINT
+    })),
     cache: new InMemoryCache()
 });
 
-export default client;
+export const adminClient = new ApolloClient({
+    link: authLink.concat(new HttpLink({
+        uri: process.env.REACT_APP_ADMIN_API_ENDPOINT
+    })),
+    cache: new InMemoryCache(),
+    defaultOptions: {
+        query: {
+            fetchPolicy: 'network-only'
+        }
+    }
+});

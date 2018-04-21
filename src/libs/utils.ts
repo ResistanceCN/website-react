@@ -6,3 +6,12 @@ export function gravatar(hash: string, size: number = 160) {
 export function later(milis: number) {
     return new Promise(resolve => setTimeout(resolve, milis));
 }
+
+// tslint:disable-next-line
+export function deepClone(data: any) {
+    return JSON.parse(JSON.stringify(data));
+}
+
+export function errorText(e: Error) {
+    return e.toString().replace('Error: GraphQL error: ', '')
+}

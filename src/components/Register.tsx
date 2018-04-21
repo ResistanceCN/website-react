@@ -6,8 +6,9 @@ import { connect, Dispatch } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { Alert, Button, Card, Form, Icon, Input, Radio } from 'antd';
 import gql from 'graphql-tag';
-import apollo from '../apollo';
+import { client as apollo } from '../apollo';
 import { LOGIN_SUCCESS } from '../actions';
+import { errorText } from '../libs/utils';
 
 interface LoginProps extends RouteComponentProps<{}> {
     user: User | null;
@@ -54,7 +55,7 @@ class Register extends React.Component<LoginProps, LoginState> {
         } catch (e) {
             this.setState({
                 ...this.state,
-                error: e.toString().replace('Error: GraphQL error: ', '')
+                error: errorText(e)
             });
         }
     }

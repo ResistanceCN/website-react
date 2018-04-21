@@ -8,7 +8,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import { BackTop, Input, Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import UserMenu from './UserMenu';
-import apollo from '../apollo';
+import { client as apollo } from '../apollo';
 import gql from 'graphql-tag';
 
 const { Header, Footer } = Layout;
@@ -59,7 +59,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
     render() {
         if (!this.state.ready) {
             // @TODO: Loading animation
-            return <div />;
+            return null;
         }
 
         return (
@@ -68,7 +68,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
                 <Header className="main-header">
                     <Link to="/" className="brand">
                         <img src="/assets/img/logo.svg" />
-                        <div className="name">CantonRES</div>
+                        <div className="name">GCR</div>
                     </Link>
 
                     <Input className="search" placeholder="搜索……" />
@@ -88,7 +88,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
                 {this.props.children}
 
                 <Footer className="main-footer">
-                    &copy; 2017 Canton Resistance. Based on React &amp; Ant Design
+                    &copy; 2017 Greater Canton Resistance. Powered by React &amp; GraphQL
                 </Footer>
 
                 <BackTop />
