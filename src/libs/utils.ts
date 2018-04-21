@@ -13,5 +13,5 @@ export function deepClone(data: any) {
 }
 
 export function errorText(e: Error) {
-    return e.toString().replace('Error: GraphQL error: ', '')
+    return e.toString().replace('Error: GraphQL error: ', '');
 }

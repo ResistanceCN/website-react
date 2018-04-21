@@ -13,12 +13,12 @@ const status = {
     [ArticleStatus.PUBLISHED]: '已发布'
 };
 
-export default class AllArticles extends React.Component {
-    async getAllArticles() {
+export default class PendingArticles extends React.Component {
+    async getPendingArticles() {
         const result = await apollo.query<{ articles: Array<Article> }>({
             query: gql`
-                query($count: Int, $offset: Int) {
-                    articles: listArticles(count: $count, offset: $offset) {
+                query($count: Int, $offset: Int, $status: ArticleStatus) {
+                    articles: listArticles(count: $count, offset: $offset, status: $status) {
                         id
                         title
                         author { id name }
@@ -28,7 +28,10 @@ export default class AllArticles extends React.Component {
                         publishedAt
                     }
                 }
-            `
+            `,
+            variables: {
+                status: 'PENDING'
+            }
         });
 
         return result.data.articles;
@@ -36,7 +39,7 @@ export default class AllArticles extends React.Component {
 
     render() {
         return (
-            <ArticleTable getArticles={this.getAllArticles} />
+            <ArticleTable getArticles={this.getPendingArticles} />
         );
     }
 }

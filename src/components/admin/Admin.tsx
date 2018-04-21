@@ -6,9 +6,10 @@ import { Link, Switch } from 'react-router-dom';
 import Overview from './Overview';
 import ExampleTable from './ExampleTable';
 import AllArticles from './AllArticles';
+import PendingArticles from './PendingArticles';
+import PublishedArticles from './PublishedArticles';
 
 const { Sider } = Layout;
-const { SubMenu } = Menu;
 
 export default class Admin extends React.Component {
     render() {
@@ -46,6 +47,8 @@ export default class Admin extends React.Component {
                         <Route exact path="/admin" component={Overview} />
                         <Route path="/admin/table" component={ExampleTable} />
                         <Route path="/admin/allArticles" component={AllArticles} />
+                        <Route path="/admin/pendingArticles" component={PendingArticles} />
+                        <Route path="/admin/publishedArticles" component={PublishedArticles} />
                     </Switch>
                 </div>
             </Layout>
