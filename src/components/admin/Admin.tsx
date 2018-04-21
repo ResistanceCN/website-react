@@ -1,7 +1,10 @@
 import './Admin.scss';
 import React from 'react';
+import { User } from '../../types';
+import { State } from '../../reducers';
+import { connect, Dispatch } from 'react-redux';
 import { Layout, Menu } from 'antd';
-import { Route } from 'react-router';
+import { Redirect, Route, RouteComponentProps, withRouter } from 'react-router';
 import { Link, Switch } from 'react-router-dom';
 import Overview from './Overview';
 import ExampleTable from './ExampleTable';
@@ -11,8 +14,17 @@ import PublishedArticles from './PublishedArticles';
 
 const { Sider } = Layout;
 
-export default class Admin extends React.Component {
+interface AdminProps extends RouteComponentProps<{}> {
+    user: User | null;
+}
+
+export class Admin extends React.Component<AdminProps> {
     render() {
+        const user = this.props.user;
+        if (user === null || !user.isAdmin) {
+            return <Redirect to="/" />;
+        }
+
         let current = location.pathname.substr(7).split('/')[0];
 
         if (current === '') {
@@ -55,3 +67,14 @@ export default class Admin extends React.Component {
         );
     }
 }
+
+const mapStateToProps = (state: State) => ({
+    user: state.auth.user
+});
+
+const mapDispatchToProps = (dispatch: Dispatch<State>) => ({});
+
+export default withRouter(connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Admin));

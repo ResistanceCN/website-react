@@ -42,6 +42,8 @@ class Register extends React.Component<LoginProps, LoginState> {
                             googleId
                             name
                             faction
+                            emailHash
+                            isAdmin
                         }
                     }
                 `,

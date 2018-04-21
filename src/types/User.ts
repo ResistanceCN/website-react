@@ -6,6 +6,7 @@ export interface User {
     name: string;
     faction: Faction;
     emailHash: string;
+    isAdmin: boolean;
 }
 
 export const nullUser: User = {
@@ -13,5 +14,6 @@ export const nullUser: User = {
     googleId: '',
     name: '',
     faction: Faction.Unspecified,
-    emailHash: ''
+    emailHash: '',
+    isAdmin: false
 };

@@ -51,42 +51,40 @@ class UserMenu extends React.Component<UserMenuProps> {
     render() {
         const { user } = this.props;
 
-        const isAdmin = true;
-
-        if (user !== null) {
+        if (user === null) {
             return (
-                <Dropdown
-                    trigger={['click']}
-                    placement="bottomRight"
-                    overlay={(
-                        <Menu>
-                            <Menu.Item>Signed in as {user.name}</Menu.Item>
-                            <Menu.Divider />
-                            <Menu.Item>
-                                <Link to={'/user/' + user.id}>个人主页</Link>
-                            </Menu.Item>
-                            <Menu.Item>
-                                <Link to="/settings">设置</Link>
-                            </Menu.Item>
-                            {isAdmin ? (
-                                <Menu.Item>
-                                    <Link to={'/admin'}>控制台</Link>
-                                </Menu.Item>
-                            ) : ''}
-                            <Menu.Divider />
-                            <Menu.Item><a onClick={() => this.logout()}>注销</a></Menu.Item>
-                        </Menu>
-                    )}
-                >
-                    <Avatar className="user-avatar" src={gravatar(user.emailHash, 32)} />
-                </Dropdown>
+                <Link to={{ pathname: '/login', state: { from: location.pathname }}}>
+                    <Button type="dashed" className="login-btn">登录</Button>
+                </Link>
             );
         }
 
         return (
-            <Link to={{ pathname: '/login', state: { from: location.pathname }}}>
-                <Button type="dashed" className="login-btn">登录</Button>
-            </Link>
+            <Dropdown
+                trigger={['click']}
+                placement="bottomRight"
+                overlay={(
+                    <Menu>
+                        <Menu.Item>Signed in as {user.name}</Menu.Item>
+                        <Menu.Divider />
+                        <Menu.Item>
+                            <Link to={'/user/' + user.id}>个人主页</Link>
+                        </Menu.Item>
+                        <Menu.Item>
+                            <Link to="/settings">设置</Link>
+                        </Menu.Item>
+                        {user.isAdmin && (
+                            <Menu.Item>
+                                <Link to={'/admin'}>控制台</Link>
+                            </Menu.Item>
+                        )}
+                        <Menu.Divider />
+                        <Menu.Item><a onClick={() => this.logout()}>注销</a></Menu.Item>
+                    </Menu>
+                )}
+            >
+                <Avatar className="user-avatar" src={gravatar(user.emailHash, 32)} />
+            </Dropdown>
         );
     }
 }
