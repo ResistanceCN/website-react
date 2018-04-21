@@ -53,9 +53,13 @@
     .article-card {
         margin-bottom: 12px;
 
-        .ant-card-head-title a {
-            color: inherit;
-            text-decoration: none;
+        .ant-card-head-title {
+            font-size: 18px;
+
+            a {
+                color: inherit;
+                text-decoration: none;
+            }
         }
     }
 }

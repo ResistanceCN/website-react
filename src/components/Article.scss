@@ -13,6 +13,8 @@
 }
 
 .markdown-body {
+    font-size: 15px;
+
     ul {
         list-style: disc;
     }
@@ -24,13 +26,6 @@
     code, pre {
         font-family: "cjk-fallback", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
     }
-
-    /*
-    .katex {
-        // @TODO: Apply this style to Chrome only
-        font-size: 22px;
-    }
-    */
 }
 
 .article-footer {
