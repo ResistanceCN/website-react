@@ -1,9 +1,9 @@
 import React from 'react';
 import { Table } from 'antd';
-import { Article, ArticleStatus } from '../../types';
+import { ArticleStatus } from '../../types';
 import gql from 'graphql-tag';
 import { adminClient as apollo } from '../../apollo';
-import ArticleTable from './ArticleTable';
+import ArticleTable, { ArticleData } from './ArticleTable';
 
 const { Column } = Table;
 
@@ -15,7 +15,7 @@ const status = {
 
 export default class AllArticles extends React.Component {
     async getAllArticles() {
-        const result = await apollo.query<{ articles: Array<Article> }>({
+        const result = await apollo.query<ArticleData>({
             query: gql`
                 query($count: Int, $offset: Int) {
                     articles: listArticles(count: $count, offset: $offset) {
@@ -27,11 +27,12 @@ export default class AllArticles extends React.Component {
                         status
                         publishedAt
                     }
+                    total: totalArticles
                 }
             `
         });
 
-        return result.data.articles;
+        return result.data;
     }
 
     render() {

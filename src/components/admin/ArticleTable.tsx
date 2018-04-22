@@ -1,5 +1,6 @@
 import React from 'react';
 import { message, Popconfirm, Table } from 'antd';
+import { TablePaginationConfig } from 'antd/lib/table';
 import { Article, ArticleStatus } from '../../types';
 import gql from 'graphql-tag';
 import Loading from '../Loading';
@@ -15,12 +16,18 @@ const statusText = {
     [ArticleStatus.PUBLISHED]: '已发布'
 };
 
+export interface ArticleData {
+    articles: Array<Article>;
+    total: number;
+}
+
 interface ArticleTableProps {
-    getArticles(): Promise<Array<Article>>;
+    getArticles(count: number, offset: number): Promise<ArticleData>;
 }
 
 interface ArticleTableState {
     data: Array<Article>;
+    pagination: TablePaginationConfig;
     loading: boolean;
     ready: boolean;
 }
@@ -28,23 +35,38 @@ interface ArticleTableState {
 export default class ArticleTable extends React.Component<ArticleTableProps, ArticleTableState> {
     state = {
         data: [],
+        pagination: {
+            pageSize: 15,
+            current: 1
+        },
         loading: true,
         ready: false
     };
 
-    async getArticles() {
+    async getArticles(pagination: TablePaginationConfig = this.state.pagination) {
         this.setState({
             ...this.state,
             loading: true
         });
 
-        const articles = await this.props.getArticles();
+        const count = pagination.pageSize!;
+        const offset = (pagination.current! - 1) * count;
+
+        const data = await this.props.getArticles(count, offset);
 
         this.setState({
             ...this.state,
-            data: articles,
+            data: data.articles,
+            pagination: {
+                ...pagination,
+                total: data.total
+            },
             loading: false
         });
+    }
+
+    handleTableChange(pagination: TablePaginationConfig | boolean) {
+        this.getArticles(pagination as TablePaginationConfig);
     }
 
     async mutate<T>(options: MutationOptions<T>) {
@@ -109,7 +131,14 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
         }
 
         return (
-            <Table dataSource={this.state.data} rowKey="id" loading={this.state.loading}>
+            <Table
+                bordered
+                rowKey="id"
+                dataSource={this.state.data}
+                pagination={this.state.pagination}
+                loading={this.state.loading}
+                onChange={(p, f, s) => this.handleTableChange(p)}
+            >
                 <Column title="标题" dataIndex="title" />
                 <Column title="状态" key="status" render={(text, record: Article) => statusText[record.status]} />
                 <Column title="作者" key="author" render={(text, record: Article) => record.author.name} />
