@@ -17,13 +17,13 @@ interface HomeProps extends RouteComponentProps<HomeRouterProps> {}
 
 interface HomeState {
     articles: Array<Article>;
-    totalPages: number;
+    total: number;
 }
 
 export default class Home extends React.Component<HomeProps, HomeState> {
     state = {
         articles: [],
-        totalPages: 1
+        total: 1
     };
 
     getPage(props?: HomeProps): number {
@@ -71,7 +71,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         }).then(response => {
             this.setState({
                 ...this.state,
-                totalPages: Math.ceil(response.data.articleCount / 15)
+                total: response.data.articleCount
             });
         });
     }
@@ -130,15 +130,16 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                     </WithSidebar>
                 </div>
 
-                <Layout.Content className="container pagination">
-                    {this.state.totalPages > 1 ? (
+                {this.state.total > 15 ? (
+                    <Layout.Content className="container pagination">
                         <Pagination
+                            pageSize={15}
                             current={this.getPage()}
-                            total={this.state.totalPages}
-                            showQuickJumper={this.state.totalPages > 3}
+                            total={this.state.total}
+                            showQuickJumper={this.state.total > 45}
                         />
-                    ) : ''}
-                </Layout.Content>
+                    </Layout.Content>
+                ) : ''}
             </div>
         );
     }
