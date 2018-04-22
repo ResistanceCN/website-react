@@ -41,6 +41,8 @@ export default class Sidebar extends React.Component<{}, SidebarState> {
         fixedTop: 0
     };
 
+    frameID = 0;
+
     onResize: EventListener;
 
     getTimeline(): Array<string> {
@@ -168,13 +170,14 @@ export default class Sidebar extends React.Component<{}, SidebarState> {
 
         const animationLoop = () => {
             this.updateSidebarStatus();
-            requestAnimationFrame(animationLoop);
+            this.frameID = requestAnimationFrame(animationLoop);
         };
-        requestAnimationFrame(animationLoop);
+        this.frameID = requestAnimationFrame(animationLoop);
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.onResize);
+        window.cancelAnimationFrame(this.frameID);
     }
 
     render() {
