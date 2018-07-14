@@ -19,13 +19,13 @@ export default () => (
                 <Route exact path="/" component={Home} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />
-                <Route exact path="/page/:page(\\d+)" component={Home} />
+                <Route exact path="/page/:page(\d+)" component={Home} />
                 <Route exact path="/article/new" component={NewArticle} />
-                <Route exact path="/article/:id(\\w+)" component={Article} />
-                <Route exact path="/article/:id(\\w+)/edit" component={EditArticle} />
+                <Route exact path="/article/:id(\w+)" component={Article} />
+                <Route exact path="/article/:id(\w+)/edit" component={EditArticle} />
                 <Route exact path="/join" component={Join} />
-                <Route exact path="/form/:name(\\w+)" component={Home} />
-                <Route exact path="/user/:id(\\w+)" component={Profile} />
+                <Route exact path="/form/:name(\w+)" component={Home} />
+                <Route exact path="/user/:id(\w+)" component={Profile} />
                 <Route path="/admin" component={Admin} />
                 <Route component={Home} />
             </Switch>

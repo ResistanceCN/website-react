@@ -1,6 +1,6 @@
 import React from 'react';
 import { message, Popconfirm, Table } from 'antd';
-import { TablePaginationConfig } from 'antd/lib/table';
+import { PaginationConfig } from 'antd/lib/table/interface';
 import { Article, ArticleStatus } from '../../types';
 import gql from 'graphql-tag';
 import Loading from '../Loading';
@@ -27,7 +27,7 @@ interface ArticleTableProps {
 
 interface ArticleTableState {
     data: Array<Article>;
-    pagination: TablePaginationConfig;
+    pagination: PaginationConfig;
     loading: boolean;
     ready: boolean;
 }
@@ -43,7 +43,7 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
         ready: false
     };
 
-    async getArticles(pagination: TablePaginationConfig = this.state.pagination) {
+    async getArticles(pagination: PaginationConfig = this.state.pagination) {
         this.setState({
             ...this.state,
             loading: true
@@ -65,8 +65,8 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
         });
     }
 
-    handleTableChange(pagination: TablePaginationConfig | boolean) {
-        this.getArticles(pagination as TablePaginationConfig);
+    handleTableChange(pagination: PaginationConfig | boolean) {
+        this.getArticles(pagination as PaginationConfig);
     }
 
     async mutate<T>(options: MutationOptions<T>) {

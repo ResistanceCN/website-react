@@ -87,7 +87,7 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
                     <Button
                         type="primary"
                         className="editor-submit"
-                        onClick={e => this.onSubmit()}
+                        onClick={() => this.onSubmit()}
                         loading={this.state.submitting}
                     >
                         提交
