@@ -103,7 +103,7 @@ class Register extends React.Component<LoginProps, LoginState> {
             <div className="flex-spacer container login-container register-container">
                 <Card bordered={false} title="完善您的资料">
                     <Form onSubmit={e => this.onSubmit(e)} className="join-form">
-                        <Alert message="注意：以下信息提交后不可修改！" type="info" />
+                        <Alert message="注意：提交成功后，若要修改请联系管理员" type="info" />
 
                         {this.state.error === '' ? '' : (
                             <Alert message={this.state.error} type="error" closable />
