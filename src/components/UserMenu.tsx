@@ -8,7 +8,7 @@ import { Avatar, Button, Dropdown, Menu } from 'antd';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import { gravatar } from '../libs/utils';
-import { auth2, googleSignOut } from '../libs/googleAuth2';
+import { auth2 } from '../libs/googleAuth2';
 
 interface UserMenuProps extends RouteComponentProps<{}> {
     user: User;
@@ -21,7 +21,7 @@ class UserMenu extends React.Component<UserMenuProps> {
         localStorage.authToken = '';
 
         auth2()
-            .then(async api => await googleSignOut(api))
+            .then(async api => await api.getAuthInstance().signOut())
             .catch(() => 0) // Do nothing
             .then(() => this.props.logout()); // Always
     }

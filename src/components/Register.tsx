@@ -9,7 +9,7 @@ import gql from 'graphql-tag';
 import { client as apollo } from '../apollo';
 import { AUTH_RESET, LOGIN_SUCCESS } from '../actions';
 import { errorText } from '../libs/utils';
-import { auth2, googleSignOut } from '../libs/googleAuth2';
+import { auth2 } from '../libs/googleAuth2';
 
 interface LoginProps extends RouteComponentProps<{}> {
     user: User | null;
@@ -44,7 +44,7 @@ class Register extends React.Component<LoginProps, LoginState> {
         localStorage.authToken = '';
 
         auth2()
-            .then(async api => await googleSignOut(api))
+            .then(async api => await api.getAuthInstance().signOut())
             .catch(() => 0) // Do nothing
             .then(() => this.props.logout()); // Always
     }
