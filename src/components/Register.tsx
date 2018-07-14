@@ -101,7 +101,6 @@ class Register extends React.Component<LoginProps, LoginState> {
                             <Input
                                 name="name"
                                 prefix={<Icon type="user" />}
-                                size="large"
                                 placeholder="Agent Codename"
                                 value={this.state.name}
                                 onChange={e => this.handleChange(e)}
@@ -121,7 +120,7 @@ class Register extends React.Component<LoginProps, LoginState> {
                             </Radio.Group>
                         </Form.Item>
 
-                        <Button htmlType="submit" size="large" type="primary">提交</Button>
+                        <Button htmlType="submit" type="primary">提交</Button>
                     </Form>
                 </Card>
             </div>
