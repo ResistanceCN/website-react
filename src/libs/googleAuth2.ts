@@ -42,3 +42,25 @@ export async function auth2() {
 export async function signin2() {
     return (await gapiInit()).signin2;
 }
+
+export async function googleSignOut(api: typeof gapi.auth2) {
+    return new Promise(resolve => {
+        // Google says that the signOut() method is synchronous, but...
+        api.getAuthInstance().signOut();
+
+        // isSignedIn is not set to false immediately, so we have to wait
+        const wait = () => {
+            if (!api.getAuthInstance().isSignedIn.get()) {
+                // If we do logout() before isSignedIn changed, the user might be redirected to login page
+                // Then gapi.auth2.init() would call onSuccess(), which will dispatch actions we don't want
+                resolve();
+
+                return;
+            }
+
+            setTimeout(wait);
+        };
+
+        wait();
+    });
+}

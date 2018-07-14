@@ -8,7 +8,7 @@ import { Avatar, Button, Dropdown, Menu } from 'antd';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 import { gravatar } from '../libs/utils';
-import { auth2 } from '../libs/googleAuth2';
+import { auth2, googleSignOut } from '../libs/googleAuth2';
 
 interface UserMenuProps extends RouteComponentProps<{}> {
     user: User;
@@ -16,34 +16,12 @@ interface UserMenuProps extends RouteComponentProps<{}> {
 }
 
 class UserMenu extends React.Component<UserMenuProps> {
-    async googleSignOut(api: typeof gapi.auth2) {
-        return new Promise(resolve => {
-            // Google says that the signOut() method is synchronous, but...
-            api.getAuthInstance().signOut();
-
-            // isSignedIn is not set to false immediately, so we have to wait
-            const wait = () => {
-                if (api.getAuthInstance().isSignedIn.get() === false) {
-                    // If we do logout() before isSignedIn changed, the user might be redirected to login page
-                    // Then gapi.auth2.init() would call onSuccess(), which will dispatch actions we don't want
-                    resolve();
-
-                    return;
-                }
-
-                setTimeout(wait);
-            };
-
-            wait();
-        });
-    }
-
     async logout() {
         // Perform AJAX request here
         localStorage.authToken = '';
 
         auth2()
-            .then(async api => await this.googleSignOut(api))
+            .then(async api => await googleSignOut(api))
             .catch(() => 0) // Do nothing
             .then(() => this.props.logout()); // Always
     }

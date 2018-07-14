@@ -18,12 +18,14 @@ interface LoginProps extends RouteComponentProps<{}> {
 
 interface LoginState {
     gapiError: boolean;
+    gapiSignInError: boolean;
     newUser: boolean;
 }
 
 class Login extends React.Component<LoginProps, LoginState> {
     state = {
         gapiError: false,
+        gapiSignInError: false,
         newUser: false
     };
 
@@ -61,7 +63,7 @@ class Login extends React.Component<LoginProps, LoginState> {
 
     onFailure() {
         this.setState({
-            gapiError: true
+            gapiSignInError: true
         });
     }
 
@@ -76,7 +78,10 @@ class Login extends React.Component<LoginProps, LoginState> {
                 onfailure: () => this.onFailure()
             });
         }).catch(() => {
-            this.onFailure();
+            this.setState({
+                gapiError: true,
+                gapiSignInError: false
+            });
         });
     }
 
@@ -97,10 +102,14 @@ class Login extends React.Component<LoginProps, LoginState> {
                     <p>用于登录的 Google 账户<b>并非</b>必须是你的 Ingress 账户。</p>
 
                     {this.state.gapiError ?
-                        <div className="gapi-error">Google 登录组件加载失败</div>
+                        <div className="gapi-error">Google 登录组件加载失败，请确认您可以连接 Google</div>
                     :
                         <div id="google-sign-in-button" />
                     }
+
+                    {this.state.gapiSignInError && (
+                        <p className="google-sign-in-error">Google 账户登录失败，请重试</p>
+                    )}
                 </Card>
             </div>
         );

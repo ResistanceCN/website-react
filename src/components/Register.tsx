@@ -7,14 +7,16 @@ import { Redirect, RouteComponentProps } from 'react-router';
 import { Alert, Button, Card, Form, Icon, Input, Radio } from 'antd';
 import gql from 'graphql-tag';
 import { client as apollo } from '../apollo';
-import { LOGIN_SUCCESS } from '../actions';
+import { AUTH_RESET, LOGIN_SUCCESS } from '../actions';
 import { errorText } from '../libs/utils';
+import { auth2, googleSignOut } from '../libs/googleAuth2';
 
 interface LoginProps extends RouteComponentProps<{}> {
     user: User | null;
     googleUser: gapi.auth2.GoogleUser | null;
     googleSignIn(googleUser: gapi.auth2.GoogleUser): void;
     login(user: User): void;
+    logout(): void;
 }
 
 interface LoginState {
@@ -36,6 +38,16 @@ class Register extends React.Component<LoginProps, LoginState> {
         faction: 1,
         error: ''
     };
+
+    async logout() {
+        // Perform AJAX request here
+        localStorage.authToken = '';
+
+        auth2()
+            .then(async api => await googleSignOut(api))
+            .catch(() => 0) // Do nothing
+            .then(() => this.props.logout()); // Always
+    }
 
     async onSubmit(e: FormEvent<HTMLElement>) {
         e.preventDefault();
@@ -120,7 +132,11 @@ class Register extends React.Component<LoginProps, LoginState> {
                             </Radio.Group>
                         </Form.Item>
 
-                        <Button htmlType="submit" type="primary">提交</Button>
+                        <div className="form-action">
+                            <div className="flex-spacer" />
+                            <Button onClick={() => this.logout()}>取消</Button>
+                            <Button htmlType="submit" type="primary">提交</Button>
+                        </div>
                     </Form>
                 </Card>
             </div>
@@ -138,6 +154,11 @@ const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
         dispatch({
             type: LOGIN_SUCCESS,
             user
+        });
+    },
+    logout() {
+        dispatch({
+            type: AUTH_RESET
         });
     }
 });
