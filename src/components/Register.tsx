@@ -105,7 +105,7 @@ class Register extends React.Component<LoginProps, LoginState> {
                     <Form onSubmit={e => this.onSubmit(e)} className="join-form">
                         <Alert message="注意：提交成功后，若要修改请联系管理员" type="info" />
 
-                        {this.state.error === '' ? '' : (
+                        {this.state.error !== '' && (
                             <Alert message={this.state.error} type="error" closable />
                         )}
 

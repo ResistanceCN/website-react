@@ -104,7 +104,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
 
                 <div className="container main">
                     <WithSidebar className="news">
-                        {this.state.articles ? this.state.articles.map((article: Article) => {
+                        {this.state.articles && this.state.articles.map((article: Article) => {
                             return (
                                 <Card
                                     key={article.id}
@@ -119,18 +119,18 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                                         }}
                                     />
 
-                                    {article.tags.length > 0 ? (
+                                    {article.tags.length > 0 && (
                                         <div className="article-footer">
                                             {article.tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)}
                                         </div>
-                                    ) : ''}
+                                    )}
                                 </Card>
                             );
-                        }) : ''}
+                        })}
                     </WithSidebar>
                 </div>
 
-                {this.state.total > 15 ? (
+                {this.state.total > 15 && (
                     <Layout.Content className="container pagination">
                         <Pagination
                             pageSize={15}
@@ -139,7 +139,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                             showQuickJumper={this.state.total > 45}
                         />
                     </Layout.Content>
-                ) : ''}
+                )}
             </div>
         );
     }

@@ -112,11 +112,11 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
                                     __html: renderMarkdown(article.content)
                                 }}
                             />
-                            {article.tags.length > 0 ? (
+                            {article.tags.length > 0 && (
                                 <div className="article-footer">
                                     {article.tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)}
                                 </div>
-                            ) : ''}
+                            )}
                         </Card>
                     </WithSidebar>
                 </div>
