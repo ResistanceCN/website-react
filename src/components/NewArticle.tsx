@@ -9,6 +9,7 @@ import gql from 'graphql-tag';
 import Editor from './Editor';
 import { client as apollo } from '../apollo';
 import { errorText, later } from '../libs/utils';
+import { DISABLE_IMMERSIVE, ENABLE_IMMERSIVE } from '../actions';
 
 enum NewArticleStatus {
     Loading,
@@ -18,6 +19,7 @@ enum NewArticleStatus {
 
 interface NewArticleProps extends RouteComponentProps<{}> {
     user: User | null;
+    setImmersive(enabled: boolean): void;
 }
 
 interface NewArticleState {
@@ -76,6 +78,14 @@ class NewArticle extends React.Component<NewArticleProps, NewArticleState> {
         });
     }
 
+    componentDidMount() {
+        this.props.setImmersive(true);
+    }
+
+    componentWillUnmount() {
+        this.props.setImmersive(false);
+    }
+
     render() {
         if (this.state.status === NewArticleStatus.LoginRequired) {
             return <Redirect to="/login" />;
@@ -87,6 +97,7 @@ class NewArticle extends React.Component<NewArticleProps, NewArticleState> {
             <Editor
                 article={this.state.article}
                 onSubmit={(title, content) => this.onSubmit(title, content)}
+                onCancel={() => this.props.history.goBack()}
             />
         );
     }
@@ -96,7 +107,13 @@ const mapStateToProps = (state: State) => ({
     user: state.auth.user
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<State>) => ({});
+const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
+    setImmersive(enabled: boolean) {
+        dispatch({
+            type: enabled ? ENABLE_IMMERSIVE : DISABLE_IMMERSIVE
+        });
+    }
+});
 
 export default connect(
     mapStateToProps,

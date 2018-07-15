@@ -2,6 +2,7 @@ import './Editor.scss';
 import React, { ChangeEvent } from 'react';
 import { Article } from '../types';
 import { Button } from 'antd';
+import Measure, { BoundingRect } from 'react-measure';
 import AceEditor from 'react-ace';
 import 'brace/mode/markdown';
 import 'brace/theme/tomorrow';
@@ -9,21 +10,25 @@ import throttle from 'lodash/throttle';
 import renderMarkdown from '../libs/markdown';
 
 interface EditorProps {
+    className?: string;
     article: Article;
     onSubmit(title: string, content: string): Promise<void>;
+    onCancel(): void;
 }
 
 interface EditorState {
     title: string;
     content: string;
     submitting: boolean;
+    editorBounds?: BoundingRect;
 }
 
 export default class Editor extends React.Component<EditorProps, EditorState> {
     state = {
         title: this.props.article.title,
         content: this.props.article.content,
-        submitting: false
+        submitting: false,
+        editorBounds: undefined
     };
 
     scrollbar: HTMLElement | null = null;
@@ -75,8 +80,11 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
     }
 
     render() {
+        const editorBounds = this.state.editorBounds || { height: 0 };
+        const editorHeight = editorBounds.height + 'px';
+
         return (
-            <div className="flex-spacer">
+            <div className={(this.props.className || '') + ' editor-container'}>
                 <div className="editor-title">
                     <input
                         value={this.state.title}
@@ -84,29 +92,36 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
                         name="title"
                         onChange={e => this.onTitleChange(e)}
                     />
-                    <Button
-                        type="primary"
-                        className="editor-submit"
-                        onClick={() => this.onSubmit()}
-                        loading={this.state.submitting}
-                    >
-                        提交
-                    </Button>
                 </div>
+
                 <div className="editor flex-spacer">
-                    <AceEditor
-                        name="md-editor"
-                        className="md-content"
-                        wrapEnabled
-                        mode="markdown"
-                        theme="tomorrow"
-                        width="50%"
-                        height="100%"
-                        fontSize={14}
-                        value={this.state.content}
-                        editorProps={{ $blockScrolling: true }}
-                        onChange={this.onContentChange}
-                    />
+                    <Measure
+                        bounds
+                        onResize={rect => {
+                            this.setState({
+                                editorBounds: rect.bounds
+                            });
+                        }}
+                    >
+                        {({ measureRef }) => (
+                            <div className="md-editor-measurer" ref={measureRef}>
+                                <AceEditor
+                                    name="md-editor"
+                                    className="md-content"
+                                    wrapEnabled
+                                    mode="markdown"
+                                    theme="tomorrow"
+                                    width="100%"
+                                    height={editorHeight}
+                                    fontSize={14}
+                                    value={this.state.content}
+                                    editorProps={{ $blockScrolling: true }}
+                                    onChange={this.onContentChange}
+                                />
+                            </div>
+                        )}
+                    </Measure>
+
                     <div
                         className="md-preview markdown-body"
                         dangerouslySetInnerHTML={{
@@ -114,6 +129,26 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
                         }}
                         ref={ref => this.preview = ref!}
                     />
+                </div>
+
+                <div className="editor-footer">
+                    <div className="flex-spacer" />
+
+                    <Button
+                        style={{ display: this.state.submitting ? 'none' : 'inline-block' }}
+                        onClick={this.props.onCancel}
+                    >
+                        取消
+                    </Button>
+
+                    <Button
+                        type="primary"
+                        className="submit-button"
+                        onClick={() => this.onSubmit()}
+                        loading={this.state.submitting}
+                    >
+                        提交
+                    </Button>
                 </div>
             </div>
         );

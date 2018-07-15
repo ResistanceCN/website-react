@@ -15,6 +15,7 @@ import gql from 'graphql-tag';
 const { Header, Footer } = Layout;
 
 interface AppLayoutProps extends RouteComponentProps<{}> {
+    immersive: boolean;
     login(user: User): void;
 }
 
@@ -64,40 +65,50 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
 
         return (
             <Layout className="layout main-layout">
-                <div className="header-placeholder" />
-                <Header className="main-header">
-                    <Link to="/" className="brand">
-                        <img src="/assets/img/logo.svg" />
-                        <div className="name">Resistance</div>
-                    </Link>
+                {this.props.immersive || (
+                    <React.Fragment>
+                        <div className="header-placeholder" />
+                        <Header className="main-header">
+                            <Link to="/" className="brand">
+                                <img src="/assets/img/logo.svg" />
+                                <div className="name">Resistance</div>
+                            </Link>
 
-                    <Input className="search" placeholder="搜索……" />
+                            <Input className="search" placeholder="搜索……" />
 
-                    <div className="flex-spacer" />
+                            <div className="flex-spacer" />
 
-                    <Menu mode="horizontal" defaultSelectedKeys={['1']} className="main-menu">
-                        <Menu.Item key="1">Home</Menu.Item>
-                        <Menu.Item key="2">News</Menu.Item>
-                        <Menu.Item key="3">Tutorials</Menu.Item>
-                        <Menu.Item key="5">About</Menu.Item>
-                    </Menu>
+                            <Menu mode="horizontal" defaultSelectedKeys={['1']} className="main-menu">
+                                <Menu.Item key="1">Home</Menu.Item>
+                                <Menu.Item key="2">News</Menu.Item>
+                                <Menu.Item key="3">Tutorials</Menu.Item>
+                                <Menu.Item key="5">About</Menu.Item>
+                            </Menu>
 
-                    <UserMenu />
-                </Header>
+                            <UserMenu />
+                        </Header>
+                    </React.Fragment>
+                )}
 
                 {this.props.children}
 
-                <Footer className="main-footer">
-                    &copy; 2017 Greater Canton Resistance. Powered by React &amp; GraphQL
-                </Footer>
+                {this.props.immersive || (
+                    <React.Fragment>
+                        <Footer className="main-footer">
+                            &copy; 2017 Greater Canton Resistance. Powered by React &amp; GraphQL
+                        </Footer>
 
-                <BackTop />
+                        <BackTop />
+                    </React.Fragment>
+                )}
             </Layout>
         );
     }
 }
 
-const mapStateToProps = (state: State) => ({});
+const mapStateToProps = (state: State) => ({
+    immersive: state.ui.immersive
+});
 
 const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
     login(user: User) {

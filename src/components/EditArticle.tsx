@@ -2,6 +2,7 @@ import './Editor.scss';
 import React from 'react';
 import { Article, nullArticle, User } from '../types';
 import { State } from '../reducers';
+import { DISABLE_IMMERSIVE, ENABLE_IMMERSIVE } from '../actions';
 import { connect, Dispatch } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { message } from 'antd';
@@ -22,6 +23,7 @@ interface EditArticleRouterProps {
 
 interface EditArticleProps extends RouteComponentProps<EditArticleRouterProps> {
     user: User | null;
+    setImmersive(enabled: boolean): void;
 }
 
 interface EditArticleState {
@@ -130,6 +132,14 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
         this.getArticle(user);
     }
 
+    componentDidMount() {
+        this.props.setImmersive(true);
+    }
+
+    componentWillUnmount() {
+        this.props.setImmersive(false);
+    }
+
     render() {
         if (this.state.status === EditArticleStatus.NotFound) {
             return <Redirect to="/" />;
@@ -139,8 +149,10 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
 
         return (
             <Editor
+                className="full-height"
                 article={this.state.article}
                 onSubmit={(title, content) => this.onSubmit(title, content)}
+                onCancel={() => this.props.history.goBack()}
             />
         );
     }
@@ -150,7 +162,13 @@ const mapStateToProps = (state: State) => ({
     user: state.auth.user
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<State>) => ({});
+const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
+    setImmersive(enabled: boolean) {
+        dispatch({
+            type: enabled ? ENABLE_IMMERSIVE : DISABLE_IMMERSIVE
+        });
+    }
+});
 
 export default connect(
     mapStateToProps,

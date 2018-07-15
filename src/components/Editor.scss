@@ -1,17 +1,17 @@
 @import "/assets/css/icomoon.css";
 
-.editor-title {
-    height: 56px;
-    line-height: 56px;
-    border-bottom: 1px solid #eee;
-
+.editor-container {
     display: flex;
-    flex-direction: row;
-    align-items: stretch;
+    flex-direction: column;
+}
+
+.editor-title {
+    border-bottom: 1px solid #eee;
 
     input {
         font-size: 20px;
-        font-weight: 300;
+        line-height: 56px;
+        font-weight: bold;
         background: #fff;
 
         width: 100%;
@@ -19,25 +19,19 @@
         border: none;
         outline: none;
     }
-
-    .editor-submit {
-        height: 100%;
-        border-radius: 0;
-
-        &:after {
-            display: none;
-        }
-    }
 }
 
 .editor {
-    height: calc(100vh - 186px);
     overflow-y: hidden;
     background: #fff;
     border-bottom: 1px solid #eee;
     display: flex;
     flex-direction: row;
     align-items: stretch;
+}
+
+.md-editor-measurer {
+    width: 50%;
 }
 
 .ace_editor {
@@ -57,7 +51,6 @@
     overflow-y: auto;
     position: relative;
 
-
     // The bug has been fixed incompletely in KaTeX 0.9.0-beta
     .katex {
         /*
@@ -75,7 +68,6 @@
         }
     }
 
-
     // This element will let the page scrolls even if overflow-y is not visible
     .katex-mathml {
         display: none;
@@ -83,5 +75,16 @@
 
     .math-error {
         color: #c00;
+    }
+}
+
+.editor-footer {
+    padding: 16px;
+
+    display: flex;
+    flex-direction: row;
+
+    .submit-button {
+        margin-left: 16px;
     }
 }
