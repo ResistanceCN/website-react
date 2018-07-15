@@ -11,6 +11,7 @@ import NewArticle from './NewArticle';
 import Join from './Join';
 import Profile from './Profile';
 import Admin from './admin/Admin';
+import NotFound from './NotFound';
 
 export default () => (
     <Router>
@@ -27,7 +28,7 @@ export default () => (
                 <Route exact path="/form/:name(\w+)" component={Home} />
                 <Route exact path="/user/:id(\w+)" component={Profile} />
                 <Route path="/admin" component={Admin} />
-                <Route component={Home} />
+                <Route component={NotFound} />
             </Switch>
         </Layout>
     </Router>
