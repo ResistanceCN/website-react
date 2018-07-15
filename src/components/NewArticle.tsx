@@ -95,6 +95,7 @@ class NewArticle extends React.Component<NewArticleProps, NewArticleState> {
 
         return (
             <Editor
+                className="full-height"
                 article={this.state.article}
                 onSubmit={(title, content) => this.onSubmit(title, content)}
                 onCancel={() => this.props.history.goBack()}
