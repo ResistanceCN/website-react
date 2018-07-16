@@ -129,7 +129,12 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
                 </React.Fragment>
             ) : record.status === ArticleStatus.PUBLISHED ? (
                 <React.Fragment>
-                    <a onClick={this.updateStatus(record, ArticleStatus.DRAFT)}>撤销发布</a>
+                    <Popconfirm
+                        title="确定要将这篇文章撤销发布吗？"
+                        onConfirm={this.updateStatus(record, ArticleStatus.DRAFT)}
+                    >
+                        <a>撤销发布</a>
+                    </Popconfirm>
                     <span className="ant-divider" />
                 </React.Fragment>
             ) : (
