@@ -47,7 +47,6 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
         }
 
         this.setState({
-            ...this.state,
             ready: true
         });
     }

@@ -53,7 +53,6 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
             variables: { id }
         }).then(response => {
             this.setState({
-                ...this.state,
                 status: Status.OK,
                 article: {
                     ...response.data.article,
@@ -63,7 +62,6 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
             });
         }).catch(e => {
             this.setState({
-                ...this.state,
                 status: Status.Failed
             });
             throw e;

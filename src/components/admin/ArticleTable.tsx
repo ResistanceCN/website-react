@@ -45,7 +45,6 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
 
     async getArticles(pagination: PaginationConfig = this.state.pagination) {
         this.setState({
-            ...this.state,
             loading: true
         });
 
@@ -55,7 +54,6 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
         const data = await this.props.getArticles(count, offset);
 
         this.setState({
-            ...this.state,
             data: data.articles,
             pagination: {
                 ...pagination,
@@ -71,7 +69,6 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
 
     async mutate<T>(options: MutationOptions<T>) {
         this.setState({
-            ...this.state,
             loading: true
         });
 
@@ -81,7 +78,6 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
         } catch (e) {
             message.error(errorText(e));
             this.setState({
-                ...this.state,
                 loading: false
             });
         }
@@ -162,7 +158,6 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
         await this.getArticles();
 
         this.setState({
-            ...this.state,
             ready: true
         });
     }

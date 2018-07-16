@@ -75,17 +75,17 @@ class Register extends React.Component<LoginProps, LoginState> {
             this.props.login(result.data!.me);
         } catch (e) {
             this.setState({
-                ...this.state,
                 error: errorText(e)
             });
         }
     };
 
     handleChange = (e: BindingEvent) => {
-        this.setState({
-            ...this.state,
-            [e.target.name!]: e.target.value
-        });
+        const { name, value } = e.target;
+        this.setState(prevState => ({
+            ...prevState,
+            [name!]: value
+        }));
     };
 
     render() {

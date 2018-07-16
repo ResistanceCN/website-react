@@ -35,18 +35,16 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
     preview: HTMLElement;
     scrollTogether: EventListener;
 
-    onContentChange = throttle(content => this.setState({ ...this.state, content }), 240);
+    onContentChange = throttle(content => this.setState({ content }), 240);
 
     onTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            ...this.state,
             title: e.target.value
         });
     };
 
     onSubmit = async () => {
         this.setState({
-            ...this.state,
             submitting: true
         });
 
@@ -54,7 +52,6 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
 
         // @TODO: Generates a warning if there's a redirection in this.props.onSubmit()
         this.setState({
-            ...this.state,
             submitting: false
         });
     };

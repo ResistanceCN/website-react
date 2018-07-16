@@ -50,7 +50,6 @@ export default class Home extends React.Component<HomeProps, HomeState> {
         });
 
         this.setState({
-            ...this.state,
             articles: response.data.latestArticles.map(article => ({
                 ...article,
                 // Shows summaries only
@@ -70,7 +69,6 @@ export default class Home extends React.Component<HomeProps, HomeState> {
             `
         }).then(response => {
             this.setState({
-                ...this.state,
                 total: response.data.articleCount
             });
         });

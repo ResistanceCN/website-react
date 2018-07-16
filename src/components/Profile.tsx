@@ -79,7 +79,6 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
             });
         }).catch(error => {
             this.setState({
-                ...this.state,
                 status: ProfileStatus.NotFound
             });
         });

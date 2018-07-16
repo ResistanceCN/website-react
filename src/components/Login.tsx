@@ -40,7 +40,6 @@ class Login extends React.Component<LoginProps, LoginState> {
 
         if (data.newUser) {
             return this.setState({
-                ...this.state,
                 newUser: true
             });
         }

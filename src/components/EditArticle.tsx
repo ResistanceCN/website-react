@@ -64,7 +64,6 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
             }
 
             this.setState({
-                ...this.state,
                 status: EditArticleStatus.OK,
                 article: {
                     ...response.data.article,
@@ -74,7 +73,6 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
             });
         }).catch(e => {
             this.setState({
-                ...this.state,
                 status: EditArticleStatus.NotFound
             });
             // throw e;

@@ -45,10 +45,11 @@ class Join extends React.Component<JoinProps, JoinState> {
     };
 
     handleChange = (e: BindingEvent) => {
-        this.setState({
-            ...this.state,
-            [e.target.name!]: e.target.value
-        });
+        const { name, value } = e.target;
+        this.setState(prevState => ({
+            ...prevState,
+            [name!]: value
+        }));
     };
 
     getJoinInfo() {
@@ -68,7 +69,6 @@ class Join extends React.Component<JoinProps, JoinState> {
         }).then(result => {
             const info = result.data.info;
             this.setState({
-                ...this.state,
                 loading: false,
                 name: info.name,
                 telegram: info.telegram,
@@ -107,7 +107,6 @@ class Join extends React.Component<JoinProps, JoinState> {
         }).then(result => {
             message.success('提交成功');
             this.setState({
-                ...this.state,
                 updatedAt: new Date(result.data!.info.updatedAt)
             });
         }).catch(error => {
@@ -123,9 +122,9 @@ class Join extends React.Component<JoinProps, JoinState> {
 
     // Currying
     onRemoveRegion = (region: string) => () => {
-        this.state.regions.delete(region);
-        this.setState({
-            regions: this.state.regions
+        this.setState(({ regions }) => {
+            regions.delete(region);
+            return { regions }
         });
     };
 
