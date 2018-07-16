@@ -16,14 +16,14 @@ interface UserMenuProps extends RouteComponentProps<{}> {
 }
 
 class UserMenu extends React.Component<UserMenuProps> {
-    logout = async () => {
+    logout = () => {
         // Perform AJAX request here
         localStorage.authToken = '';
 
-        auth2()
-            .then(async api => await api.getAuthInstance().signOut())
+        auth2
+            .then(api => api.getAuthInstance().signOut())
             .catch(() => 0) // Do nothing
-            .then(() => this.props.logout()); // Always
+            .then(this.props.logout); // Always
     };
 
     render() {

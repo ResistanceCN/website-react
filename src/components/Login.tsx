@@ -67,7 +67,7 @@ class Login extends React.Component<LoginProps, LoginState> {
     }
 
     componentDidMount() {
-        signin2().then(api => {
+        signin2.then(api => {
             api.render('google-sign-in-button', {
                 scope: 'profile email',
                 height: 36,

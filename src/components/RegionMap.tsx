@@ -37,7 +37,7 @@ export default class RegionMap extends React.Component<RegionMapProps, RegionMap
 
     async componentDidMount() {
         try {
-            await GoogleMap.loaded();
+            await GoogleMap.loaded;
 
             const map = GoogleMap.instance();
 
@@ -126,29 +126,24 @@ class GoogleMap {
         return GoogleMap.map;
     }
 
-    static loaded(): Promise<{}> {
-        return new Promise((resolve, reject) => {
-            const wait = () => {
-                switch (asyncScripts.map) {
-                    case ScriptStatus.Failed:
-                        // Failed
-                        reject();
-                        // tslint:disable-next-line
-                        console.error('Cannot load Google Maps SDK');
-                        break;
+    static loaded = new Promise((resolve, reject) => {
+        const wait = () => {
+            switch (asyncScripts.map) {
+                case ScriptStatus.Failed:
+                    reject();
+                    // tslint:disable-next-line
+                    console.error('Cannot load Google Maps SDK');
+                    break;
 
-                    case ScriptStatus.Success:
-                        // Success
-                        resolve();
-                        break;
+                case ScriptStatus.Success:
+                    resolve();
+                    break;
 
-                    case ScriptStatus.Loading:
-                        // Loading
-                        setTimeout(wait, 200);
-                }
-            };
+                case ScriptStatus.Loading:
+                    setTimeout(wait, 200);
+            }
+        };
 
-            wait();
-        });
-    }
+        wait();
+    });
 }

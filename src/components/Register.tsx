@@ -39,14 +39,14 @@ class Register extends React.Component<LoginProps, LoginState> {
         error: ''
     };
 
-    logout = async () => {
+    onCancel = () => {
         // Perform AJAX request here
         localStorage.authToken = '';
 
-        auth2()
-            .then(async api => await api.getAuthInstance().signOut())
+        auth2
+            .then(api => api.getAuthInstance().signOut())
             .catch(() => 0) // Do nothing
-            .then(() => this.props.logout()); // Always
+            .then(this.props.logout); // Always
     };
 
     onSubmit = async (e: FormEvent<HTMLElement>) => {
@@ -134,7 +134,7 @@ class Register extends React.Component<LoginProps, LoginState> {
 
                         <div className="form-action">
                             <div className="flex-spacer" />
-                            <Button onClick={this.logout}>取消</Button>
+                            <Button onClick={this.onCancel}>取消</Button>
                             <Button htmlType="submit" type="primary">提交</Button>
                         </div>
                     </Form>
