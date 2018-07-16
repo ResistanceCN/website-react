@@ -44,12 +44,12 @@ class Join extends React.Component<JoinProps, JoinState> {
         updatedAt: null
     };
 
-    handleChange(e: BindingEvent) {
+    handleChange = (e: BindingEvent) => {
         this.setState({
             ...this.state,
             [e.target.name!]: e.target.value
         });
-    }
+    };
 
     getJoinInfo() {
         apollo.query<{ info: JoinInfo }>({
@@ -79,7 +79,7 @@ class Join extends React.Component<JoinProps, JoinState> {
         });
     }
 
-    onSubmit(e: FormEvent<HTMLFormElement>) {
+    onSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         apollo.mutate<{ info: JoinInfo }>({
@@ -113,20 +113,31 @@ class Join extends React.Component<JoinProps, JoinState> {
         }).catch(error => {
             message.error(errorText(error));
         });
-    }
+    };
 
-    onSelectRegion(event: google.maps.Data.MouseEvent) {
+    onSelectRegion = (event: google.maps.Data.MouseEvent) => {
         this.setState({
             regions: this.state.regions.add(event.feature.getProperty('id'))
         });
-    }
+    };
 
-    onRemoveRegion(region: string) {
+    // Currying
+    onRemoveRegion = (region: string) => () => {
         this.state.regions.delete(region);
         this.setState({
             regions: this.state.regions
         });
-    }
+    };
+
+    renderRegionTag = (region: string) => (
+        <Tag
+            key={region}
+            closable
+            afterClose={this.onRemoveRegion(region)}
+        >
+            {regionNames[region]}
+        </Tag>
+    );
 
     componentDidMount() {
         this.getJoinInfo();
@@ -154,7 +165,7 @@ class Join extends React.Component<JoinProps, JoinState> {
                 <div className="container main">
                     <WithSidebar className="news">
                         <Card bordered={false}>
-                            <Form onSubmit={e => this.onSubmit(e)} className="join-form">
+                            <Form onSubmit={this.onSubmit} className="join-form">
                                 <p>请如实认真地填写该表格，这将有助于我们更好地组织和调配战争资源，为我们共同的目标赢得更大的优势！</p>
                                 <p>你填写的信息只会提供给审核人员查看，并保证不会在未得到你允许的情况下外传。</p>
 
@@ -164,7 +175,7 @@ class Join extends React.Component<JoinProps, JoinState> {
                                         name="name"
                                         value={this.state.name}
                                         placeholder="Agent Name"
-                                        onChange={e => this.handleChange(e)}
+                                        onChange={this.handleChange}
                                     />
                                 </Form.Item>
 
@@ -176,23 +187,15 @@ class Join extends React.Component<JoinProps, JoinState> {
                                         name="telegram"
                                         value={this.state.telegram}
                                         placeholder="Telegram Username (不带 @)"
-                                        onChange={e => this.handleChange(e)}
+                                        onChange={this.handleChange}
                                     />
                                 </Form.Item>
 
                                 <Form.Item label="主要活动区域">
                                     <p>如你发现战区与现实的行政区矛盾，还是请按照此地图中的战区选择</p>
-                                    <RegionMap onSelect={e => this.onSelectRegion(e)} />
+                                    <RegionMap onSelect={this.onSelectRegion} />
                                     <div>
-                                        {Array.from(this.state.regions).map(region => (
-                                            <Tag
-                                                key={region}
-                                                closable
-                                                afterClose={() => this.onRemoveRegion(region)}
-                                            >
-                                                {regionNames[region]}
-                                            </Tag>
-                                        ))}
+                                        {Array.from(this.state.regions).map(this.renderRegionTag)}
                                     </div>
                                 </Form.Item>
 
@@ -202,7 +205,7 @@ class Join extends React.Component<JoinProps, JoinState> {
                                         name="other"
                                         value={this.state.other}
                                         autosize={{ minRows: 4, maxRows: 10 }}
-                                        onChange={e => this.handleChange(e)}
+                                        onChange={this.handleChange}
                                     />
                                 </Form.Item>
 

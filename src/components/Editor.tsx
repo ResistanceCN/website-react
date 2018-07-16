@@ -2,7 +2,7 @@ import './Editor.scss';
 import React, { ChangeEvent } from 'react';
 import { Article } from '../types';
 import { Button } from 'antd';
-import Measure, { BoundingRect } from 'react-measure';
+import Measure, { BoundingRect, ContentRect } from 'react-measure';
 import AceEditor from 'react-ace';
 import 'brace/mode/markdown';
 import 'brace/theme/tomorrow';
@@ -37,14 +37,14 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
 
     onContentChange = throttle(content => this.setState({ ...this.state, content }), 240);
 
-    onTitleChange(e: ChangeEvent<HTMLInputElement>) {
+    onTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             ...this.state,
             title: e.target.value
         });
-    }
+    };
 
-    async onSubmit() {
+    onSubmit = async () => {
         this.setState({
             ...this.state,
             submitting: true
@@ -52,11 +52,18 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
 
         await this.props.onSubmit(this.state.title, this.state.content);
 
+        // @TODO: Generates a warning if there's a redirection in this.props.onSubmit()
         this.setState({
             ...this.state,
             submitting: false
         });
-    }
+    };
+
+    onEditorMeasure = (rect: ContentRect) => {
+        this.setState({
+            editorBounds: rect.bounds
+        });
+    };
 
     componentDidMount() {
         const scrollbar = document.querySelector('.ace_scrollbar-v');
@@ -90,18 +97,14 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
                         value={this.state.title}
                         placeholder="Title here..."
                         name="title"
-                        onChange={e => this.onTitleChange(e)}
+                        onChange={this.onTitleChange}
                     />
                 </div>
 
                 <div className="editor flex-spacer">
                     <Measure
                         bounds
-                        onResize={rect => {
-                            this.setState({
-                                editorBounds: rect.bounds
-                            });
-                        }}
+                        onResize={this.onEditorMeasure}
                     >
                         {({ measureRef }) => (
                             <div className="md-editor-measurer" ref={measureRef}>
@@ -144,7 +147,7 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
                     <Button
                         type="primary"
                         className="submit-button"
-                        onClick={() => this.onSubmit()}
+                        onClick={this.onSubmit}
                         loading={this.state.submitting}
                     >
                         提交

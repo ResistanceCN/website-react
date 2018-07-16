@@ -33,7 +33,7 @@ class NewArticle extends React.Component<NewArticleProps, NewArticleState> {
         status: NewArticleStatus.Loading
     };
 
-    async onSubmit(title: string, content: string): Promise<void> {
+    onSubmit = async (title: string, content: string) => {
         try {
             const result = await apollo.mutate<{ article: Article }>({
                 mutation: gql`
@@ -61,7 +61,7 @@ class NewArticle extends React.Component<NewArticleProps, NewArticleState> {
         } catch (error) {
             message.error(errorText(error));
         }
-    }
+    };
 
     componentWillMount() {
         const user = this.props.user;
@@ -97,8 +97,8 @@ class NewArticle extends React.Component<NewArticleProps, NewArticleState> {
             <Editor
                 className="full-height"
                 article={this.state.article}
-                onSubmit={(title, content) => this.onSubmit(title, content)}
-                onCancel={() => this.props.history.goBack()}
+                onSubmit={this.onSubmit}
+                onCancel={this.props.history.goBack}
             />
         );
     }

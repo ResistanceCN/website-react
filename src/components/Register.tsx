@@ -39,7 +39,7 @@ class Register extends React.Component<LoginProps, LoginState> {
         error: ''
     };
 
-    async logout() {
+    logout = async () => {
         // Perform AJAX request here
         localStorage.authToken = '';
 
@@ -47,9 +47,9 @@ class Register extends React.Component<LoginProps, LoginState> {
             .then(async api => await api.getAuthInstance().signOut())
             .catch(() => 0) // Do nothing
             .then(() => this.props.logout()); // Always
-    }
+    };
 
-    async onSubmit(e: FormEvent<HTMLElement>) {
+    onSubmit = async (e: FormEvent<HTMLElement>) => {
         e.preventDefault();
 
         try {
@@ -79,14 +79,14 @@ class Register extends React.Component<LoginProps, LoginState> {
                 error: errorText(e)
             });
         }
-    }
+    };
 
-    handleChange(e: BindingEvent) {
+    handleChange = (e: BindingEvent) => {
         this.setState({
             ...this.state,
             [e.target.name!]: e.target.value
         });
-    }
+    };
 
     render() {
         const { user } = this.props;
@@ -102,7 +102,7 @@ class Register extends React.Component<LoginProps, LoginState> {
         return (
             <div className="flex-spacer container login-container register-container">
                 <Card bordered={false} title="完善您的资料">
-                    <Form onSubmit={e => this.onSubmit(e)} className="join-form">
+                    <Form onSubmit={this.onSubmit} className="join-form">
                         <Alert message="注意：提交成功后，若要修改请联系管理员" type="info" />
 
                         {this.state.error !== '' && (
@@ -115,7 +115,7 @@ class Register extends React.Component<LoginProps, LoginState> {
                                 prefix={<Icon type="user" />}
                                 placeholder="Agent Codename"
                                 value={this.state.name}
-                                onChange={e => this.handleChange(e)}
+                                onChange={this.handleChange}
                             />
                         </Form.Item>
 
@@ -124,7 +124,7 @@ class Register extends React.Component<LoginProps, LoginState> {
                                 className="radios-faction"
                                 name="faction"
                                 value={this.state.faction}
-                                onChange={e => this.handleChange(e)}
+                                onChange={this.handleChange}
                             >
                                 <Radio.Button className="res" value={1}>抵抗军</Radio.Button>
                                 <Radio.Button className="enl" value={2}>启蒙军</Radio.Button>
@@ -134,7 +134,7 @@ class Register extends React.Component<LoginProps, LoginState> {
 
                         <div className="form-action">
                             <div className="flex-spacer" />
-                            <Button onClick={() => this.logout()}>取消</Button>
+                            <Button onClick={this.logout}>取消</Button>
                             <Button htmlType="submit" type="primary">提交</Button>
                         </div>
                     </Form>

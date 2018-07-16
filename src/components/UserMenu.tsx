@@ -16,7 +16,7 @@ interface UserMenuProps extends RouteComponentProps<{}> {
 }
 
 class UserMenu extends React.Component<UserMenuProps> {
-    async logout() {
+    logout = async () => {
         // Perform AJAX request here
         localStorage.authToken = '';
 
@@ -24,7 +24,7 @@ class UserMenu extends React.Component<UserMenuProps> {
             .then(async api => await api.getAuthInstance().signOut())
             .catch(() => 0) // Do nothing
             .then(() => this.props.logout()); // Always
-    }
+    };
 
     render() {
         const { user } = this.props;
@@ -57,7 +57,7 @@ class UserMenu extends React.Component<UserMenuProps> {
                             </Menu.Item>
                         )}
                         <Menu.Divider />
-                        <Menu.Item><a onClick={() => this.logout()}>注销</a></Menu.Item>
+                        <Menu.Item><a onClick={this.logout}>注销</a></Menu.Item>
                     </Menu>
                 )}
             >

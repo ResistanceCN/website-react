@@ -81,7 +81,7 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
         });
     }
 
-    async onSubmit(title: string, content: string): Promise<void> {
+    onSubmit = async (title: string, content: string) => {
         try {
             const result = await apollo.mutate<{ article: Article }>({
                 mutation: gql`
@@ -117,7 +117,7 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
         } catch (error) {
             message.error(errorText(error));
         }
-    }
+    };
 
     componentWillMount() {
         const user = this.props.user;
@@ -151,8 +151,8 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
             <Editor
                 className="full-height"
                 article={this.state.article}
-                onSubmit={(title, content) => this.onSubmit(title, content)}
-                onCancel={() => this.props.history.goBack()}
+                onSubmit={this.onSubmit}
+                onCancel={this.props.history.goBack}
             />
         );
     }

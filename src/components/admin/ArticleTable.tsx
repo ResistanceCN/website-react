@@ -65,9 +65,9 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
         });
     }
 
-    handleTableChange(pagination: PaginationConfig | boolean) {
+    handleTableChange = (pagination: PaginationConfig) => {
         this.getArticles(pagination as PaginationConfig);
-    }
+    };
 
     async mutate<T>(options: MutationOptions<T>) {
         this.setState({
@@ -87,7 +87,7 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
         }
     }
 
-    updateStatus(article: Article, status: ArticleStatus) {
+    updateStatus = (article: Article, status: ArticleStatus) => () => {
         this.mutate({
             mutation: gql`
                 mutation($id: ID!, $status: ArticleStatus) {
@@ -101,9 +101,9 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
                 status
             }
         });
-    }
+    };
 
-    deleteArticle(article: Article) {
+    deleteArticle = (article: Article) => () => {
         this.mutate({
             mutation: gql`
                 mutation($id: ID!) {
@@ -114,7 +114,44 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
                 id: article.id
             }
         });
-    }
+    };
+
+    renderStatusColumn = (text: string, record: Article) => statusText[record.status];
+    renderAuthorColumn = (text: string, record: Article) => record.author.name;
+    renderActionColumn = (text: string, record: Article) => (
+        <React.Fragment>
+            {record.status === ArticleStatus.PENDING ? (
+                <React.Fragment>
+                    <a onClick={this.updateStatus(record, ArticleStatus.PUBLISHED)}>发布</a>
+                    <span className="ant-divider" />
+                    <a onClick={this.updateStatus(record, ArticleStatus.DRAFT)}>驳回</a>
+                    <span className="ant-divider" />
+                </React.Fragment>
+            ) : record.status === ArticleStatus.PUBLISHED ? (
+                <React.Fragment>
+                    <a onClick={this.updateStatus(record, ArticleStatus.DRAFT)}>撤销发布</a>
+                    <span className="ant-divider" />
+                </React.Fragment>
+            ) : (
+                <React.Fragment>
+                    <Popconfirm
+                        title="这是一篇草稿，其作者未请求发布它，确定要这样做吗？"
+                        onConfirm={this.updateStatus(record, ArticleStatus.PUBLISHED)}
+                    >
+                        <a>发布</a>
+                    </Popconfirm>
+                    <span className="ant-divider" />
+                </React.Fragment>
+            )}
+            <Popconfirm
+                title="确定要删除这篇文章吗？"
+                onConfirm={this.deleteArticle(record)}
+                okType="danger"
+            >
+                <a>删除</a>
+            </Popconfirm>
+        </React.Fragment>
+    );
 
     async componentDidMount() {
         await this.getArticles();
@@ -137,49 +174,12 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
                 dataSource={this.state.data}
                 pagination={this.state.pagination}
                 loading={this.state.loading}
-                onChange={(p, f, s) => this.handleTableChange(p)}
+                onChange={this.handleTableChange}
             >
                 <Column title="标题" dataIndex="title" />
-                <Column title="状态" key="status" render={(text, record: Article) => statusText[record.status]} />
-                <Column title="作者" key="author" render={(text, record: Article) => record.author.name} />
-                <Column
-                    title="操作"
-                    key="action"
-                    render={(text, record: Article) => (
-                        <React.Fragment>
-                            {record.status === ArticleStatus.PENDING ? (
-                                <React.Fragment>
-                                    <a onClick={() => this.updateStatus(record, ArticleStatus.PUBLISHED)}>发布</a>
-                                    <span className="ant-divider" />
-                                    <a onClick={() => this.updateStatus(record, ArticleStatus.DRAFT)}>驳回</a>
-                                    <span className="ant-divider" />
-                                </React.Fragment>
-                            ) : record.status === ArticleStatus.PUBLISHED ? (
-                                <React.Fragment>
-                                    <a onClick={() => this.updateStatus(record, ArticleStatus.DRAFT)}>撤销发布</a>
-                                    <span className="ant-divider" />
-                                </React.Fragment>
-                            ) : (
-                                <React.Fragment>
-                                    <Popconfirm
-                                        title="这是一篇草稿，其作者未请求发布它，确定要这样做吗？"
-                                        onConfirm={() => this.updateStatus(record, ArticleStatus.PUBLISHED)}
-                                    >
-                                        <a>发布</a>
-                                    </Popconfirm>
-                                    <span className="ant-divider" />
-                                </React.Fragment>
-                            )}
-                            <Popconfirm
-                                title="确定要删除这篇文章吗？"
-                                onConfirm={() => this.deleteArticle(record)}
-                                okType="danger"
-                            >
-                                <a>删除</a>
-                            </Popconfirm>
-                        </React.Fragment>
-                    )}
-                />
+                <Column title="状态" key="status" render={this.renderStatusColumn} />
+                <Column title="作者" key="author" render={this.renderAuthorColumn} />
+                <Column title="操作" key="action" render={this.renderActionColumn} />
             </Table>
         );
     }
