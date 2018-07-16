@@ -124,7 +124,7 @@ class Join extends React.Component<JoinProps, JoinState> {
     onRemoveRegion = (region: string) => () => {
         this.setState(({ regions }) => {
             regions.delete(region);
-            return { regions }
+            return { regions };
         });
     };
 
