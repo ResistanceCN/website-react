@@ -6,8 +6,8 @@ const NotFound: StatelessComponent<{}> = props => (
             src="/assets/img/salted-fish-min.svg"
             alt="404"
             style={{
-                maxWidth: '50%',
-                maxHeight: '50%',
+                maxWidth: '35%',
+                maxHeight: '35%',
                 flex: '1'
             }}
         />
