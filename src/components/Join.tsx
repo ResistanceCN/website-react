@@ -53,7 +53,7 @@ class Join extends React.Component<JoinProps, JoinState> {
     };
 
     getJoinInfo() {
-        apollo.query<{ info: JoinInfo }>({
+        apollo.query<{ info?: JoinInfo }>({
             query: gql`
                 query {
                     info: joinInfo {
@@ -68,6 +68,13 @@ class Join extends React.Component<JoinProps, JoinState> {
             fetchPolicy: 'network-only'
         }).then(result => {
             const info = result.data.info;
+
+            if (!info) {
+                return this.setState({
+                    loading: false
+                });
+            }
+
             this.setState({
                 loading: false,
                 name: info.name,
