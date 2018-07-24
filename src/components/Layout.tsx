@@ -15,6 +15,7 @@ import gql from 'graphql-tag';
 const { Header, Footer } = Layout;
 
 interface AppLayoutProps extends RouteComponentProps<{}> {
+    user: User;
     immersive: boolean;
     login(user: User): void;
 }
@@ -27,6 +28,17 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
     state = {
         ready: false
     };
+
+    getCurrentMenuItem() {
+        const path = this.props.location.pathname;
+
+        if (path == '/')
+            return ['index'];
+        else if (path.startsWith('/admin'))
+            return ['admin'];
+        else
+            return [];
+    }
 
     async componentWillMount() {
         if (localStorage.authToken) {
@@ -77,11 +89,13 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
 
                             <div className="flex-spacer" />
 
-                            <Menu mode="horizontal" defaultSelectedKeys={['1']} className="main-menu">
-                                <Menu.Item key="1">Home</Menu.Item>
-                                <Menu.Item key="2">News</Menu.Item>
-                                <Menu.Item key="3">Tutorials</Menu.Item>
-                                <Menu.Item key="5">About</Menu.Item>
+                            <Menu mode="horizontal" selectedKeys={this.getCurrentMenuItem()} className="main-menu">
+                                <Menu.Item key="index"><Link to="/">首页</Link></Menu.Item>
+                                <Menu.Item key="tutorials">教程</Menu.Item>
+                                <Menu.Item key="about">关于</Menu.Item>
+                                {this.props.user.isAdmin && (
+                                    <Menu.Item key="admin"><Link to="/admin">管理</Link></Menu.Item>
+                                )}
                             </Menu>
 
                             <UserMenu />
@@ -106,6 +120,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
 }
 
 const mapStateToProps = (state: State) => ({
+    user: state.auth.user,
     immersive: state.ui.immersive
 });
 

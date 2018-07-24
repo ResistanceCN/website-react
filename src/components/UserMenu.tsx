@@ -51,11 +51,6 @@ class UserMenu extends React.Component<UserMenuProps> {
                         <Menu.Item>
                             <Link to="/settings">设置</Link>
                         </Menu.Item>
-                        {user.isAdmin && (
-                            <Menu.Item>
-                                <Link to={'/admin'}>控制台</Link>
-                            </Menu.Item>
-                        )}
                         <Menu.Divider />
                         <Menu.Item><a onClick={this.logout}>注销</a></Menu.Item>
                     </Menu>
