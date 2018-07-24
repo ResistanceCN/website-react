@@ -15,7 +15,7 @@ import gql from 'graphql-tag';
 const { Header, Footer } = Layout;
 
 interface AppLayoutProps extends RouteComponentProps<{}> {
-    user: User;
+    user: User | null;
     immersive: boolean;
     login(user: User): void;
 }
@@ -74,6 +74,8 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
             return <Loading className="main-layout" size="large" />;
         }
 
+        const user = this.props.user;
+
         return (
             <Layout className="layout main-layout">
                 {this.props.immersive || (
@@ -93,7 +95,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
                                 <Menu.Item key="index"><Link to="/">首页</Link></Menu.Item>
                                 <Menu.Item key="tutorials">教程</Menu.Item>
                                 <Menu.Item key="about">关于</Menu.Item>
-                                {this.props.user.isAdmin && (
+                                {user && user.isAdmin && (
                                     <Menu.Item key="admin"><Link to="/admin">管理</Link></Menu.Item>
                                 )}
                             </Menu>
