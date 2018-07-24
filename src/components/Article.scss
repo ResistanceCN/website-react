@@ -26,6 +26,11 @@
     code, pre {
         font-family: "cjk-fallback", "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
     }
+
+    .katex-display {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
 }
 
 .article-footer {
