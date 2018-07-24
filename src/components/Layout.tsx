@@ -32,12 +32,13 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
     getCurrentMenuItem() {
         const path = this.props.location.pathname;
 
-        if (path == '/')
+        if (path === '/') {
             return ['index'];
-        else if (path.startsWith('/admin'))
+        } else if (path.startsWith('/admin')) {
             return ['admin'];
-        else
+        } else {
             return [];
+        }
     }
 
     async componentWillMount() {
