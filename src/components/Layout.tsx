@@ -111,7 +111,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
                 {this.props.immersive || (
                     <React.Fragment>
                         <Footer className="main-footer">
-                            &copy; 2017 Greater Canton Resistance. Powered by React &amp; GraphQL
+                            &copy; 2017-{new Date().getFullYear()} Greater Canton Resistance. Powered by React &amp; GraphQL
                         </Footer>
 
                         <BackTop />
