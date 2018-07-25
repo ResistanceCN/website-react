@@ -14,6 +14,8 @@ import gql from 'graphql-tag';
 
 const { Header, Footer } = Layout;
 
+const currentYear = new Date().getFullYear();
+
 interface AppLayoutProps extends RouteComponentProps<{}> {
     user: User | null;
     immersive: boolean;
@@ -111,7 +113,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
                 {this.props.immersive || (
                     <React.Fragment>
                         <Footer className="main-footer">
-                            &copy; 2017-{new Date().getFullYear()} Greater Canton Resistance. Powered by React &amp; GraphQL
+                            &copy; 2017-{currentYear} Greater Canton Resistance. Powered by React &amp; GraphQL
                         </Footer>
 
                         <BackTop />
