@@ -6,8 +6,18 @@ import Measure, { BoundingRect, ContentRect } from 'react-measure';
 import AceEditor from 'react-ace';
 import 'brace/mode/markdown';
 import 'brace/theme/tomorrow';
-import throttle from 'lodash/throttle';
 import renderMarkdown from '../libs/markdown';
+import MarkdownWorker from 'worker-loader!../libs/markdownWorker';
+
+let workerInstance: MarkdownWorker;
+
+function getWorker() {
+    if (!workerInstance) {
+        workerInstance = new MarkdownWorker();
+    }
+
+    return workerInstance;
+}
 
 interface EditorProps {
     className?: string;
@@ -19,6 +29,7 @@ interface EditorProps {
 interface EditorState {
     title: string;
     content: string;
+    renderedContent: string;
     submitting: boolean;
     editorBounds?: BoundingRect;
 }
@@ -27,15 +38,26 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
     state = {
         title: this.props.article.title,
         content: this.props.article.content,
+        renderedContent: renderMarkdown(this.props.article.content),
         submitting: false,
         editorBounds: undefined
     };
 
+    worker = getWorker();
     scrollbar: HTMLElement | null = null;
     preview: HTMLElement;
     scrollTogether: EventListener;
 
-    onContentChange = throttle(content => this.setState({ content }), 240);
+    updatePreview = (e: MessageEvent) => {
+        this.setState({
+            renderedContent: e.data
+        });
+    };
+
+    onContentChange = (content: string) => {
+        this.setState({ content });
+        this.worker.postMessage(content);
+    };
 
     onTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
@@ -75,9 +97,13 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
 
             this.scrollbar.addEventListener('scroll', this.scrollTogether);
         }
+
+        this.worker.onmessage = this.updatePreview;
     }
 
     componentWillUnmount() {
+        this.worker.onmessage = null;
+
         if (this.scrollbar !== null) {
             this.scrollbar.removeEventListener('scroll', this.scrollTogether);
         }
@@ -125,7 +151,7 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
                     <div
                         className="md-preview markdown-body"
                         dangerouslySetInnerHTML={{
-                            __html: renderMarkdown(this.state.content)
+                            __html: this.state.renderedContent
                         }}
                         ref={ref => this.preview = ref!}
                     />

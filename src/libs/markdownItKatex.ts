@@ -9,7 +9,7 @@ const asciimath = require('asciimath-to-latex');
 
 // Chrome limits the minimum font size, causing small texts in \frac{} overflow
 const isChrome = navigator.appVersion.indexOf('Chrome/') !== -1;
-if (isChrome) {
+if (self.document && isChrome) {
     const style = document.createElement('style');
     style.type = 'text/css';
     style.appendChild(document.createTextNode('.katex { font-size: 22px; }'));
