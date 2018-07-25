@@ -15,3 +15,7 @@ export function deepClone(data: any) {
 export function errorText(e: Error) {
     return e.toString().replace('Error: GraphQL error: ', '');
 }
+
+export function unreachable() {
+    throw new Error('Unreachable branch reached!');
+}

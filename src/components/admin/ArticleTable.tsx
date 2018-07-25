@@ -1,5 +1,5 @@
 import React from 'react';
-import { message, Popconfirm, Table } from 'antd';
+import { message, Table } from 'antd';
 import { PaginationConfig } from 'antd/lib/table/interface';
 import { Article, ArticleStatus } from '../../types';
 import gql from 'graphql-tag';
@@ -7,6 +7,8 @@ import Loading from '../Loading';
 import { adminClient as apollo } from '../../apollo';
 import { errorText } from '../../libs/utils';
 import { MutationOptions } from 'apollo-client';
+import ArticleAction from './ArticleAction';
+import { Link } from 'react-router-dom';
 
 const { Column } = Table;
 
@@ -83,75 +85,46 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
         }
     }
 
-    updateStatus = (article: Article, status: ArticleStatus) => () => {
-        this.mutate({
-            mutation: gql`
-                mutation($id: ID!, $status: ArticleStatus) {
-                    updateArticle(id: $id, status: $status) {
-                        id
-                    }
+    updateStatus = (article: Article, status: ArticleStatus) => this.mutate({
+        mutation: gql`
+            mutation($id: ID!, $status: ArticleStatus) {
+                updateArticle(id: $id, status: $status) {
+                    id
                 }
-            `,
-            variables: {
-                id: article.id,
-                status
             }
-        });
-    };
+        `,
+        variables: {
+            id: article.id,
+            status
+        }
+    });
 
-    deleteArticle = (article: Article) => () => {
-        this.mutate({
-            mutation: gql`
-                mutation($id: ID!) {
-                    deleteArticle(id: $id)
-                }
-            `,
-            variables: {
-                id: article.id
+    deleteArticle = (article: Article) => this.mutate({
+        mutation: gql`
+            mutation($id: ID!) {
+                deleteArticle(id: $id)
             }
-        });
-    };
+        `,
+        variables: {
+            id: article.id
+        }
+    });
 
     renderStatusColumn = (text: string, record: Article) => statusText[record.status];
     renderAuthorColumn = (text: string, record: Article) => record.author.name;
+    renderTitleColumn = (text: string, record: Article) => {
+        if (record.status === ArticleStatus.PUBLISHED) {
+            return <Link to={'/article/' + record.id}>{record.title}</Link>;
+        } else {
+            return record.title;
+        }
+    };
     renderActionColumn = (text: string, record: Article) => (
-        <React.Fragment>
-            {record.status === ArticleStatus.PENDING ? (
-                <React.Fragment>
-                    <a onClick={this.updateStatus(record, ArticleStatus.PUBLISHED)}>发布</a>
-                    <span className="ant-divider" />
-                    <a onClick={this.updateStatus(record, ArticleStatus.DRAFT)}>驳回</a>
-                    <span className="ant-divider" />
-                </React.Fragment>
-            ) : record.status === ArticleStatus.PUBLISHED ? (
-                <React.Fragment>
-                    <Popconfirm
-                        title="确定要将这篇文章撤销发布吗？"
-                        onConfirm={this.updateStatus(record, ArticleStatus.DRAFT)}
-                    >
-                        <a>撤销发布</a>
-                    </Popconfirm>
-                    <span className="ant-divider" />
-                </React.Fragment>
-            ) : (
-                <React.Fragment>
-                    <Popconfirm
-                        title="这是一篇草稿，其作者未请求发布它，确定要这样做吗？"
-                        onConfirm={this.updateStatus(record, ArticleStatus.PUBLISHED)}
-                    >
-                        <a>发布</a>
-                    </Popconfirm>
-                    <span className="ant-divider" />
-                </React.Fragment>
-            )}
-            <Popconfirm
-                title="确定要删除这篇文章吗？"
-                onConfirm={this.deleteArticle(record)}
-                okType="danger"
-            >
-                <a>删除</a>
-            </Popconfirm>
-        </React.Fragment>
+        <ArticleAction
+            record={record}
+            updateStatus={this.updateStatus}
+            deleteArticle={this.deleteArticle}
+        />
     );
 
     async componentDidMount() {
@@ -176,7 +149,7 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
                 loading={this.state.loading}
                 onChange={this.handleTableChange}
             >
-                <Column title="标题" dataIndex="title" />
+                <Column title="标题" key="title" render={this.renderTitleColumn} />
                 <Column title="状态" key="status" render={this.renderStatusColumn} />
                 <Column title="作者" key="author" render={this.renderAuthorColumn} />
                 <Column title="操作" key="action" render={this.renderActionColumn} />
