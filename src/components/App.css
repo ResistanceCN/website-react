@@ -12,7 +12,7 @@ body {
     margin: 0;
     padding: 0;
     font-size: 14px;
-    font-family: 'Source Sans Pro', sans-serif;
+    font-family: 'Source Sans Pro', 'cjk-fallback', sans-serif;
     min-width: 768px;
 }
 
