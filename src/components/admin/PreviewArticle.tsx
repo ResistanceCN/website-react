@@ -1,4 +1,4 @@
-import '../Editor.scss';
+import '../parts/Editor.scss';
 import React from 'react';
 import { Article, ArticleStatus, nullArticle } from '../../types';
 import { State } from '../../reducers';
@@ -7,7 +7,7 @@ import { connect, Dispatch } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { message } from 'antd';
 import gql from 'graphql-tag';
-import Editor from '../Editor';
+import Editor from '../parts/Editor';
 import { adminClient, client as apollo } from '../../apollo';
 import { errorText, later } from '../../libs/utils';
 

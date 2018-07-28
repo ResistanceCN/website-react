@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Timeline } from 'antd';
+import { Card } from 'antd';
 
 export default (props: {}) => (
     <Card title="账户设置" bordered={false} className="content-menu">

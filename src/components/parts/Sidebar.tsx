@@ -1,6 +1,6 @@
 import './Sidebar.scss';
 import React, { CSSProperties } from 'react';
-import { Card, Col, Icon, Timeline, Tooltip } from 'antd';
+import { Card, Col, Icon, Tooltip } from 'antd';
 import { Link } from 'react-router-dom';
 
 enum SidebarStatus {

@@ -1,13 +1,13 @@
 import './Editor.scss';
 import React, { ChangeEvent } from 'react';
-import { Article } from '../types';
+import { Article } from '../../types';
 import { Button } from 'antd';
 import Measure, { BoundingRect, ContentRect } from 'react-measure';
 import AceEditor from 'react-ace';
 import 'brace/mode/markdown';
 import 'brace/theme/tomorrow';
-import renderMarkdown from '../libs/markdown';
-import MarkdownWorker from 'worker-loader!../libs/markdownWorker';
+import renderMarkdown from '../../libs/markdown';
+import MarkdownWorker from 'worker-loader!../../libs/markdownWorker';
 
 let workerInstance: MarkdownWorker;
 

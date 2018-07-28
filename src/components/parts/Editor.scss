@@ -1,5 +1,3 @@
-@import "/assets/css/icomoon.css";
-
 .editor-container {
     display: flex;
     flex-direction: column;
@@ -50,23 +48,6 @@
     border-left: 1px solid #eee;
     overflow-y: auto;
     position: relative;
-
-    // Fixed in KaTeX v0.10.0-alpha
-    /*
-    .katex {
-        .frac-line {
-            min-height: 1px;
-
-            svg {
-                margin-top: -1px;
-            }
-        }
-
-        .sqrt .hide-tail:not(.frac-line) {
-            overflow: visible;
-        }
-    }
-    */
 
     // This element will let the page scrolls even if overflow-y is not visible
     .katex-mathml {

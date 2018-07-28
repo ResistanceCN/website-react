@@ -3,7 +3,7 @@ import { message, Table } from 'antd';
 import { PaginationConfig } from 'antd/lib/table/interface';
 import { Article, ArticleStatus } from '../../types';
 import gql from 'graphql-tag';
-import Loading from '../Loading';
+import Loading from '../parts/Loading';
 import { adminClient as apollo } from '../../apollo';
 import { errorText } from '../../libs/utils';
 import { MutationOptions } from 'apollo-client';

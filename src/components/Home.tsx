@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Button, Card, Layout, Pagination, Tag } from 'antd';
 import { Article } from '../types';
-import WithSidebar from './WithSidebar';
+import WithSidebar from './parts/WithSidebar';
 import renderMarkdown from '../libs/markdown';
 import gql from 'graphql-tag';
 import { client as apollo } from '../apollo';
