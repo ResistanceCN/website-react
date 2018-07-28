@@ -7,7 +7,7 @@ import { connect, Dispatch } from 'react-redux';
 import { Avatar, Button, Dropdown, Menu } from 'antd';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
-import { gravatar } from '../../libs/utils';
+import { resizeGoogleAvatar } from '../../libs/utils';
 import { auth2 } from '../../libs/googleAuth2';
 
 interface UserMenuProps extends RouteComponentProps<{}> {
@@ -56,7 +56,11 @@ class UserMenu extends React.Component<UserMenuProps> {
                     </Menu>
                 )}
             >
-                <Avatar className="user-avatar" src={gravatar(user.emailHash, 32)} />
+                {user.avatar ? (
+                    <Avatar className="user-avatar" src={resizeGoogleAvatar(user.avatar, 32)} />
+                ) : (
+                    <Avatar className="user-avatar" icon="user" />
+                )}
             </Dropdown>
         );
     }

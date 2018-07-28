@@ -1,6 +1,13 @@
-export function gravatar(hash: string, size: number = 160) {
+function gravatar(hash: string, size: number = 160) {
     const s = Math.ceil(window.devicePixelRatio * size);
     return 'https://cn.gravatar.com/avatar/' + hash + '?d=mm&s=' + s;
+}
+
+export function resizeGoogleAvatar(url: string, size: number) {
+    const s = Math.ceil(window.devicePixelRatio * size);
+    const parts = url.split('/');
+    parts[parts.length - 2] = 's' + s;
+    return parts.join('/');
 }
 
 export function later(milis: number) {

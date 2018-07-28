@@ -49,7 +49,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
                 const result = await apollo.query<{ me: User }>({
                     query: gql`
                         query {
-                            me { id name faction emailHash isAdmin }
+                            me { id name faction avatar isAdmin }
                         }
                     `
                 });

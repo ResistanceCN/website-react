@@ -2,7 +2,7 @@ import './Profile.scss';
 import React from 'react';
 import { Redirect, RouteComponentProps, withRouter } from 'react-router';
 import { Article, User } from '../types';
-import { Card, Pagination, Tag } from 'antd';
+import { Card, Icon, Pagination, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import Loading from './parts/Loading';
 import WithSidebar from './parts/WithSidebar';
@@ -11,7 +11,7 @@ import ArticleTools from './parts/ArticleTools';
 import { connect, Dispatch } from 'react-redux';
 import { State } from '../reducers';
 import gql from 'graphql-tag';
-import { gravatar } from '../libs/utils';
+import { resizeGoogleAvatar } from '../libs/utils';
 import { client as apollo } from '../apollo';
 import renderMarkdown from '../libs/markdown';
 
@@ -50,7 +50,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
                     user: userById(id: $id) {
                         id
                         name
-                        emailHash
+                        avatar
                         articles {
                             id
                             title
@@ -102,7 +102,13 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
             <div className="flex-spacer">
                 <div className="banner profile-banner">
                     <div className="banner-avatar">
-                        <img src={gravatar(user.emailHash, 128)} />
+                        {user.avatar ? (
+                            <img className="avatar" src={resizeGoogleAvatar(user.avatar, 128)} />
+                        ) : (
+                            <div className="avatar icon-avatar">
+                                <Icon type="user" />
+                            </div>
+                        )}
                     </div>
                     <div className="banner-content">
                         <p className="username">{user.name}</p>
