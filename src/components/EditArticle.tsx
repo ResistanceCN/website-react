@@ -10,6 +10,7 @@ import gql from 'graphql-tag';
 import Editor from './parts/Editor';
 import { client as apollo } from '../apollo';
 import { errorText, later } from '../libs/utils';
+import Loading from './parts/Loading';
 
 enum EditArticleStatus {
     Loading,
@@ -140,7 +141,7 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
         if (this.state.status === EditArticleStatus.NotFound) {
             return <Redirect to="/" />;
         } else if (this.state.status === EditArticleStatus.Loading) {
-            return null;
+            return <Loading size="large" />;
         }
 
         return (

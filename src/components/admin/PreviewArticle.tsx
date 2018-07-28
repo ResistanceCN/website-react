@@ -10,6 +10,7 @@ import gql from 'graphql-tag';
 import Editor from '../parts/Editor';
 import { adminClient, client as apollo } from '../../apollo';
 import { errorText, later } from '../../libs/utils';
+import Loading from '../parts/Loading';
 
 enum PreviewArticleStatus {
     Loading,
@@ -123,7 +124,7 @@ class PreviewArticle extends React.Component<PreviewArticleProps, PreviewArticle
         if (this.state.status === PreviewArticleStatus.NotFound) {
             return <Redirect to="/" />;
         } else if (this.state.status === PreviewArticleStatus.Loading) {
-            return null;
+            return <Loading size="large" />;
         }
 
         const published = this.state.article.status === ArticleStatus.PUBLISHED;

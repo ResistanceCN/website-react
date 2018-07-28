@@ -5,7 +5,8 @@
 ## Build
 
 Install `nodejs`(>= 6) and `yarn`.
-Copy the `.env.example` to `.env` and edit it.
+
+Copy `.env.example` to `.env` then edit it.
 
 ```shell
 $ # git clone and cd
