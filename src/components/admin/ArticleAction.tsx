@@ -57,7 +57,7 @@ export default class ArticleAction extends React.PureComponent<ArticleActionProp
     render() {
         return (
             <React.Fragment>
-                <Link to={'/article/' + this.props.record.id + '/edit'}>预览 (TODO)</Link>
+                <Link to={'/admin/previewArticle/' + this.props.record.id}>预览</Link>
                 <span className="ant-divider" />
 
                 {this.renderConditionalActions()}

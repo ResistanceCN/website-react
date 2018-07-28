@@ -10,14 +10,16 @@ import Overview from './Overview';
 import AllArticles from './AllArticles';
 import PendingArticles from './PendingArticles';
 import PublishedArticles from './PublishedArticles';
+import PreviewArticle from './PreviewArticle';
 
 const { Sider } = Layout;
 
 interface AdminProps extends RouteComponentProps<{}> {
     user: User | null;
+    immersive: boolean;
 }
 
-export class Admin extends React.Component<AdminProps> {
+export class Admin extends React.PureComponent<AdminProps> {
     render() {
         const user = this.props.user;
         if (user === null || !user.isAdmin) {
@@ -31,8 +33,8 @@ export class Admin extends React.Component<AdminProps> {
         }
 
         return (
-            <Layout className="flex-spacer panel-layout">
-                <Sider>
+            <Layout className={'flex-spacer ' + (this.props.immersive || 'panel-layout')}>
+                <Sider style={{ display: this.props.immersive ? 'none' : 'block' }}>
                     <Menu
                         mode="inline"
                         selectedKeys={[current]}
@@ -52,12 +54,14 @@ export class Admin extends React.Component<AdminProps> {
                         </Menu.ItemGroup>
                     </Menu>
                 </Sider>
-                <div className="flex-spacer container-fluid panel-container">
+
+                <div className={'flex-spacer ' + (this.props.immersive || 'container-fluid panel-container')}>
                     <Switch>
                         <Route exact path="/admin" component={Overview} />
                         <Route path="/admin/allArticles" component={AllArticles} />
                         <Route path="/admin/pendingArticles" component={PendingArticles} />
                         <Route path="/admin/publishedArticles" component={PublishedArticles} />
+                        <Route path="/admin/previewArticle/:id(\w+)" component={PreviewArticle} />
                     </Switch>
                 </div>
             </Layout>
@@ -66,7 +70,8 @@ export class Admin extends React.Component<AdminProps> {
 }
 
 const mapStateToProps = (state: State) => ({
-    user: state.auth.user
+    user: state.auth.user,
+    immersive: state.ui.immersive
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<State>) => ({});

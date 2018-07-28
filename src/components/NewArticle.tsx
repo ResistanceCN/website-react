@@ -63,7 +63,7 @@ class NewArticle extends React.Component<NewArticleProps, NewArticleState> {
         }
     };
 
-    componentWillMount() {
+    componentDidMount() {
         const user = this.props.user;
 
         if (user === null) {
@@ -76,9 +76,7 @@ class NewArticle extends React.Component<NewArticleProps, NewArticleState> {
         this.setState({
             status: NewArticleStatus.OK
         });
-    }
 
-    componentDidMount() {
         this.props.setImmersive(true);
     }
 

@@ -22,6 +22,10 @@ function getWorker() {
 interface EditorProps {
     className?: string;
     article: Article;
+    readonly?: boolean;
+    submitButtonDisabled?: boolean;
+    submitText?: string;
+    cancelText?: string;
     onSubmit(title: string, content: string): Promise<void>;
     onCancel(): void;
 }
@@ -143,6 +147,7 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
                                     value={this.state.content}
                                     editorProps={{ $blockScrolling: true }}
                                     onChange={this.onContentChange}
+                                    readOnly={this.props.readonly || false}
                                 />
                             </div>
                         )}
@@ -164,7 +169,7 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
                         style={{ display: this.state.submitting ? 'none' : 'inline-block' }}
                         onClick={this.props.onCancel}
                     >
-                        取消
+                        {this.props.cancelText || '取消'}
                     </Button>
 
                     <Button
@@ -172,8 +177,9 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
                         className="submit-button"
                         onClick={this.onSubmit}
                         loading={this.state.submitting}
+                        disabled={this.props.submitButtonDisabled || false}
                     >
-                        提交
+                        {this.props.submitText || '提交'}
                     </Button>
                 </div>
             </div>

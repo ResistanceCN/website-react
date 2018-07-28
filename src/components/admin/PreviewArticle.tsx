@@ -1,43 +1,42 @@
-import './Editor.scss';
+import '../Editor.scss';
 import React from 'react';
-import { Article, nullArticle, User } from '../types';
-import { State } from '../reducers';
-import { DISABLE_IMMERSIVE, ENABLE_IMMERSIVE } from '../actions';
+import { Article, ArticleStatus, nullArticle } from '../../types';
+import { State } from '../../reducers';
+import { DISABLE_IMMERSIVE, ENABLE_IMMERSIVE } from '../../actions';
 import { connect, Dispatch } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { message } from 'antd';
 import gql from 'graphql-tag';
-import Editor from './Editor';
-import { client as apollo } from '../apollo';
-import { errorText, later } from '../libs/utils';
+import Editor from '../Editor';
+import { adminClient, client as apollo } from '../../apollo';
+import { errorText, later } from '../../libs/utils';
 
-enum EditArticleStatus {
+enum PreviewArticleStatus {
     Loading,
     OK,
     NotFound
 }
 
-interface EditArticleRouterProps {
+interface PreviewArticleRouterProps {
     id: string;
 }
 
-interface EditArticleProps extends RouteComponentProps<EditArticleRouterProps> {
-    user: User | null;
+interface PreviewArticleProps extends RouteComponentProps<PreviewArticleRouterProps> {
     setImmersive(enabled: boolean): void;
 }
 
-interface EditArticleState {
+interface PreviewArticleState {
     article: Article;
-    status: EditArticleStatus;
+    status: PreviewArticleStatus;
 }
 
-class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
+class PreviewArticle extends React.Component<PreviewArticleProps, PreviewArticleState> {
     state = {
         article: nullArticle,
-        status: EditArticleStatus.Loading
+        status: PreviewArticleStatus.Loading
     };
 
-    getArticle(user: User) {
+    getArticle() {
         const id = this.props.match.params.id;
 
         apollo.query<{ article: Article }>({
@@ -49,6 +48,7 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
                         author { id }
                         tags
                         content
+                        status
                         publishedAt
                     }
                 }
@@ -57,14 +57,8 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
         }).then(response => {
             const article = response.data.article;
 
-            if (article.author.id !== user.id) {
-                return this.setState({
-                    status: EditArticleStatus.NotFound
-                });
-            }
-
             this.setState({
-                status: EditArticleStatus.OK,
+                status: PreviewArticleStatus.OK,
                 article: {
                     ...response.data.article,
                     // The API returns time in string
@@ -73,7 +67,7 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
             });
         }).catch(e => {
             this.setState({
-                status: EditArticleStatus.NotFound
+                status: PreviewArticleStatus.NotFound
             });
             // throw e;
         });
@@ -81,22 +75,21 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
 
     onSubmit = async (title: string, content: string) => {
         try {
-            const result = await apollo.mutate<{ article: Article }>({
+            const result = await adminClient.mutate({
                 mutation: gql`
-                    mutation ($id: ID!, $title: String, $content: String) {
-                        article: updateArticle(id: $id, title: $title, content: $content) {
+                    mutation($id: ID!, $status: ArticleStatus) {
+                        article: updateArticle(id: $id, status: $status) {
                             id
                         }
                     }
                 `,
                 variables: {
                     id: this.state.article.id,
-                    title,
-                    content
+                    status: ArticleStatus.PUBLISHED
                 }
             });
 
-            message.success('提交成功');
+            message.success('发布成功');
 
             // Update cache
             apollo.cache.writeData({
@@ -104,30 +97,20 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
                     article: {
                         __typename: 'Article',
                         id: result.data!.article.id,
-                        title,
-                        content
+                        status: ArticleStatus.PUBLISHED
                     }
                 }
             });
 
             await later(3000);
-            this.props.history.push('/article/' + this.state.article.id);
+            this.props.history.goBack();
         } catch (error) {
             message.error(errorText(error));
         }
     };
 
     componentDidMount() {
-        const user = this.props.user;
-
-        if (user === null) {
-            this.setState({
-                status: EditArticleStatus.NotFound
-            });
-            return;
-        }
-
-        this.getArticle(user);
+        this.getArticle();
 
         this.props.setImmersive(true);
     }
@@ -137,16 +120,22 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
     }
 
     render() {
-        if (this.state.status === EditArticleStatus.NotFound) {
+        if (this.state.status === PreviewArticleStatus.NotFound) {
             return <Redirect to="/" />;
-        } else if (this.state.status === EditArticleStatus.Loading) {
+        } else if (this.state.status === PreviewArticleStatus.Loading) {
             return null;
         }
 
+        const published = this.state.article.status === ArticleStatus.PUBLISHED;
+
         return (
             <Editor
+                readonly
                 className="full-height"
                 article={this.state.article}
+                submitButtonDisabled={published}
+                submitText={(published ? '已' : '') + '发布'}
+                cancelText="返回"
                 onSubmit={this.onSubmit}
                 onCancel={this.props.history.goBack}
             />
@@ -154,9 +143,7 @@ class EditArticle extends React.Component<EditArticleProps, EditArticleState> {
     }
 }
 
-const mapStateToProps = (state: State) => ({
-    user: state.auth.user
-});
+const mapStateToProps = (state: State) => ({});
 
 const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
     setImmersive(enabled: boolean) {
@@ -169,4 +156,4 @@ const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(EditArticle);
+)(PreviewArticle);
