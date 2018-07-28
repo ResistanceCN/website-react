@@ -121,6 +121,7 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
             <div className={(this.props.className || '') + ' editor-container'}>
                 <div className="editor-title">
                     <input
+                        readOnly={this.props.readonly}
                         value={this.state.title}
                         placeholder="Title here..."
                         name="title"
