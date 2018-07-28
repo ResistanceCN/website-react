@@ -13,7 +13,7 @@ import Profile from './Profile';
 import Admin from './admin/Admin';
 import NotFound from './NotFound';
 
-export default () => (
+const App = () => (
     <Router>
         <Layout>
             <Switch>
@@ -33,3 +33,5 @@ export default () => (
         </Layout>
     </Router>
 );
+
+export default App;

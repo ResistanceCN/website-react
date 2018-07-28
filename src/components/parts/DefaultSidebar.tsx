@@ -10,7 +10,7 @@ function getTimeline(): Array<string> {
     ];
 }
 
-export default (props: {}) => (
+const DefaultSidebar = () => (
     <Card title="一周最热" bordered={false} className="content-menu">
         <Timeline>
             {getTimeline().map((item, key) => {
@@ -19,3 +19,5 @@ export default (props: {}) => (
         </Timeline>
     </Card>
 );
+
+export default DefaultSidebar;

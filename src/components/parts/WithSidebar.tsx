@@ -9,7 +9,7 @@ interface WithSidebarProps {
     className: string;
 }
 
-export default (props: WithSidebarProps) => (
+const WithSidebar = (props: WithSidebarProps) => (
     <Row>
         <Col span={16} className={props.className}>
             {props.children}
@@ -20,3 +20,5 @@ export default (props: WithSidebarProps) => (
         </Sidebar>
     </Row>
 );
+
+export default WithSidebar;

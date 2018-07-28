@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'antd';
 
-export default (props: {}) => (
+const ProfileSidebar = () => (
     <Card title="账户设置" bordered={false} className="content-menu">
         @TODO:
         更换 Google 账户
@@ -9,3 +9,5 @@ export default (props: {}) => (
         删除帐号
     </Card>
 );
+
+export default ProfileSidebar;
