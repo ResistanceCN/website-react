@@ -1,9 +1,11 @@
 import React from 'react';
 import { Col, Row } from 'antd';
 import Sidebar from './Sidebar';
+import DefaultSidebar from './DefaultSidebar';
 
 interface WithSidebarProps {
     children?: React.ReactNode;
+    sidebar?: React.ReactNode;
     className: string;
 }
 
@@ -13,6 +15,8 @@ export default (props: WithSidebarProps) => (
             {props.children}
         </Col>
 
-        <Sidebar />
+        <Sidebar>
+            {props.sidebar || <DefaultSidebar />}
+        </Sidebar>
     </Row>
 );

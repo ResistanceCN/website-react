@@ -21,7 +21,7 @@ $ yarn start # default http://localhost:3000
 - [ ] 管理员可预览源文章(raw)
 - [ ] 考虑替换地图服务
 - [ ] 个人设置页面（包含 Bio 信息编辑，帐号删除，帐号绑定迁移）
-- [ ] （可选）disque 评论系统（需注册填表之后才开放）
+- [ ] （可选）disqus 评论系统（需注册填表之后才开放）
 - [x] [Bug] 修复 lambda in render
 - [x] 检测填表状态
 - [x] 压缩 404 图片

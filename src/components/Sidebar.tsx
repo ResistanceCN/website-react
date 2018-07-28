@@ -21,11 +21,15 @@ interface SidebarAttr {
     fixedTop: number;
 }
 
+interface SidebarProps {
+    children?: React.ReactNode;
+}
+
 interface SidebarState {
     sidebarFixStyle: CSSProperties;
 }
 
-export default class Sidebar extends React.Component<{}, SidebarState> {
+export default class Sidebar extends React.Component<SidebarProps, SidebarState> {
     state = {
         sidebarFixStyle: {}
     };
@@ -44,15 +48,6 @@ export default class Sidebar extends React.Component<{}, SidebarState> {
     frameID = 0;
 
     onResize: EventListener;
-
-    getTimeline(): Array<string> {
-        return [
-            'Create a services site 2015-09-01',
-            'Solve initial network problems 2015-09-01',
-            'Technical testing 2015-09-01',
-            'Network problems being solved 2015-09-01'
-        ];
-    }
 
     updateSidebarStatus() {
         const sidebarAttr = this.sidebar;
@@ -198,13 +193,7 @@ export default class Sidebar extends React.Component<{}, SidebarState> {
                     </Tooltip>
                 </Card>
 
-                <Card title="一周最热" bordered={false} className="content-menu">
-                    <Timeline>
-                        {this.getTimeline().map((item, key) => {
-                            return <Timeline.Item key={key}>{item}</Timeline.Item>;
-                        })}
-                    </Timeline>
-                </Card>
+                {this.props.children}
             </Col>
         );
     }

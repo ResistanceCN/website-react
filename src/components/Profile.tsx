@@ -6,6 +6,7 @@ import { Card, Pagination, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import Loading from './Loading';
 import WithSidebar from './WithSidebar';
+import ProfileSidebar from './ProfileSidebar';
 import ArticleTools from './ArticleTools';
 import { connect, Dispatch } from 'react-redux';
 import { State } from '../reducers';
@@ -113,7 +114,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
                 </div>
 
                 <div className="container main">
-                    <WithSidebar className="news profile">
+                    <WithSidebar className="news profile" sidebar={<ProfileSidebar />}>
                         {this.state.articles.map((article: Article) => {
                             const prefix = article.publishedAt.getTime() === 0 ? '[草稿] ' : '';
                             return (
