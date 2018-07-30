@@ -18,13 +18,14 @@ $ yarn start # default http://localhost:3000
 ## Todo List
 
 - [Bug] 撤销发布之后发布状态未更新
-- [ ] 表单管理
-- [ ] 个人设置页面（包含 Bio 信息编辑，帐号删除，帐号绑定迁移）
-- [ ] 完善用戶管理，連接到 API
+- [ ] 表单管理和修改(Index, Google id(short), Agent name, Faction, Area, Telegram username, Marked(Group invited), Other comment, Ban, Delete）
+- [ ] 个人页面和设置（Avatar(Google account avatar as default), Bio(Words Limit 256)，Connect to telegram，Account Rebind, Account destory）
+- [ ] 权限管理和修改(Index, Google id(short), Telegram username, Area, Notification(Email or Telegram echo bot), Delete)
 - [ ] 考虑替换地图服务
 - [ ] 移除 UserMenu 中的设置组建，并重新绘制分割线
 - [ ] 通知 Bot 定时请求人员信息
 - [ ] （可选）disqus 评论系统（需注册填表之后才开放）
+- [ ] 管理 Overview 页面显示资源统计信息
 - [x] 管理员可预览源文章(raw)
 - [x] [Bug] 修复 lambda in render
 - [x] 检测填表状态
