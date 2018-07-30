@@ -17,7 +17,7 @@ $ yarn start # default http://localhost:3000
 
 ## Todo List
 
-- [Bug] 撤销发布之后发布状态未更新
+- [ ] [Bug] 撤销发布之后发布状态未更新
 - [ ] 表单管理和修改(Index, Google id(short), Agent name, Faction, Area, Telegram username, Marked(Group invited), Other comment, Ban, Delete）
 - [ ] 个人页面和设置（Avatar(Google account avatar as default), Bio(Words Limit 256)，Connect to telegram，Account Rebind, Account destory）
 - [ ] 权限管理和修改(Index, Google id(short), Telegram username, Area, Notification(Email or Telegram echo bot), Delete)
