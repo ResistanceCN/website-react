@@ -22,7 +22,7 @@ $ yarn start # default http://localhost:3000
 - [ ] 个人页面和设置（Avatar(Google account avatar as default), Bio(Words Limit 256)，Connect to telegram，Account Rebind, Account destory）
 - [ ] 权限管理和修改(Index, Google id(short), Telegram username, Area, Notification(Email or Telegram echo bot), Delete)
 - [ ] 考虑替换地图服务
-- [ ] 移除 UserMenu 中的设置组建，并重新绘制分割线
+- [ ] 移除 UserMenu 中的设置组件，并重新绘制分割线
 - [ ] 通知 Bot 定时请求人员信息
 - [ ] （可选）disqus 评论系统（需注册填表之后才开放）
 - [ ] 管理 Overview 页面显示资源统计信息
