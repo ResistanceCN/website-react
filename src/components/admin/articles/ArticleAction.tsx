@@ -1,7 +1,7 @@
 import React from 'react';
 import { Popconfirm } from 'antd';
-import { Article, ArticleStatus } from '../../types';
-import { unreachable } from '../../libs/utils';
+import { Article, ArticleStatus } from '@/types';
+import { unreachable } from '@/libs/utils';
 import { Link } from 'react-router-dom';
 
 interface ArticleActionProps {
@@ -57,7 +57,7 @@ export default class ArticleAction extends React.PureComponent<ArticleActionProp
     render() {
         return (
             <React.Fragment>
-                <Link to={'/admin/previewArticle/' + this.props.record.id}>预览</Link>
+                <Link to={'/admin/articles/preview/' + this.props.record.id}>预览</Link>
                 <span className="ant-divider" />
 
                 {this.renderConditionalActions()}

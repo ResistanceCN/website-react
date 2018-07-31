@@ -2,12 +2,12 @@ import './Article.scss';
 import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Card, Tag } from 'antd';
-import { Article as ArticleType, ArticleStatus, nullArticle } from '../types';
+import { Article as ArticleType, ArticleStatus, nullArticle } from '@/types';
 import Loading from './parts/Loading';
 import WithSidebar from './parts/WithSidebar';
-import renderMarkdown from '../libs/markdown';
+import renderMarkdown from '@/libs/markdown';
 import gql from 'graphql-tag';
-import { client as apollo } from '../apollo';
+import { client as apollo } from '@/apollo';
 
 enum Status {
     Loading,

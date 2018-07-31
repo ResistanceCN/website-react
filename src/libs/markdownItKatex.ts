@@ -48,7 +48,7 @@ function isValidASCIIMathDelimiter(state: T.StateInline, pos: number): T.Delimit
     const max = state.posMax;
 
     const prevChar = pos > 0 ? state.src.charCodeAt(pos - 1) : -1;
-    const nextChar = pos + 1 <= max ? state.src.charCodeAt(pos + 1) : -1;
+    // const nextChar = pos + 1 <= max ? state.src.charCodeAt(pos + 1) : -1;
 
     let canOpen = true;
     let canClose = true;
@@ -64,7 +64,7 @@ function isValidASCIIMathDelimiter(state: T.StateInline, pos: number): T.Delimit
 }
 
 function asciiMathInlineRule(state: T.StateInline, silent: boolean) {
-    let start, match, token, res, pos, escCount;
+    let start, match, token, res, pos;
 
     if (state.src[state.pos] !== '%') {
         return false;
@@ -139,7 +139,7 @@ function asciiMathInlineRule(state: T.StateInline, silent: boolean) {
 }
 
 function latexInlineRule(state: T.StateInline, silent: boolean) {
-    let start, match, token, res, pos, escCount;
+    let start, match, token, res, pos;
 
     if (state.src[state.pos] !== '$') {
         return false;

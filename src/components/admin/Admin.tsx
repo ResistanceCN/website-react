@@ -1,16 +1,16 @@
 import './Admin.css';
 import React from 'react';
-import { User } from '../../types';
-import { State } from '../../reducers';
+import { User } from '@/types';
+import { State } from '@/reducers';
 import { connect, Dispatch } from 'react-redux';
 import { Layout, Menu } from 'antd';
 import { Redirect, Route, RouteComponentProps, withRouter } from 'react-router';
 import { Link, Switch } from 'react-router-dom';
 import Overview from './Overview';
-import AllArticles from './AllArticles';
-import PendingArticles from './PendingArticles';
-import PublishedArticles from './PublishedArticles';
-import PreviewArticle from './PreviewArticle';
+import AllArticles from './articles/AllArticles';
+import PendingArticles from './articles/PendingArticles';
+import PublishedArticles from './articles/PublishedArticles';
+import PreviewArticle from './articles/PreviewArticle';
 
 const { Sider } = Layout;
 
@@ -26,7 +26,11 @@ export class Admin extends React.PureComponent<AdminProps> {
             return <Redirect to="/" />;
         }
 
-        let current = location.pathname.substr(7).split('/')[0];
+        let current = location.pathname
+            .substr(7)
+            .split('/')
+            .filter(s => s.trim())
+            .join('/');
 
         if (current === '') {
             current = 'overview';
@@ -42,14 +46,14 @@ export class Admin extends React.PureComponent<AdminProps> {
                     >
                         <Menu.Item key="overview"><Link to="/admin">Overview</Link></Menu.Item>
                         <Menu.ItemGroup key="articles" title="文章管理">
-                            <Menu.Item key="allArticles">
-                                <Link to="/admin/allArticles">所有文章</Link>
+                            <Menu.Item key="articles/all">
+                                <Link to="/admin/articles/all">所有文章</Link>
                             </Menu.Item>
-                            <Menu.Item key="pendingArticles">
-                                <Link to="/admin/pendingArticles">待审文章</Link>
+                            <Menu.Item key="articles/pending">
+                                <Link to="/admin/articles/pending">待审文章</Link>
                             </Menu.Item>
-                            <Menu.Item key="publishedArticles">
-                                <Link to="/admin/publishedArticles">已发布文章</Link>
+                            <Menu.Item key="articles/published">
+                                <Link to="/admin/articles/published">已发布文章</Link>
                             </Menu.Item>
                         </Menu.ItemGroup>
                     </Menu>
@@ -58,10 +62,10 @@ export class Admin extends React.PureComponent<AdminProps> {
                 <div className={'flex-spacer ' + (this.props.immersive || 'container-fluid panel-container')}>
                     <Switch>
                         <Route exact path="/admin" component={Overview} />
-                        <Route path="/admin/allArticles" component={AllArticles} />
-                        <Route path="/admin/pendingArticles" component={PendingArticles} />
-                        <Route path="/admin/publishedArticles" component={PublishedArticles} />
-                        <Route path="/admin/previewArticle/:id(\w+)" component={PreviewArticle} />
+                        <Route path="/admin/articles/all" component={AllArticles} />
+                        <Route path="/admin/articles/pending" component={PendingArticles} />
+                        <Route path="/admin/articles/published" component={PublishedArticles} />
+                        <Route path="/admin/articles/preview/:id(\w+)" component={PreviewArticle} />
                     </Switch>
                 </div>
             </Layout>

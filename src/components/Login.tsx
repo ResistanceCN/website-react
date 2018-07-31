@@ -1,14 +1,14 @@
 import './Login.scss';
 import React from 'react';
-import { User } from '../types';
-import { State } from '../reducers';
-import { GOOGLE_SIGNED_IN, LOGIN_SUCCESS } from '../actions';
+import { User } from '@/types';
+import { State } from '@/reducers';
+import { GOOGLE_SIGNED_IN, LOGIN_SUCCESS } from '@/actions';
 import { connect, Dispatch } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { Card } from 'antd';
 import gql from 'graphql-tag';
-import { client as apollo } from '../apollo';
-import { signin2 } from '../libs/googleAuth2';
+import { client as apollo } from '@/apollo';
+import { signin2 } from '@/libs/googleAuth2';
 
 interface LoginProps extends RouteComponentProps<{}> {
     user: User | null;

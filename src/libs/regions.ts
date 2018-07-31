@@ -1,3 +1,5 @@
+// tslint:disable
+
 export const geojson = {
     "type": "FeatureCollection",
     "crs": {

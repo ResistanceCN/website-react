@@ -1,6 +1,6 @@
 import { Action } from 'redux';
-import { User } from '../types';
-import { AUTH_RESET, GOOGLE_SIGNED_IN, LOGIN_SUCCESS } from '../actions';
+import { User } from '@/types';
+import { AUTH_RESET, GOOGLE_SIGNED_IN, LOGIN_SUCCESS } from '@/actions';
 
 export interface AuthState {
     googleUser: gapi.auth2.GoogleUser | null;

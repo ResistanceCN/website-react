@@ -1,15 +1,15 @@
 import './Layout.scss';
 import React from 'react';
-import { User } from '../../types';
-import { State } from '../../reducers';
-import { LOGIN_SUCCESS } from '../../actions';
+import { User } from '@/types';
+import { State } from '@/reducers';
+import { LOGIN_SUCCESS } from '@/actions';
 import { connect, Dispatch } from 'react-redux';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { BackTop, Input, Layout, Menu } from 'antd';
 import { Link } from 'react-router-dom';
 import Loading from './Loading';
 import UserMenu from './UserMenu';
-import { client as apollo } from '../../apollo';
+import { client as apollo } from '@/apollo';
 import gql from 'graphql-tag';
 
 const { Header, Footer } = Layout;

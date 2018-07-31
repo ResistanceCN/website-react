@@ -1,7 +1,7 @@
 import './Join.scss';
 import React, { FormEvent } from 'react';
-import { JoinInfo, User } from '../types';
-import { State } from '../reducers';
+import { JoinInfo, User } from '@/types';
+import { State } from '@/reducers';
 import { connect, Dispatch } from 'react-redux';
 import { Button, Card, Form, Icon, Input, message, Tag } from 'antd';
 import { Redirect, RouteComponentProps } from 'react-router';
@@ -9,9 +9,9 @@ import { Link } from 'react-router-dom';
 import Loading from './parts/Loading';
 import WithSidebar from './parts/WithSidebar';
 import RegionMap from './parts/RegionMap';
-import { names as regionNames } from '../libs/regions';
-import { errorText } from '../libs/utils';
-import { client as apollo } from '../apollo';
+import { names as regionNames } from '@/libs/regions';
+import { errorText } from '@/libs/utils';
+import { client as apollo } from '@/apollo';
 import gql from 'graphql-tag';
 
 interface BindingEvent {

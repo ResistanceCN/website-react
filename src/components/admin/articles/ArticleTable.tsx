@@ -1,11 +1,11 @@
 import React from 'react';
 import { message, Table } from 'antd';
 import { PaginationConfig } from 'antd/lib/table/interface';
-import { Article, ArticleStatus } from '../../types';
+import { Article, ArticleStatus } from '@/types';
 import gql from 'graphql-tag';
-import Loading from '../parts/Loading';
-import { adminClient, client as apollo } from '../../apollo';
-import { errorText } from '../../libs/utils';
+import Loading from '@/components/parts/Loading';
+import { adminClient, client as apollo } from '@/apollo';
+import { errorText } from '@/libs/utils';
 import { MutationOptions } from 'apollo-client';
 import ArticleAction from './ArticleAction';
 import { Link } from 'react-router-dom';

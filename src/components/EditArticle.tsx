@@ -1,15 +1,15 @@
 import './parts/Editor.scss';
 import React from 'react';
-import { Article, nullArticle, User } from '../types';
-import { State } from '../reducers';
-import { DISABLE_IMMERSIVE, ENABLE_IMMERSIVE } from '../actions';
+import { Article, nullArticle, User } from '@/types';
+import { State } from '@/reducers';
+import { DISABLE_IMMERSIVE, ENABLE_IMMERSIVE } from '@/actions';
 import { connect, Dispatch } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { message } from 'antd';
 import gql from 'graphql-tag';
 import Editor from './parts/Editor';
-import { client as apollo } from '../apollo';
-import { errorText, later } from '../libs/utils';
+import { client as apollo } from '@/apollo';
+import { errorText, later } from '@/libs/utils';
 import Loading from './parts/Loading';
 
 enum EditArticleStatus {

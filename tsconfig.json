@@ -17,7 +17,11 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": false,
     "allowUnreachableCode": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "exclude": [
     "node_modules",

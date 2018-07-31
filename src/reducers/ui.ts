@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import { DISABLE_IMMERSIVE, ENABLE_IMMERSIVE } from '../actions';
+import { DISABLE_IMMERSIVE, ENABLE_IMMERSIVE } from '@/actions';
 
 export interface UIState {
     immersive: boolean;

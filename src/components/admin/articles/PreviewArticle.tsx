@@ -1,16 +1,16 @@
-import '../parts/Editor.scss';
+import '@/components/parts/Editor.scss';
 import React from 'react';
-import { Article, ArticleStatus, nullArticle } from '../../types';
-import { State } from '../../reducers';
-import { DISABLE_IMMERSIVE, ENABLE_IMMERSIVE } from '../../actions';
+import { Article, ArticleStatus, nullArticle } from '@/types';
+import { State } from '@/reducers';
+import { DISABLE_IMMERSIVE, ENABLE_IMMERSIVE } from '@/actions';
 import { connect, Dispatch } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { message } from 'antd';
 import gql from 'graphql-tag';
-import Editor from '../parts/Editor';
-import { adminClient, client as apollo } from '../../apollo';
-import { errorText, later } from '../../libs/utils';
-import Loading from '../parts/Loading';
+import Editor from '@/components/parts/Editor';
+import { adminClient, client as apollo } from '@/apollo';
+import { errorText, later } from '@/libs/utils';
+import Loading from '@/components/parts/Loading';
 
 enum PreviewArticleStatus {
     Loading,
@@ -61,9 +61,9 @@ class PreviewArticle extends React.Component<PreviewArticleProps, PreviewArticle
             this.setState({
                 status: PreviewArticleStatus.OK,
                 article: {
-                    ...response.data.article,
+                    ...article,
                     // The API returns time in string
-                    publishedAt: new Date(response.data.article.publishedAt)
+                    publishedAt: new Date(article.publishedAt)
                 }
             });
         }).catch(e => {

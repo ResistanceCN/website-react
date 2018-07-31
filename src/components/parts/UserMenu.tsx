@@ -1,14 +1,14 @@
 import './UserMenu.scss';
 import React from 'react';
-import { User } from '../../types';
-import { State } from '../../reducers';
-import { AUTH_RESET } from '../../actions';
+import { User } from '@/types';
+import { State } from '@/reducers';
+import { AUTH_RESET } from '@/actions';
 import { connect, Dispatch } from 'react-redux';
 import { Avatar, Button, Dropdown, Menu } from 'antd';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
-import { resizeGoogleAvatar } from '../../libs/utils';
-import { auth2 } from '../../libs/googleAuth2';
+import { resizeGoogleAvatar } from '@/libs/utils';
+import { auth2 } from '@/libs/googleAuth2';
 
 interface UserMenuProps extends RouteComponentProps<{}> {
     user: User;

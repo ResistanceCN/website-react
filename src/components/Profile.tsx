@@ -1,7 +1,7 @@
 import './Profile.scss';
 import React from 'react';
 import { Redirect, RouteComponentProps, withRouter } from 'react-router';
-import { Article, User } from '../types';
+import { Article, User } from '@/types';
 import { Card, Icon, Pagination, Tag } from 'antd';
 import { Link } from 'react-router-dom';
 import Loading from './parts/Loading';
@@ -9,11 +9,11 @@ import WithSidebar from './parts/WithSidebar';
 import ProfileSidebar from './parts/ProfileSidebar';
 import ArticleTools from './parts/ArticleTools';
 import { connect, Dispatch } from 'react-redux';
-import { State } from '../reducers';
+import { State } from '@/reducers';
 import gql from 'graphql-tag';
-import { resizeGoogleAvatar } from '../libs/utils';
-import { client as apollo } from '../apollo';
-import renderMarkdown from '../libs/markdown';
+import { resizeGoogleAvatar } from '@/libs/utils';
+import { client as apollo } from '@/apollo';
+import renderMarkdown from '@/libs/markdown';
 
 enum ProfileStatus {
     Loading,

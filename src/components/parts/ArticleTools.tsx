@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect, Dispatch } from 'react-redux';
-import { State } from '../../reducers/index';
+import { State } from '@/reducers';
 import { Icon } from 'antd';
 import { Link } from 'react-router-dom';
 

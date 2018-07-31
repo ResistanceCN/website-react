@@ -3,11 +3,11 @@ import React from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 import { Button, Card, Layout, Pagination, Tag } from 'antd';
-import { Article } from '../types';
+import { Article } from '@/types';
 import WithSidebar from './parts/WithSidebar';
-import renderMarkdown from '../libs/markdown';
+import renderMarkdown from '@/libs/markdown';
 import gql from 'graphql-tag';
-import { client as apollo } from '../apollo';
+import { client as apollo } from '@/apollo';
 
 interface HomeRouterProps {
     page: string;
@@ -32,6 +32,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
     }
 
     async getArticles() {
+        // @TODO: Page
         const page = this.getPage();
 
         let response = await apollo.query<{ latestArticles: Array<Article> }>({

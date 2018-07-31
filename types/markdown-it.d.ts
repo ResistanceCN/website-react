@@ -72,10 +72,10 @@ declare module MarkdownItExtendedTypes {
     }
 
     export interface Ruler extends MarkdownIt.Ruler {
-        after(afterName: string, ruleName: string, rule: Rule, options?: any): void;
-        at(name: string, rule: Rule, options?: any): void;
-        before(beforeName: string, ruleName: string, rule: Rule, options?: any): void;
+        after(afterName: string, ruleName: string, rule: Rule, options?: unknown): void;
+        at(name: string, rule: Rule, options?: unknown): void;
+        before(beforeName: string, ruleName: string, rule: Rule, options?: unknown): void;
         getRules(chain: string): Rule[];
-        push(ruleName: string, rule: Rule, options?: any): void;
+        push(ruleName: string, rule: Rule, options?: unknown): void;
     }
 }

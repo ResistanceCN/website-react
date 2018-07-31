@@ -1,15 +1,15 @@
 import './Register.scss';
 import React, { FormEvent } from 'react';
-import { User } from '../types';
-import { State } from '../reducers';
+import { User } from '@/types';
+import { State } from '@/reducers';
 import { connect, Dispatch } from 'react-redux';
 import { Redirect, RouteComponentProps } from 'react-router';
 import { Alert, Button, Card, Form, Icon, Input, Radio } from 'antd';
 import gql from 'graphql-tag';
-import { client as apollo } from '../apollo';
-import { AUTH_RESET, LOGIN_SUCCESS } from '../actions';
-import { errorText } from '../libs/utils';
-import { auth2 } from '../libs/googleAuth2';
+import { client as apollo } from '@/apollo';
+import { AUTH_RESET, LOGIN_SUCCESS } from '@/actions';
+import { errorText } from '@/libs/utils';
+import { auth2 } from '@/libs/googleAuth2';
 
 interface LoginProps extends RouteComponentProps<{}> {
     user: User | null;
