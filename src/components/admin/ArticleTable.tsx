@@ -4,7 +4,7 @@ import { PaginationConfig } from 'antd/lib/table/interface';
 import { Article, ArticleStatus } from '../../types';
 import gql from 'graphql-tag';
 import Loading from '../parts/Loading';
-import { adminClient as apollo } from '../../apollo';
+import { adminClient, client as apollo } from '../../apollo';
 import { errorText } from '../../libs/utils';
 import { MutationOptions } from 'apollo-client';
 import ArticleAction from './ArticleAction';
@@ -75,7 +75,7 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
         });
 
         try {
-            await apollo.mutate(options);
+            await adminClient.mutate(options);
             await this.getArticles();
         } catch (e) {
             message.error(errorText(e));
@@ -85,19 +85,34 @@ export default class ArticleTable extends React.Component<ArticleTableProps, Art
         }
     }
 
-    updateStatus = (article: Article, status: ArticleStatus) => this.mutate({
-        mutation: gql`
-            mutation($id: ID!, $status: ArticleStatus) {
-                updateArticle(id: $id, status: $status) {
-                    id
+    updateStatus = async (article: Article, status: ArticleStatus) => {
+        const result = await this.mutate({
+            mutation: gql`
+                mutation($id: ID!, $status: ArticleStatus) {
+                    updateArticle(id: $id, status: $status) {
+                        id
+                    }
+                }
+            `,
+            variables: {
+                id: article.id,
+                status
+            }
+        });
+
+        // Update cache
+        apollo.cache.writeData({
+            data: {
+                article: {
+                    __typename: 'Article',
+                    id: article.id,
+                    status
                 }
             }
-        `,
-        variables: {
-            id: article.id,
-            status
-        }
-    });
+        });
+
+        return result;
+    };
 
     deleteArticle = (article: Article) => this.mutate({
         mutation: gql`
