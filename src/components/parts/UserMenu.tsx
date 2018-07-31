@@ -81,9 +81,7 @@ const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
     }
 });
 
-export default withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(UserMenu)
-);
+export default withRouter(connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(UserMenu));
