@@ -11,7 +11,7 @@ interface WithSidebarProps {
 
 const WithSidebar = (props: WithSidebarProps) => (
     <Row>
-        <Col span={16} className={props.className}>
+        <Col span={16} className={props.className + ' main-content'}>
             {props.children}
         </Col>
 

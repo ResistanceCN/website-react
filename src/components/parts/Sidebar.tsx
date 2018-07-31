@@ -63,7 +63,7 @@ export default class Sidebar extends React.Component<SidebarProps, SidebarState>
         // 第一个可见的 Card 距固定位置的高度
         const visibleStartPos = newsArea.top + this.sidebar.hiddenHeight - 76;
 
-        if (visibleStartPos >= 0) {
+        if (newsArea.height < this.sidebar.height || visibleStartPos >= 0) {
             if (sidebarAttr.status === SidebarStatus.Static) { return; }
             this.sidebar.status = SidebarStatus.Static;
 
