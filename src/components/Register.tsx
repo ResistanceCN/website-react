@@ -41,7 +41,7 @@ class Register extends React.Component<LoginProps, LoginState> {
 
     onCancel = () => {
         // Perform AJAX request here
-        localStorage.authToken = '';
+        localStorage.setItem('authToken', '');
 
         auth2
             .then(api => api.getAuthInstance().signOut())
@@ -95,7 +95,7 @@ class Register extends React.Component<LoginProps, LoginState> {
             return <Redirect to={from} />;
         }
 
-        if (localStorage.authToken === '') {
+        if (localStorage.getItem('authToken') === '') {
             return <Redirect to="/login" />;
         }
 

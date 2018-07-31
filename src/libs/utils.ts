@@ -14,8 +14,7 @@ export function later(milis: number) {
     return new Promise(resolve => setTimeout(resolve, milis));
 }
 
-// tslint:disable-next-line
-export function deepClone(data: any) {
+export function deepClone<T>(data: T): T {
     return JSON.parse(JSON.stringify(data));
 }
 

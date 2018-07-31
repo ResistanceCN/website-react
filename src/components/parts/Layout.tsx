@@ -44,7 +44,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
     }
 
     async componentWillMount() {
-        if (localStorage.authToken) {
+        if (localStorage.getItem('authToken')) {
             try {
                 const result = await apollo.query<{ me: User }>({
                     query: gql`
@@ -57,7 +57,7 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
                 const user = result.data.me;
                 this.props.login(user);
             } catch (error) {
-                // localStorage.authToken = '';
+                // localStorage.setItem('authToken', '');
             }
         }
 

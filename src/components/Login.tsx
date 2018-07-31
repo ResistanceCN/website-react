@@ -36,7 +36,7 @@ class Login extends React.Component<LoginProps, LoginState> {
         const response = await fetch(process.env.REACT_APP_API_AUTH + '?google_token=' + idToken);
         const data = await response.json();
 
-        localStorage.authToken = data.token;
+        localStorage.setItem('authToken', data.token);
 
         if (data.newUser) {
             return this.setState({

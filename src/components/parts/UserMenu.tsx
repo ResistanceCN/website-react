@@ -18,7 +18,7 @@ interface UserMenuProps extends RouteComponentProps<{}> {
 class UserMenu extends React.Component<UserMenuProps> {
     logout = () => {
         // Perform AJAX request here
-        localStorage.authToken = '';
+        localStorage.setItem('authToken', '');
 
         auth2
             .then(api => api.getAuthInstance().signOut())
