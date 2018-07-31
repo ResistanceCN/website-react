@@ -38,7 +38,7 @@ export class Admin extends React.PureComponent<AdminProps> {
                     <Menu
                         mode="inline"
                         selectedKeys={[current]}
-                        style={{ height: '100%' }}
+                        style={{ height: '100%', width: '215px'}}
                     >
                         <Menu.Item key="overview"><Link to="/admin">Overview</Link></Menu.Item>
                         <Menu.ItemGroup key="articles" title="文章管理">
