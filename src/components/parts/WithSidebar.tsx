@@ -6,12 +6,12 @@ import DefaultSidebar from './DefaultSidebar';
 interface WithSidebarProps {
     children?: React.ReactNode;
     sidebar?: React.ReactNode;
-    className: string;
+    className?: string;
 }
 
 const WithSidebar = (props: WithSidebarProps) => (
     <Row>
-        <Col span={16} className={props.className + ' main-content'}>
+        <Col span={16} className={(props.className || '') + ' main-content'}>
             {props.children}
         </Col>
 

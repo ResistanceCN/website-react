@@ -120,7 +120,7 @@ class Profile extends React.Component<ProfileProps, ProfileState> {
                 </div>
 
                 <div className="container main">
-                    <WithSidebar className="news profile" sidebar={<ProfileSidebar />}>
+                    <WithSidebar className="profile" sidebar={<ProfileSidebar />}>
                         {this.state.articles.map((article: Article) => {
                             const prefix = article.publishedAt.getTime() === 0 ? '[草稿] ' : '';
                             return (

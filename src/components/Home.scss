@@ -47,19 +47,19 @@
     }
 }
 
-.news {
+.main-content {
     position: relative;
+}
 
-    .article-card {
-        margin-bottom: 12px;
+.article-card {
+    margin-bottom: 12px;
 
-        .ant-card-head-title {
-            font-size: 18px;
+    .ant-card-head-title {
+        font-size: 18px;
 
-            a {
-                color: inherit;
-                text-decoration: none;
-            }
+        a {
+            color: inherit;
+            text-decoration: none;
         }
     }
 }

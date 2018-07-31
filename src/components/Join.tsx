@@ -169,7 +169,7 @@ class Join extends React.Component<JoinProps, JoinState> {
                 </div>
 
                 <div className="container main">
-                    <WithSidebar className="news">
+                    <WithSidebar>
                         <Card bordered={false}>
                             <Form onSubmit={this.onSubmit} className="join-form">
                                 <p>请如实认真地填写该表格，这将有助于我们更好地组织和调配战争资源，为我们共同的目标赢得更大的优势！</p>

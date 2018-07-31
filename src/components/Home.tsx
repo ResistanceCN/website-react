@@ -101,7 +101,7 @@ export default class Home extends React.Component<HomeProps, HomeState> {
                 </div>
 
                 <div className="container main">
-                    <WithSidebar className="news">
+                    <WithSidebar>
                         {this.state.articles && this.state.articles.map((article: Article) => {
                             return (
                                 <Card

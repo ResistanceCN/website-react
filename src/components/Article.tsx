@@ -102,7 +102,7 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
                 </div>
 
                 <div className="container main">
-                    <WithSidebar className="news">
+                    <WithSidebar>
                         <Card key={article.id} bordered={false} className="article">
                             <div
                                 className="markdown-body"
