@@ -8,6 +8,10 @@ const gapiScript = new Promise<typeof gapi>((resolve, reject) => {
                 break;
 
             case ScriptStatus.Success:
+                if (typeof gapi.load !== 'function') {
+                    break;
+                }
+
                 gapi.load('auth2', () => {
                     gapi.auth2.init({});
                     resolve(gapi);

@@ -146,7 +146,9 @@ class Join extends React.Component<JoinProps, JoinState> {
     );
 
     componentDidMount() {
-        this.getJoinInfo();
+        if (this.props.user) {
+            this.getJoinInfo();
+        }
     }
 
     render() {
