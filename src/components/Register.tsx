@@ -109,11 +109,11 @@ class Register extends React.Component<LoginProps, LoginState> {
                             <Alert message={this.state.error} type="error" closable />
                         )}
 
-                        <Form.Item label="特工代号">
+                        <Form.Item label="用户名">
                             <Input
                                 name="name"
                                 prefix={<Icon type="user" />}
-                                placeholder="Agent Codename"
+                                placeholder="Username"
                                 value={this.state.name}
                                 onChange={this.handleChange}
                             />

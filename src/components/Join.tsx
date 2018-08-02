@@ -27,7 +27,7 @@ interface JoinProps extends RouteComponentProps<{}> {
 
 interface JoinState {
     loading: boolean;
-    name: string;
+    agentName: string;
     telegram: string;
     regions: Set<string>;
     other: string;
@@ -37,7 +37,7 @@ interface JoinState {
 class Join extends React.Component<JoinProps, JoinState> {
     state = {
         loading: true,
-        name: '',
+        agentName: '',
         telegram: '',
         regions: new Set(),
         other: '',
@@ -57,7 +57,7 @@ class Join extends React.Component<JoinProps, JoinState> {
             query: gql`
                 query {
                     info: joinInfo {
-                        name
+                        agentName
                         telegram
                         regions
                         other
@@ -77,7 +77,7 @@ class Join extends React.Component<JoinProps, JoinState> {
 
             this.setState({
                 loading: false,
-                name: info.name,
+                agentName: info.agentName,
                 telegram: info.telegram,
                 regions: new Set(info.regions),
                 other: info.other,
@@ -92,13 +92,13 @@ class Join extends React.Component<JoinProps, JoinState> {
         apollo.mutate<{ info: JoinInfo }>({
             mutation: gql`
                 mutation(
-                    $name: String!,
+                    $agentName: String!,
                     $telegram: String!,
                     $regions: [String]!,
                     $other: String,
                 ) {
                     info: join(
-                        name: $name,
+                        agentName: $agentName,
                         telegram: $telegram,
                         regions: $regions,
                         other: $other
@@ -106,7 +106,7 @@ class Join extends React.Component<JoinProps, JoinState> {
                 }
             `,
             variables: {
-                name: this.state.name,
+                agentName: this.state.agentName,
                 telegram: this.state.telegram,
                 regions: Array.from(this.state.regions),
                 other: this.state.other
@@ -178,8 +178,8 @@ class Join extends React.Component<JoinProps, JoinState> {
                                 <Form.Item label="特工代号">
                                     <Input
                                         prefix={<Icon type="user" />}
-                                        name="name"
-                                        value={this.state.name}
+                                        name="agentName"
+                                        value={this.state.agentName}
                                         placeholder="Agent Name"
                                         onChange={this.handleChange}
                                     />

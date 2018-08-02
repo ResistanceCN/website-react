@@ -1,5 +1,5 @@
 export interface JoinInfo {
-    name: string;
+    agentName: string;
     telegram: string;
     regions: Array<string>;
     other: string;
