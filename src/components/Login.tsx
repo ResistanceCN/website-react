@@ -49,7 +49,8 @@ class Login extends React.Component<LoginProps, LoginState> {
                 query {
                     me { id name faction avatar isAdmin }
                 }
-            `
+            `,
+            fetchPolicy: 'no-cache'
         });
 
         const user = {

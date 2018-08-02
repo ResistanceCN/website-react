@@ -51,7 +51,8 @@ class AppLayout extends React.Component<AppLayoutProps, AppLayoutState> {
                         query {
                             me { id name faction avatar isAdmin }
                         }
-                    `
+                    `,
+                    fetchPolicy: 'no-cache'
                 });
 
                 const user = result.data.me;

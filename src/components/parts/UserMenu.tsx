@@ -34,7 +34,7 @@ class UserMenu extends React.Component<UserMenuProps> {
                 <Link to={{ pathname: '/login', state: { from: location.pathname } }}>
                     <Button type="dashed" className="login-btn">
                         登录
-          </Button>
+                    </Button>
                 </Link>
             );
         }
