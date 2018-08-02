@@ -110,11 +110,23 @@ export default class Article extends React.Component<ArticleProps, ArticleState>
                                     __html: renderMarkdown(article.content)
                                 }}
                             />
+
                             {article.tags.length > 0 && (
                                 <div className="article-footer">
                                     {article.tags.map((tag, i) => <Tag key={i}>{tag}</Tag>)}
                                 </div>
                             )}
+
+                            <a
+                                className="copyleft"
+                                href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh"
+                                target="_blank"
+                            >
+                                <img className="cc-icon" src="/assets/img/cc/cc.svg" alt="CC" />
+                                <img className="cc-icon" src="/assets/img/cc/by.svg" alt="BY" />
+                                <img className="cc-icon" src="/assets/img/cc/nc.svg" alt="NC" />
+                                <img className="cc-icon" src="/assets/img/cc/sa.svg" alt="SA" />
+                            </a>
                         </Card>
                     </WithSidebar>
                 </div>

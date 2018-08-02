@@ -1,4 +1,3 @@
-import './parts/Editor.scss';
 import React from 'react';
 import { Article, nullArticle, User } from '@/types';
 import { State } from '@/reducers';

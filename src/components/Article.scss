@@ -38,3 +38,15 @@
     align-items: center;
     margin-top: 16px;
 }
+
+.copyleft {
+    display: block;
+    margin-top: 8px;
+    text-align: right;
+
+    .cc-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 4px;
+    }
+}

@@ -1,7 +1,7 @@
 import './Editor.scss';
 import React, { ChangeEvent } from 'react';
 import { Article } from '@/types';
-import { Button } from 'antd';
+import { Button, Popover } from 'antd';
 import Measure, { BoundingRect, ContentRect } from 'react-measure';
 import AceEditor from 'react-ace';
 import 'brace/mode/markdown';
@@ -39,6 +39,15 @@ interface EditorState {
 }
 
 export default class Editor extends React.Component<EditorProps, EditorState> {
+    static copyrightDescription = (
+        <React.Fragment>
+            <p>您在本站提交文章时，即授权本站以 CC BY-NC-SA 协议发布该文章。</p>
+            <p><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank">
+                什么是 CC BY-NC-SA?
+            </a></p>
+        </React.Fragment>
+    );
+
     state = {
         title: this.props.article.title,
         content: this.props.article.content,
@@ -164,6 +173,13 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
                 </div>
 
                 <div className="editor-footer">
+                    <Popover content={Editor.copyrightDescription} title="著作权说明" placement="topLeft">
+                        <img className="cc-icon" src="/assets/img/cc/cc.svg" alt="CC" />
+                        <img className="cc-icon" src="/assets/img/cc/by.svg" alt="BY" />
+                        <img className="cc-icon" src="/assets/img/cc/nc.svg" alt="NC" />
+                        <img className="cc-icon" src="/assets/img/cc/sa.svg" alt="SA" />
+                    </Popover>
+
                     <div className="flex-spacer" />
 
                     <Button

@@ -62,10 +62,14 @@ export class Admin extends React.PureComponent<AdminProps> {
                 <div className={'flex-spacer ' + (this.props.immersive || 'container-fluid panel-container')}>
                     <Switch>
                         <Route exact path="/admin" component={Overview} />
+
                         <Route path="/admin/articles/all" component={AllArticles} />
                         <Route path="/admin/articles/pending" component={PendingArticles} />
                         <Route path="/admin/articles/published" component={PublishedArticles} />
                         <Route path="/admin/articles/preview/:id(\w+)" component={PreviewArticle} />
+
+                        <Route path="/admin/join/invalid" component={PendingArticles} />
+                        <Route path="/admin/join/approved" component={PublishedArticles} />
                     </Switch>
                 </div>
             </Layout>
