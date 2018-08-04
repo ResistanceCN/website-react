@@ -1,6 +1,6 @@
 import './Editor.scss';
 import React, { ChangeEvent } from 'react';
-import { Article } from '@/types';
+import { Article, ArticleStatus } from '@/types';
 import { Button, Popover, Steps } from 'antd';
 import Measure, { BoundingRect, ContentRect } from 'react-measure';
 import AceEditor from 'react-ace';
@@ -8,9 +8,11 @@ import 'brace/mode/markdown';
 import 'brace/theme/tomorrow';
 import renderMarkdown from '@/libs/markdown';
 import MarkdownWorker from 'worker-loader!@/libs/markdownWorker';
+import { unreachable } from '@/libs/utils';
+
+const { Step } = Steps;
 
 let workerInstance: MarkdownWorker;
-const Step = Steps.Step;
 
 function getWorker() {
     if (!workerInstance) {
@@ -97,6 +99,28 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
             editorBounds: rect.bounds
         });
     };
+
+    getCurrentStep() {
+        switch (this.props.article.status) {
+            case ArticleStatus.DRAFT:
+                return 0;
+            case ArticleStatus.PENDING:
+                return 1;
+            case ArticleStatus.PUBLISHED:
+                return 2;
+            default:
+                unreachable();
+                return undefined;
+        }
+    }
+
+    getCurrentStepStatus() {
+        if (this.props.article.status === ArticleStatus.PUBLISHED) {
+            return 'finish';
+        }
+
+        return 'process';
+    }
 
     componentDidMount() {
         const scrollbar = document.querySelector('.ace_scrollbar-v');
@@ -192,10 +216,15 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
                     <div className="flex-spacer" />
 
                     {/*@Todo: auto update status*/}
-                    <Steps size="small" current={2} status="finish" style={{ 'maxWidth': '1100px' }}>
-                        <Step title="文章编辑" description="在此创建或修改你未发布的文章" />
-                        <Step title="文章审核" description="审核发布后不可修改" />
-                        <Step title="文章发布" description="文章发布成功!" />
+                    <Steps
+                        size="small"
+                        current={this.getCurrentStep()}
+                        status={this.getCurrentStepStatus()}
+                        style={{ maxWidth: '1100px' }}
+                    >
+                        <Step title="草稿" description="创建或修改你未发布的文章" />
+                        <Step title="审核" description="审核中不可修改" />
+                        <Step title="发布" description="文章发布成功！" />
                     </Steps>
 
                     <div className="flex-spacer" />
