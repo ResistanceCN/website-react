@@ -2,8 +2,9 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { adminClient as apollo } from '@/apollo';
 import ArticleTable, { ArticleData } from './ArticleTable';
+import { ArticleStatus } from '@/types';
 
-async function getPendingArticles() {
+async function getPendingArticles(count: number, offset: number) {
     const result = await apollo.query<ArticleData>({
         query: gql`
             query($count: Int, $offset: Int, $status: ArticleStatus) {
@@ -20,7 +21,9 @@ async function getPendingArticles() {
             }
         `,
         variables: {
-            status: 'PENDING'
+            count,
+            offset,
+            status: ArticleStatus.PENDING
         }
     });
 

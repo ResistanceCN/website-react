@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { adminClient as apollo } from '@/apollo';
 import ArticleTable, { ArticleData } from './ArticleTable';
 
-async function getPublishedArticles() {
+async function getPublishedArticles(count: number, offset: number) {
     const result = await apollo.query<ArticleData>({
         query: gql`
             query($count: Int, $offset: Int, $status: ArticleStatus) {
@@ -20,6 +20,8 @@ async function getPublishedArticles() {
             }
         `,
         variables: {
+            count,
+            offset,
             status: 'PUBLISHED'
         }
     });
