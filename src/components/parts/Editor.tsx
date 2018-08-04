@@ -1,7 +1,7 @@
 import './Editor.scss';
 import React, { ChangeEvent } from 'react';
 import { Article } from '@/types';
-import { Button, Popover } from 'antd';
+import { Button, Popover, Steps } from 'antd';
 import Measure, { BoundingRect, ContentRect } from 'react-measure';
 import AceEditor from 'react-ace';
 import 'brace/mode/markdown';
@@ -10,6 +10,7 @@ import renderMarkdown from '@/libs/markdown';
 import MarkdownWorker from 'worker-loader!@/libs/markdownWorker';
 
 let workerInstance: MarkdownWorker;
+const Step = Steps.Step;
 
 function getWorker() {
     if (!workerInstance) {
@@ -132,10 +133,20 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
                     <input
                         readOnly={this.props.readonly}
                         value={this.state.title}
-                        placeholder="Title here..."
+                        placeholder="在此创建标题 ..."
                         name="title"
+                        maxLength={100}
                         onChange={this.onTitleChange}
                     />
+                    <div className="flex-spacer" />
+                    <div className="cc-panel">
+                        <Popover content={Editor.copyrightDescription} title="版权说明" placement="topLeft">
+                            <img className="cc-icon" src="/assets/img/cc/cc.svg" alt="CC" />
+                            <img className="cc-icon" src="/assets/img/cc/by.svg" alt="BY" />
+                            <img className="cc-icon" src="/assets/img/cc/nc.svg" alt="NC" />
+                            <img className="cc-icon" src="/assets/img/cc/sa.svg" alt="SA" />
+                        </Popover>
+                    </div>
                 </div>
 
                 <div className="editor flex-spacer">
@@ -173,16 +184,19 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
                 </div>
 
                 <div className="editor-footer">
-                    <Popover content={Editor.copyrightDescription} title="著作权说明" placement="topLeft">
-                        <img className="cc-icon" src="/assets/img/cc/cc.svg" alt="CC" />
-                        <img className="cc-icon" src="/assets/img/cc/by.svg" alt="BY" />
-                        <img className="cc-icon" src="/assets/img/cc/nc.svg" alt="NC" />
-                        <img className="cc-icon" src="/assets/img/cc/sa.svg" alt="SA" />
-                    </Popover>
+
+                    <div className="flex-spacer" />
+                    {/*@Todo: auto update status*/}
+                    <Steps size="small" current={2} status="finish" style={{ 'maxWidth': '1100px' }}>
+                        <Step title="文章编辑" description="在此创建或修改你未发布的文章" />
+                        <Step title="文章审核" description="审核发布后不可修改" />
+                        <Step title="文章发布" description="文章发布成功!" />
+                    </Steps>
 
                     <div className="flex-spacer" />
 
                     <Button
+                        className="cancel-button"
                         style={{ display: this.state.submitting ? 'none' : 'inline-block' }}
                         onClick={this.props.onCancel}
                     >
