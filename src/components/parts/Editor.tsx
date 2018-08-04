@@ -139,14 +139,19 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
                         onChange={this.onTitleChange}
                     />
                     <div className="flex-spacer" />
-                    <div className="cc-panel">
-                        <Popover content={Editor.copyrightDescription} title="版权说明" placement="topLeft">
+                    <Popover
+                        overlayClassName="cc-popover"
+                        title="版权说明"
+                        content={Editor.copyrightDescription}
+                        placement="topLeft"
+                    >
+                        <div className="cc-panel">
                             <img className="cc-icon" src="/assets/img/cc/cc.svg" alt="CC" />
                             <img className="cc-icon" src="/assets/img/cc/by.svg" alt="BY" />
                             <img className="cc-icon" src="/assets/img/cc/nc.svg" alt="NC" />
                             <img className="cc-icon" src="/assets/img/cc/sa.svg" alt="SA" />
-                        </Popover>
-                    </div>
+                        </div>
+                    </Popover>
                 </div>
 
                 <div className="editor flex-spacer">
@@ -184,8 +189,8 @@ export default class Editor extends React.Component<EditorProps, EditorState> {
                 </div>
 
                 <div className="editor-footer">
-
                     <div className="flex-spacer" />
+
                     {/*@Todo: auto update status*/}
                     <Steps size="small" current={2} status="finish" style={{ 'maxWidth': '1100px' }}>
                         <Step title="文章编辑" description="在此创建或修改你未发布的文章" />
