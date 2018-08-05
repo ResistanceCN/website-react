@@ -58,6 +58,11 @@ p {
     text-align: right;
 }
 
+.warning-text {
+    font-weight: bold;
+    color: #cc0000;
+}
+
 .ant-card {
     font-size: 14px;
 }

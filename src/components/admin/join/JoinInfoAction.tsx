@@ -15,14 +15,24 @@ export default class JoinInfoAction extends React.PureComponent<ArticleActionPro
     renderPendingActions = () => (
         <React.Fragment>
             <Popconfirm
-                title="确定要同意这位用户的加入申请吗？"
+                title={(
+                    <React.Fragment>
+                        <p>确定要同意这位用户的加入申请吗？</p>
+                        <span className="warning-text">提醒：请先把特工加入地区群、实战中心，再在此确认同意。</span>
+                    </React.Fragment>
+                )}
                 onConfirm={this.approveJoin}
             >
                 <a>同意</a>
             </Popconfirm>
             <span className="ant-divider" />
             <Popconfirm
-                title={<p>确定要拒绝这位用户的加入申请吗？<br /><b>请注意：拒绝后此账户会被永久禁止申请加入社群！</b></p>}
+                title={(
+                    <React.Fragment>
+                        <p>确定要拒绝这位用户的加入申请吗？</p>
+                        <span className="warning-text">请注意：拒绝后，此账户会被永久禁止申请加入社群！</span>
+                    </React.Fragment>
+                )}
                 onConfirm={this.rejectJoin}
             >
                 <a>拒绝</a>
