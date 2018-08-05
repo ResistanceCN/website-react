@@ -87,7 +87,6 @@ export default class JoinInfoTable extends React.Component<JoinInfoTableProps, J
     }
 
     updateStatus = (joinInfo: JoinInfo, status: JoinStatus) => {
-        console.log(joinInfo, status)
         return this.mutate({
             mutation: gql`
                 mutation($userId: ID!, $status: JoinStatus) {
