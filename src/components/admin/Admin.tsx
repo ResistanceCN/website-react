@@ -11,6 +11,9 @@ import AllArticles from './articles/AllArticles';
 import PendingArticles from './articles/PendingArticles';
 import PublishedArticles from './articles/PublishedArticles';
 import PreviewArticle from './articles/PreviewArticle';
+import PendingJoinInfo from './join/PendingJoinInfo';
+import ApprovedJoinInfo from './join/ApprovedJoinInfo';
+import RejectedJoinInfo from './join/RejectedJoinInfo';
 
 const { Sider } = Layout;
 
@@ -56,6 +59,17 @@ export class Admin extends React.PureComponent<AdminProps> {
                                 <Link to="/admin/articles/published">已发布文章</Link>
                             </Menu.Item>
                         </Menu.ItemGroup>
+                        <Menu.ItemGroup key="join" title="加入申请">
+                            <Menu.Item key="join/pending">
+                                <Link to="/admin/join/pending">待审申请</Link>
+                            </Menu.Item>
+                            <Menu.Item key="join/approved">
+                                <Link to="/admin/join/approved">已同意申请</Link>
+                            </Menu.Item>
+                            <Menu.Item key="join/rejected">
+                                <Link to="/admin/join/rejected">已拒绝申请</Link>
+                            </Menu.Item>
+                        </Menu.ItemGroup>
                     </Menu>
                 </Sider>
 
@@ -68,8 +82,9 @@ export class Admin extends React.PureComponent<AdminProps> {
                         <Route path="/admin/articles/published" component={PublishedArticles} />
                         <Route path="/admin/articles/preview/:id(\w+)" component={PreviewArticle} />
 
-                        <Route path="/admin/join/invalid" component={PendingArticles} />
-                        <Route path="/admin/join/approved" component={PublishedArticles} />
+                        <Route path="/admin/join/pending" component={PendingJoinInfo} />
+                        <Route path="/admin/join/approved" component={ApprovedJoinInfo} />
+                        <Route path="/admin/join/rejected" component={RejectedJoinInfo} />
                     </Switch>
                 </div>
             </Layout>

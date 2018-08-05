@@ -22,6 +22,6 @@ export function errorText(e: Error) {
     return e.toString().replace('Error: GraphQL error: ', '');
 }
 
-export function unreachable() {
+export function unreachable(): null {
     throw new Error('Unreachable branch reached!');
 }
