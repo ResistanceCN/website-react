@@ -179,11 +179,14 @@ class Join extends React.Component<JoinProps, JoinState> {
 
                                 <Form.Item label="特工代号">
                                     <Input
-                                        prefix={<Icon type="user" />}
+                                        addonBefore={<Icon type="user" />}
                                         name="agentName"
                                         value={this.state.agentName}
                                         placeholder="Agent Name"
                                         onChange={this.handleChange}
+                                        maxLength={16}
+                                        pattern="[0-9A-Za-z_]+"
+                                        title="只能由英文字母、数字与下划线构成"
                                     />
                                 </Form.Item>
 
@@ -191,11 +194,14 @@ class Join extends React.Component<JoinProps, JoinState> {
                                     <p><i>(什么是 <a href="https://telegram.org" target="_blank">Telegram</a>?)</i></p>
                                     <p>请注意，Telegram 的 Name 与 Username 不是同一个概念，请填写 Username</p>
                                     <Input
-                                        prefix={<Icon type="user" />}
+                                        addonBefore="@"
                                         name="telegram"
                                         value={this.state.telegram}
-                                        placeholder="Telegram Username (不带 @)"
+                                        placeholder="Telegram Username"
                                         onChange={this.handleChange}
+                                        maxLength={40}
+                                        pattern="[0-9A-Za-z_]+"
+                                        title="只能由英文字母、数字与下划线构成"
                                     />
                                 </Form.Item>
 
@@ -214,6 +220,7 @@ class Join extends React.Component<JoinProps, JoinState> {
                                         value={this.state.other}
                                         autosize={{ minRows: 4, maxRows: 10 }}
                                         onChange={this.handleChange}
+                                        maxLength={512}
                                     />
                                 </Form.Item>
 
