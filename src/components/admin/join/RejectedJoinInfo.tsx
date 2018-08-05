@@ -15,6 +15,7 @@ async function getRejectedJoinList(count: number, offset: number) {
                     regions
                     other
                     status
+                    comment
                 }
                 total: totalJoinInfo(status: $status)
             }

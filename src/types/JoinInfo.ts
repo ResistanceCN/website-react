@@ -11,6 +11,7 @@ export interface JoinInfo {
     regions: Array<string>;
     other: string;
     status: JoinStatus;
+    comment: string;
     createdAt: Date;
     updatedAt: Date;
 }

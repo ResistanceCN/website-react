@@ -54,6 +54,10 @@ p {
     padding-right: 16px;
 }
 
+.text-right {
+    text-align: right;
+}
+
 .ant-card {
     font-size: 14px;
 }

@@ -1,5 +1,5 @@
-import React from 'react';
-import { message, Table } from 'antd';
+import React, { MouseEvent } from 'react';
+import { Button, Input, message, Table } from 'antd';
 import { PaginationConfig } from 'antd/lib/table/interface';
 import { JoinInfo, JoinStatus } from '@/types';
 import gql from 'graphql-tag';
@@ -102,7 +102,38 @@ export default class JoinInfoTable extends React.Component<JoinInfoTableProps, J
         });
     };
 
-    renderExpandColumn = (record: JoinInfo) => record.other;
+    updateComment = async (e: MouseEvent<HTMLButtonElement>) => {
+        const userId = e.currentTarget.value;
+        const ta = document.getElementById('comment-' + userId) as HTMLTextAreaElement;
+
+        await this.mutate({
+            mutation: gql`
+                mutation($userId: ID!, $comment: String) {
+                    updateJoinInfo(userId: $userId, comment: $comment) {
+                        userId
+                    }
+                }
+            `,
+            variables: {
+                userId: userId,
+                comment: ta.value
+            }
+        });
+
+        message.success('提交成功');
+    };
+
+    renderExpandColumn = (record: JoinInfo) => (
+        <React.Fragment>
+            <p><b>其他说明：</b>{record.other}</p>
+            <p><b>管理员备注：</b></p>
+            <p><Input.TextArea id={'comment-' + record.userId} defaultValue={record.comment} /></p>
+            <div className="text-right">
+                <Button type="primary" value={record.userId} onClick={this.updateComment}>更新备注</Button>
+            </div>
+        </React.Fragment>
+    );
+
     renderRegionsColumn = (text: string, record: JoinInfo) => {
         return record.regions
             .map(region => regionNames[region])
