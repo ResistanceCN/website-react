@@ -22,7 +22,7 @@ export default class JoinInfoAction extends React.PureComponent<ArticleActionPro
             </Popconfirm>
             <span className="ant-divider" />
             <Popconfirm
-                title="确定要拒绝这位用户的加入申请吗？"
+                title={<p>确定要拒绝这位用户的加入申请吗？<br /><b>请注意：拒绝后此账户会被永久禁止申请加入社群！</b></p>}
                 onConfirm={this.rejectJoin}
             >
                 <a>拒绝</a>
