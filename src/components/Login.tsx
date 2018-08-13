@@ -102,7 +102,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                     <p>用于登录的 Google 账户<b>并非</b>必须是你的 Ingress 账户。</p>
 
                     {this.state.gapiError ?
-                        <div className="gapi-error">Google 登录组件加载失败，请确认您可以连接 Google</div>
+                        <div className="gapi-error">Google 登录组件加载失败，请检查网络或浏览器插件</div>
                     :
                         <div id="google-sign-in-button" />
                     }
