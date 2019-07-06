@@ -39,7 +39,7 @@ class Join extends React.Component<JoinProps, JoinState> {
         loading: true,
         agentName: '',
         telegram: '',
-        regions: new Set(),
+        regions: new Set<string>(),
         other: '',
         updatedAt: null
     };
