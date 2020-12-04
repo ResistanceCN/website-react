@@ -35,7 +35,7 @@
     "github-markdown-css": "^2.9.0",
     "graphql": "^0.12.3",
     "graphql-tag": "^2.6.1",
-    "highlight.js": "^9.12.0",
+    "highlight.js": "^10.4.1",
     "html-webpack-plugin": "2.29.0",
     "jest": "20.0.4",
     "katex": "^0.10.0-beta",
