@@ -40,7 +40,7 @@
     "jest": "20.0.4",
     "katex": "^0.10.0-beta",
     "lodash": "^4.17.13",
-    "markdown-it": "^8.4.0",
+    "markdown-it": "^12.3.2",
     "markdown-it-task-lists": "^2.1.0",
     "node-sass": "^4.6.0",
     "object-assign": "4.1.1",
